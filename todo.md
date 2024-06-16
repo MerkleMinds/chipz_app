@@ -1,0 +1,7 @@
+- [ ] Iconos equipos: Añadir iconos de los equipos en las cajas de apuestas.
+- [x] ⁠Cambiar menú burger a uno de un slider, con los distintos deportes.
+- [x] ⁠Hacer página de evento (apuestas) y añadir un menú slider a las 3 categorías: 
+	- [x] Main
+	- [x] Goals
+	- [x] Asian
+- [ ] Hacer botón de mis apuestas con el potential win y input de cash

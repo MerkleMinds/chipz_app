@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@font-face {
+  font-family: JustSans;
+  src: url("../../public/just-sans-regular.woff");
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("../../public/montserrat-regular.ttf");
+}
