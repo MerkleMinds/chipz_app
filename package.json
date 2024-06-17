@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/canvas-confetti": "^1.6.4",
+    "canvas-confetti": "^1.9.3",
     "next": "14.2.3",
     "preline": "^2.3.0",
     "react": "^18",
