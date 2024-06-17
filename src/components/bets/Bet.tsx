@@ -39,7 +39,7 @@ export default function Bet(props: IBet) {
               <p className="text-xs uppercase tracking-wide font-medium text-neutral-400">
                 {props.matchup}
               </p>
-              <h3 className="mt-1 text-xl sm:text-2xl font-semibold text-white font-just">
+              <h3 className="mt-1 text-xl sm:text-2xl font-semibold text-white">
                 {props.chosen}
               </h3>
               <div className="mt-1 flex justify-between items-center">

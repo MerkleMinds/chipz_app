@@ -39,7 +39,7 @@ export default function Accordion({ title, children }: IAccordionProps) {
           >
             <path d="m18 15-6-6-6 6"></path>
           </svg>
-          <p className="font-just">{title}</p>
+          <p>{title}</p>
         </button>
         <div
           id="hs-basic-with-arrow-collapse-one"

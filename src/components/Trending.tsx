@@ -63,7 +63,7 @@ function Card(match: IMatch) {
               <FaCrown className="text-neutral-400" size={22} />
             )}
           </div>
-          <h3 className="mt-3 font-medium text-lg text-white font-just">
+          <h3 className="mt-3 font-medium text-lg text-white">
             {match.left.team}
           </h3>
           <p className="mt-1 text-neutral-400">{match.left.description}</p>
@@ -77,7 +77,7 @@ function Card(match: IMatch) {
               <FaCrown className="text-neutral-400" size={22} />
             )}
           </div>
-          <h3 className="mt-3 font-medium text-lg text-white font-just">
+          <h3 className="mt-3 font-medium text-lg text-white">
             {match.right.team}
           </h3>
           <p className="mt-1 text-neutral-400">{match.right.description}</p>

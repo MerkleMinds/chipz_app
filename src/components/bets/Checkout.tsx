@@ -4,9 +4,10 @@ import { type IBet } from "./Bet";
 
 interface ICheckout {
   bets: IBet[];
+  callback?: () => void;
 }
 
-export default function Checkout({ bets }: ICheckout) {
+export default function Checkout({ bets, callback }: ICheckout) {
   const [money, setMoney] = useState("");
   const totalOdds = bets.reduce((acc, bet) => acc * bet.odds, 1);
   const totalMoneyToWin = money ? (+money * totalOdds).toFixed(2) : "0.00";
@@ -21,16 +22,14 @@ export default function Checkout({ bets }: ICheckout) {
 
   return (
     <div className="w-full mx-auto bg-gray-900 rounded-lg p-4 pt-2">
-      <h2 className="text-2xl font-bold mb-4 text-gray-100 font-just">
-        Checkout
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-100">Checkout</h2>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row w-full"
       >
         <div className="flex-1 mb-4 sm:mr-4">
           <label
-            className="block text-gray-400 font-medium mb-2 font-just"
+            className="block text-gray-400 font-medium mb-2"
             htmlFor="total-odds"
           >
             Total Odds
@@ -44,7 +43,7 @@ export default function Checkout({ bets }: ICheckout) {
         </div>
         <div className="flex-1 mb-4 sm:mr-4">
           <label
-            className="block text-gray-400 font-medium mb-2 font-just"
+            className="block text-gray-400 font-medium mb-2"
             htmlFor="money"
           >
             Your Bet
@@ -63,7 +62,7 @@ export default function Checkout({ bets }: ICheckout) {
         </div>
         <div className="flex-1 mb-4 sm:mr-4">
           <label
-            className="block text-gray-400 font-medium mb-2 font-just"
+            className="block text-gray-400 font-medium mb-2"
             htmlFor="total-money-to-win"
           >
             Money to Win
@@ -76,6 +75,7 @@ export default function Checkout({ bets }: ICheckout) {
           </div>
         </div>
         <button
+          onClick={() => +money > 0 && callback && callback()}
           type="submit"
           className="w-full sm:w-auto py-2 px-4 bg-bb-success text-white font-semibold rounded-md hover:bg-bb-success focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
         >

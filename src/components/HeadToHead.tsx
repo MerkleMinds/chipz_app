@@ -121,7 +121,7 @@ export default function HeadToHead() {
     <div className="flex flex-col mx-3 gap-3">
       <div className="flex flex-row gap-1 items-center">
         <FaBolt className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1 font-just">Head to Head</h1>
+        <h1 className="text-white font-bold mx-1">Head to Head</h1>
       </div>
       <div className="flex flex-col overflow-x-scroll gap-2 no-scrollbar ">
         {matches.map((match, index) => (

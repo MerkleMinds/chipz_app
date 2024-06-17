@@ -12,7 +12,6 @@ import {
   FaBitcoinSign,
 } from "react-icons/fa6";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const sports = [
   { name: "Live", icon: FaBolt },
@@ -35,8 +34,6 @@ const Icon = (prop: (typeof sports)[number]) => (
 );
 
 export default function Header() {
-  const pathname = usePathname();
-
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full pt-2 pb-3 bg-gray-900 shadow-lg gap-3">
       <nav
