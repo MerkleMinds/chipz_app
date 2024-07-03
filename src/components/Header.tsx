@@ -1,5 +1,4 @@
 "use client";
-import crypto from "crypto";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
@@ -51,8 +50,7 @@ const LoginPopup = ({
 }) => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const uuid = crypto.randomUUID();
-    localStorage.setItem("auth_token", uuid);
+    localStorage.setItem("auth_token", "custom_token");
     onClose();
   };
 
@@ -153,8 +151,7 @@ const RegisterPopup = ({
 }) => {
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const uuid = crypto.randomUUID();
-    localStorage.setItem("auth_token", uuid);
+    localStorage.setItem("auth_token", "custom_token");
     onClose();
   };
 
