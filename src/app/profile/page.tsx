@@ -119,7 +119,7 @@ const widthdrawOptions = [
 ];
 
 const WithdrawSection = () => (
-  <div className="flex flex-col h-full">
+  <>
     <div className="mb-6">
       <h3 className="text-lg mb-4">Withdraw Options</h3>
       <div className="flex flex-row gap-2 mb-4">
@@ -182,7 +182,7 @@ const WithdrawSection = () => (
     <button className="w-full rounded-md bg-bb-accent p-3 mb-16">
       Withdraw
     </button>
-  </div>
+  </>
 );
 
 interface IHistoryEntry {
@@ -196,9 +196,9 @@ interface IHistoryEntry {
 }
 
 function createHistoryEntries(count: number): IHistoryEntry[] {
-  const generateEntry = (): IHistoryEntry => {
+  const generateEntry = (_: unknown, i: number): IHistoryEntry => {
     const date = new Date();
-    const id = crypto.randomUUID();
+    const id = hashBet({ date: new Date(), title: `bet_${i}` });
     const type = Math.random() < 0.5 ? "deposit" : "withdraw";
     const amount = Math.floor(Math.random() * 500) + 50;
     const methodOptions = [
@@ -448,7 +448,7 @@ export default function Page() {
   const ActiveSection = sections[activeTab];
 
   return (
-    <div className="bg-gray-900 text-white p-6">
+    <div className="bg-gray-900 text-white mx-6 mt-2 mb-16">
       <div className="max-w-md mx-auto">
         <div className="flex justify-between mb-6 gap-2">
           {(Object.keys(sections) as Array<keyof typeof sections>).map(
