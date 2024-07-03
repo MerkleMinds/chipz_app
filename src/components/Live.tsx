@@ -1,183 +1,116 @@
 "use client";
-import { FaBolt, FaGear } from "react-icons/fa6";
-import { getIcon, type IMatchv2 } from "@/components/Live";
-import { context } from "@/components/Utils";
 import { useContext } from "react";
+import {
+  FaBasketball,
+  FaBolt,
+  FaChartLine,
+  FaChevronDown,
+  FaChevronUp,
+  FaFootball,
+  FaFutbol,
+  FaGear,
+  FaQuestion,
+} from "react-icons/fa6";
+import { context } from "./Utils";
+
+export interface IMatchv2 {
+  competition: string;
+  elapsed: number;
+  status: string;
+  kind: string;
+  left: {
+    team: string;
+    image: string;
+    score: number;
+  };
+  right: {
+    team: string;
+    image: string;
+    score: number;
+  };
+  odds: {
+    left: {
+      odds: number;
+      movement: number;
+    };
+    draw: {
+      odds: number;
+      movement: number;
+    };
+    right: {
+      odds: number;
+      movement: number;
+    };
+  };
+}
+
+const competitionIcons: {
+  [key: string]: JSX.Element;
+} = {
+  "Euro 2024": <FaFutbol className="text-neutral-400" />,
+  "NFL 2024": <FaFootball className="text-neutral-400" />,
+  "NBA 2024": <FaBasketball className="text-neutral-400" />,
+  "Copa America 2024": <FaFutbol className="text-neutral-400" />,
+};
+
+export const getIcon = (competition: string) => {
+  if (!(competition in competitionIcons)) {
+    return <FaQuestion className="text-neutral-400" />;
+  }
+
+  return competitionIcons[competition];
+};
 
 const matchesv2: IMatchv2[] = [
   {
     competition: "Euro 2024",
-    elapsed: 45,
-    status: "Tomorrow, 20:00",
-    kind: "Soccer",
-    left: {
-      team: "England",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234381_0.png",
-      score: 1,
-    },
-    right: {
-      team: "Slovakia",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234372_0.png",
-      score: 0,
-    },
-    odds: {
-      left: {
-        odds: 1.5,
-        movement: 0.1,
-      },
-      draw: {
-        odds: 2.5,
-        movement: 0.1,
-      },
-      right: {
-        odds: 3.5,
-        movement: 0.1,
-      },
-    },
-  },
-  {
-    competition: "Euro 2024",
-    elapsed: 45,
-    status: "Tomorrow, 20:00",
-    kind: "Soccer",
-    left: {
-      team: "Portugal",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234390_0.png",
-      score: 1,
-    },
-    right: {
-      team: "Slovenia",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234355_0.png",
-      score: 0,
-    },
-    odds: {
-      left: {
-        odds: 1.71,
-        movement: 0.1,
-      },
-      draw: {
-        odds: 2.0,
-        movement: 0.1,
-      },
-      right: {
-        odds: 4.2,
-        movement: 0.1,
-      },
-    },
-  },
-  {
-    competition: "Euro 2024",
-    elapsed: 45,
-    status: "Tomorrow, 20:00",
-    kind: "Soccer",
+    elapsed: 63,
+    status: "2nd half",
+    kind: "1x2",
     left: {
       team: "Spain",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234342_0.png",
-      score: 1,
+      image: "/spain.png",
+      score: 3,
     },
     right: {
-      team: "Georgia",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234387_0.png",
-      score: 0,
+      team: "Italy",
+      image: "/italy.png",
+      score: 1,
     },
     odds: {
       left: {
-        odds: 1.2,
-        movement: 0.1,
+        odds: 1.14,
+        movement: 1,
       },
       draw: {
-        odds: 6.75,
-        movement: 0.1,
+        odds: 5.9,
+        movement: 1,
       },
       right: {
-        odds: 12.5,
-        movement: 0.1,
-      },
-    },
-  },
-  {
-    competition: "Euro 2024",
-    elapsed: 45,
-    status: "Tomorrow, 20:00",
-    kind: "Soccer",
-    left: {
-      team: "France",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_197647_0.png",
-      score: 1,
-    },
-    right: {
-      team: "Belgium",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234389_0.png",
-      score: 0,
-    },
-    odds: {
-      left: {
-        odds: 1.5,
-        movement: 0.1,
-      },
-      draw: {
-        odds: 2.5,
-        movement: 0.1,
-      },
-      right: {
-        odds: 3.5,
-        movement: 0.1,
-      },
-    },
-  },
-  {
-    competition: "Copa America 2024",
-    elapsed: 45,
-    status: "Tomorrow, 20:00",
-    kind: "Soccer",
-    left: {
-      team: "USA",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_204848_0.png",
-      score: 1,
-    },
-    right: {
-      team: "Uruguay",
-      image:
-        "https://media.itsfogo.com/media/upload/live/participants/4/2_234212_0.png",
-      score: 0,
-    },
-    odds: {
-      left: {
-        odds: 1.5,
-        movement: 0.1,
-      },
-      draw: {
-        odds: 2.5,
-        movement: 0.1,
-      },
-      right: {
-        odds: 3.5,
-        movement: 0.1,
+        odds: 30.0,
+        movement: -1,
       },
     },
   },
 ];
 
-function Entryv2(match: IMatchv2) {
+function Card(match: IMatchv2) {
   const { bets, setBets, setShow } = useContext(context);
 
   return (
-    <div className="w-full shadow-md rounded-lg p-4 border border-neutral-700 flex-grow-0 flex-shrink-0 flex-col bg-gray-800  transition-colors duration-300 flex gap-3">
+    <div className="w-full shadow-md rounded-lg p-4 border border-neutral-700 flex-grow-0 flex-shrink-0 flex-col bg-gray-800  transition-colors duration-300 flex gap-1">
       <div className="flex justify-between flex-row items-center">
         <div className="flex flex-row gap-2 items-center justify-center">
           {getIcon(match.competition)}
           <p className="text-neutral-400 text-sm">{match.competition}</p>
         </div>
         <FaGear className="text-neutral-400" />
+      </div>
+      <div className="flex flex-row gap-2 items-center">
+        <FaBolt className="text-bb-accent" />
+        <p className="text-bb-accent text-sm">
+          {match.elapsed}&apos; - {match.status}
+        </p>
       </div>
       <div className="flex flex-col gap-3 justify-between items-center">
         <div className="flex justify-between items-center w-full">
@@ -189,6 +122,9 @@ function Entryv2(match: IMatchv2) {
             />
             <p className="text-white">{match.left.team}</p>
           </div>
+          <span className="py-1 px-3 rounded-md bg-gray-900 text-white font-mono">
+            {match.left.score}
+          </span>
         </div>
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-row gap-3 items-center">
@@ -199,8 +135,12 @@ function Entryv2(match: IMatchv2) {
             />
             <p className="text-white">{match.right.team}</p>
           </div>
+          <span className="py-1 px-3 rounded-md bg-gray-900 text-white font-mono">
+            {match.right.score}
+          </span>
         </div>
       </div>
+      <p className="text-neutral-400 text-sm mb-1">{match.kind}</p>
       <div className="flex items-center justify-between gap-2">
         <div
           onClick={() => {
@@ -220,6 +160,11 @@ function Entryv2(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">{match.left.team}</p>
           <div className="flex flex-row items-center justify-between gap-1">
             <p className="text-white">{match.odds.left.odds}</p>
+            {match.odds.left.movement > 0 ? (
+              <FaChevronUp size={10} className="text-bb-success" />
+            ) : (
+              <FaChevronDown size={10} className="text-bb-error" />
+            )}
           </div>
         </div>
         <div
@@ -240,6 +185,11 @@ function Entryv2(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">Draw</p>
           <div className="flex flex-row items-center justify-between gap-1">
             <p className="text-white">{match.odds.draw.odds}</p>
+            {match.odds.draw.movement > 0 ? (
+              <FaChevronUp size={10} className="text-bb-success" />
+            ) : (
+              <FaChevronDown size={10} className="text-bb-error" />
+            )}
           </div>
         </div>
         <div
@@ -260,6 +210,11 @@ function Entryv2(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">{match.right.team}</p>
           <div className="flex flex-row items-center justify-evenly gap-1">
             <p className="text-white">{match.odds.right.odds}</p>
+            {match.odds.right.movement > 0 ? (
+              <FaChevronUp size={10} className="text-bb-success" />
+            ) : (
+              <FaChevronDown size={10} className="text-bb-error" />
+            )}
           </div>
         </div>
       </div>
@@ -267,16 +222,16 @@ function Entryv2(match: IMatchv2) {
   );
 }
 
-export default function HeadToHead() {
+export default function Live() {
   return (
     <div className="flex flex-col mx-3 gap-3">
       <div className="flex flex-row gap-1 items-center">
-        <FaBolt className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1 font-just">Head to Head</h1>
+        <FaChartLine className="text-bb-accent inline-block" />
+        <h1 className="text-white font-bold mx-1 font-just">Live</h1>
       </div>
-      <div className="flex flex-col overflow-x-scroll gap-2 no-scrollbar ">
+      <div className="flex overflow-x-scroll gap-3 no-scrollbar ">
         {matchesv2.map((match, index) => (
-          <Entryv2 key={index} {...match} />
+          <Card key={index} {...match} />
         ))}
       </div>
     </div>

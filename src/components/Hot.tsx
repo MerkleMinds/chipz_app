@@ -26,7 +26,7 @@ const ratings = [
 
 function Card(item: IRating) {
   return (
-    <div className="w-64 shadow-md rounded-lg p-4 border border-neutral-700 flex-grow-0 flex-shrink-0 flex-auto bg-gray-800 hover:bg-gray-700 transition-colors duration-300">
+    <div className="w-64 shadow-md rounded-lg p-4 border border-neutral-700 flex-grow-0 flex-shrink-0 flex-auto bg-gray-800  transition-colors duration-300">
       <h2 className="text-lg font-semibold text-white">
         {item.rating}{" "}
         <span className="text-gray-700 line-through ml-1">
@@ -46,7 +46,7 @@ export default function Hot() {
     <div className="flex flex-col mx-3 gap-3">
       <div className="flex flex-row gap-1 items-center">
         <FaFire className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1">Hot Today</h1>
+        <h1 className="text-white font-bold mx-1 font-just">Hot Today</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
         {ratings.map((item, index) => (
