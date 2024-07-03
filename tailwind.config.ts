@@ -13,6 +13,7 @@ const config: Config = {
         "bb-accent": "#ff5f1f",
         "bb-action": "#ff0",
         "bb-success": "#50ad44",
+        "bb-error": "#ff0000",
       },
       fontFamily: {
         just: ["JustSans", "sans-serif"],
