@@ -9,18 +9,6 @@ import {
 } from "viem";
 import { celoAlfajores } from "viem/chains";
 
-const client = window.ethereum
-  ? createWalletClient({
-    chain: celoAlfajores,
-    transport: custom(window.ethereum),
-  })
-  : null;
-
-const publicClient = createPublicClient({
-  chain: celoAlfajores,
-  transport: http(),
-});
-
 type AllowedTokens = "cUSD";
 
 const tokenMap: {
@@ -32,7 +20,7 @@ const tokenMap: {
 } = {
   "cUSD": {
     address: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
-    decimals: 0,
+    decimals: 18,
     abi: [{
       type: "function",
       stateMutability: "nonpayable",
@@ -50,10 +38,11 @@ const tokenMap: {
   },
 };
 
-type Nullable<T> = T | null;
+export type Nullable<T> = T | null;
 
 export default function useTransaction(
   token: AllowedTokens,
+  mock = false,
 ): [
   { error: Nullable<string>; success: Nullable<boolean> },
   (to: `0x${string}`, amount: number) => Promise<void>,
@@ -62,6 +51,18 @@ export default function useTransaction(
   const [error, setError] = useState<Nullable<string>>(null);
 
   const dispatch = async (to: `0x${string}`, amount: number) => {
+    const client = window.ethereum
+      ? createWalletClient({
+        chain: celoAlfajores,
+        transport: custom(window.ethereum),
+      })
+      : null;
+
+    const publicClient = createPublicClient({
+      chain: celoAlfajores,
+      transport: http(),
+    });
+
     if (!client) {
       setError(
         `Could not find provider, are you using Opera MiniPay?`,
@@ -69,6 +70,9 @@ export default function useTransaction(
       setSuccess(false);
       return;
     }
+
+    setError(null);
+    setSuccess(null);
 
     const { address, abi, decimals } = tokenMap[token];
 
@@ -80,7 +84,7 @@ export default function useTransaction(
         account: (await client.getAddresses())[0],
         args: [
           to,
-          parseUnits(`${amount}`, decimals),
+          parseUnits(amount.toString(), decimals),
         ],
       });
 
@@ -98,5 +102,10 @@ export default function useTransaction(
     }
   };
 
-  return [{ error, success }, dispatch];
+  const fn = async () => {
+    setSuccess(true);
+    setError(null);
+  };
+
+  return [{ error, success }, mock ? fn : dispatch];
 }
