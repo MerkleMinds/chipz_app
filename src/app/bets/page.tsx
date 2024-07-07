@@ -120,9 +120,7 @@ export default function Page() {
       <div className="flex flex-col items-center gap-5 m-5">
         {bets
           .filter((bet) => bet.kind === state)
-          .map((bet, index) => (
-            <Betv2 key={index} {...bet} />
-          ))}
+          .map((bet, index) => <Betv2 key={index} {...bet} />)}
       </div>
     </div>
   );

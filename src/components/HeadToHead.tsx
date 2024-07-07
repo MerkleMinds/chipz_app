@@ -275,9 +275,7 @@ export default function HeadToHead() {
         <h1 className="text-white font-bold mx-1 font-just">Head to Head</h1>
       </div>
       <div className="flex flex-col overflow-x-scroll gap-2 no-scrollbar ">
-        {matchesv2.map((match, index) => (
-          <Entryv2 key={index} {...match} />
-        ))}
+        {matchesv2.map((match, index) => <Entryv2 key={index} {...match} />)}
       </div>
     </div>
   );

@@ -160,11 +160,9 @@ function Card(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">{match.left.team}</p>
           <div className="flex flex-row items-center justify-between gap-1">
             <p className="text-white">{match.odds.left.odds}</p>
-            {match.odds.left.movement > 0 ? (
-              <FaChevronUp size={10} className="text-bb-success" />
-            ) : (
-              <FaChevronDown size={10} className="text-bb-error" />
-            )}
+            {match.odds.left.movement > 0
+              ? <FaChevronUp size={10} className="text-bb-success" />
+              : <FaChevronDown size={10} className="text-bb-error" />}
           </div>
         </div>
         <div
@@ -185,11 +183,9 @@ function Card(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">Draw</p>
           <div className="flex flex-row items-center justify-between gap-1">
             <p className="text-white">{match.odds.draw.odds}</p>
-            {match.odds.draw.movement > 0 ? (
-              <FaChevronUp size={10} className="text-bb-success" />
-            ) : (
-              <FaChevronDown size={10} className="text-bb-error" />
-            )}
+            {match.odds.draw.movement > 0
+              ? <FaChevronUp size={10} className="text-bb-success" />
+              : <FaChevronDown size={10} className="text-bb-error" />}
           </div>
         </div>
         <div
@@ -210,11 +206,9 @@ function Card(match: IMatchv2) {
           <p className="text-neutral-300 text-sm">{match.right.team}</p>
           <div className="flex flex-row items-center justify-evenly gap-1">
             <p className="text-white">{match.odds.right.odds}</p>
-            {match.odds.right.movement > 0 ? (
-              <FaChevronUp size={10} className="text-bb-success" />
-            ) : (
-              <FaChevronDown size={10} className="text-bb-error" />
-            )}
+            {match.odds.right.movement > 0
+              ? <FaChevronUp size={10} className="text-bb-success" />
+              : <FaChevronDown size={10} className="text-bb-error" />}
           </div>
         </div>
       </div>
@@ -230,9 +224,7 @@ export default function Live() {
         <h1 className="text-white font-bold mx-1 font-just">Live</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar ">
-        {matchesv2.map((match, index) => (
-          <Card key={index} {...match} />
-        ))}
+        {matchesv2.map((match, index) => <Card key={index} {...match} />)}
       </div>
     </div>
   );

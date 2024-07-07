@@ -71,7 +71,8 @@ export default function Betslip() {
               className={`fixed bottom-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 text-white flex justify-center items-end z-[150] transition-opacity ${
                 show ? "opacity-100" : "opacity-0"
               }`}
-            ></div>
+            >
+            </div>
             <div className="fixed bottom-0 left-0 bg-gray-800 rounded-t-lg shadow-lg w-full max-w-md p-4 z-[151]">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-white">Betslip</h2>
@@ -105,10 +106,9 @@ export default function Betslip() {
                 <div className="flex flex-row justify-between items-center">
                   <p className="text-neutral-400">Possible winnings</p>
                   <p className="text-white font-bold">
-                    €{" "}
                     {(
                       quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
-                    ).toFixed(2)}
+                    ).toFixed(2)} cUSD
                   </p>
                 </div>
                 <button

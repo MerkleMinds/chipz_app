@@ -1,19 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  FaFootball,
-  FaFutbol,
   FaBaseballBatBall,
-  FaTableTennisPaddleBall,
-  FaGolfBallTee,
-  FaTrophy,
-  FaMagnifyingGlass,
+  FaBitcoinSign,
   FaBolt,
   FaCalendarDay,
-  FaBitcoinSign,
+  FaFootball,
+  FaFutbol,
+  FaGolfBallTee,
+  FaMagnifyingGlass,
+  FaSpinner,
+  FaTableTennisPaddleBall,
+  FaTrophy,
   FaUser,
 } from "react-icons/fa6";
+import { context } from "./Utils";
+import { perform } from "@/utils/client";
 
 const sports = [
   { name: "Live", icon: FaBolt },
@@ -130,7 +133,7 @@ const LoginPopup = ({
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 text-center text-xs text-gray-500">
             Not a member?{" "}
             <a href="#" className="leading-6 text-bb-accent">
               Sign up now
@@ -149,10 +152,29 @@ const RegisterPopup = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    localStorage.setItem("auth_token", "custom_token");
-    onClose();
+    setLoading(true);
+    const result = await perform("user_create", {
+      email,
+      password,
+      username: email.split("@")[0],
+      balance: 0,
+    });
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    if (result.error) {
+      console.error(result.error);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      localStorage.setItem("auth_token", "custom_token");
+      localStorage.setItem("user_data", JSON.stringify(result.data));
+      onClose();
+    }
   };
 
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -188,8 +210,10 @@ const RegisterPopup = ({
                   name="email"
                   type="email"
                   autoComplete="email"
+                  disabled={loading}
                   required
-                  className="px-2 block w-full rounded-md border-0 py-1.5 shadow-sm bg-gray-900 text-white sm:text-sm sm:leading-6"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="disabled:opacity-50 px-2 block w-full rounded-md border-0 py-1.5 shadow-sm bg-gray-900 text-white sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -208,7 +232,9 @@ const RegisterPopup = ({
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="px-2 block w-full rounded-md border-0 py-1.5 shadow-sm bg-gray-900 text-white sm:text-sm sm:leading-6"
+                  disabled={loading}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="disabled:opacity-50 px-2 block w-full rounded-md border-0 py-1.5 shadow-sm bg-gray-900 text-white sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -216,14 +242,15 @@ const RegisterPopup = ({
             <div>
               <button
                 type="submit"
-                className="flex text-white w-full justify-center rounded-md bg-bb-accent px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm"
+                disabled={loading}
+                className="disabled:opacity-50 flex items-center gap-2 text-white w-full justify-center rounded-md bg-bb-accent px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm"
               >
+                {loading && <FaSpinner className="animate-spin mr-2" />}
                 Register
               </button>
             </div>
           </form>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 text-center text-gray-500 text-xs">
             Already have an account?{" "}
             <a href="#" className="leading-6 text-bb-accent">
               Log in here
@@ -263,6 +290,8 @@ export default function Header() {
     setRegisterOpen(false);
   };
 
+  const { amount } = useContext(context);
+
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full pt-2 pb-3 bg-gray-900 shadow-lg gap-3">
       <nav
@@ -273,43 +302,45 @@ export default function Header() {
           <img src="/logo.png" alt="BlockBet" width={100} height={100} />
         </Link>
         <div className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
-          {isLoggedIn ? (
-            <div className="flex items-center flex-row gap-3">
-              <button
-                type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent disabled:opacity-50 disabled:pointer-events-none"
-              >
-                Deposit
-              </button>
-              <div className="flex items-center justify-center flex-col gap-2">
-                <FaUser className="h-4 w-auto text-neutral-400" />
-                <span className="text-xs text-white font-semibold">€25.40</span>
+          {isLoggedIn
+            ? (
+              <div className="flex items-center flex-row gap-3">
+                <Link
+                  href="/profile"
+                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  Deposit
+                </Link>
+                <div className="flex items-center justify-center flex-col gap-2">
+                  <FaUser className="h-4 w-auto text-neutral-400" />
+                  <span className="text-xs text-white font-semibold">
+                    {amount.toFixed(2)} cUSD
+                  </span>
+                </div>
               </div>
-            </div>
-          ) : (
-            <>
-              <button
-                type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-gray-200 text-gray-200 disabled:opacity-50 disabled:pointer-events-none"
-                onClick={openLoginPopup}
-              >
-                Log in
-              </button>
-              <button
-                type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent bg-[#ff5f1f30] hover:border-bb-accent transition disabled:opacity-50 disabled:pointer-events-none focus:bg-[#ff5f1f50]"
-                onClick={openRegisterPopup}
-              >
-                Register
-              </button>
-            </>
-          )}
+            )
+            : (
+              <>
+                <button
+                  type="button"
+                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-gray-200 text-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  onClick={openLoginPopup}
+                >
+                  Log in
+                </button>
+                <button
+                  type="button"
+                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent bg-[#ff5f1f30] hover:border-bb-accent transition disabled:opacity-50 disabled:pointer-events-none focus:bg-[#ff5f1f50]"
+                  onClick={openRegisterPopup}
+                >
+                  Register
+                </button>
+              </>
+            )}
         </div>
       </nav>
       <div className="flex mx-4 gap-5 overflow-x-scroll no-scrollbar">
-        {sports.map((sport) => (
-          <Icon key={sport.name} {...sport} />
-        ))}
+        {sports.map((sport) => <Icon key={sport.name} {...sport} />)}
       </div>
 
       <LoginPopup isOpen={isLoginOpen} onClose={closeLoginPopup} />
