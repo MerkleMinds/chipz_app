@@ -1,22 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
-  FaEnvelope,
-  FaCreditCard,
-  FaFutbol,
-  FaKey,
-  FaLock,
-  FaClock,
-  FaGear,
   FaArrowLeft,
   FaArrowRight,
   FaCheck,
+  FaClock,
+  FaCreditCard,
+  FaEnvelope,
+  FaFutbol,
+  FaGear,
+  FaKey,
+  FaLock,
 } from "react-icons/fa6";
 import { SiGoogle, SiMeta, SiTwitch } from "react-icons/si";
 import { hashBet } from "@/components/bets/Betv2";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { TbPlugConnected } from "react-icons/tb";
+import useTransaction from "@/hooks/useTransaction";
 
 const DepositSection = () => (
   <>
@@ -118,72 +119,102 @@ const widthdrawOptions = [
   },
 ];
 
-const WithdrawSection = () => (
-  <>
-    <div className="mb-6">
-      <h3 className="text-lg mb-4">Withdraw Options</h3>
-      <div className="flex flex-row gap-2 mb-4">
-        {widthdrawOptions.map((option) => (
-          <div
-            className="rounded-lg bg-gray-800 flex items-center p-3 h-24 w-24 justify-center"
-            key={option.name}
-          >
-            <Image
-              width={500}
-              height={500}
-              src={option.logo}
-              alt={option.name}
-              className="w-16 h-auto"
-            />
-          </div>
-        ))}
-      </div>
+const WithdrawSection = () => {
+  const [amount, setAmount] = useState<number>(0);
+  const [{ error, success }, dispatch] = useTransaction(
+    "cUSD",
+  );
+
+  useEffect(() => {
+    switch (true) {
+      case success === null: {
+        // TODO(jabolo): Handle initial state
+        return;
+      }
+      case !success: {
+        // TODO(jabolo): Handle error
+        return;
+      }
+      case success: {
+        // TODO(jabolo): Handle success
+      }
+    }
+  }, [success]);
+
+  return (
+    <>
       <div className="mb-6">
-        <h3 className="text-lg mb-4">Information</h3>
-        <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2">
-          <div className="flex items-center gap-2">
-            <FaCreditCard className="text-neutral-400" />
-            <div className="w-full flex flex-row justify-between">
-              <p className="text-neutral-400">Mimimum withdraw</p>
-              <span>€10</span>
+        <h3 className="text-lg mb-4">Withdraw Options</h3>
+        <div className="flex flex-row gap-2 mb-4">
+          {widthdrawOptions.map((option) => (
+            <div
+              className="rounded-lg bg-gray-800 flex items-center p-3 h-24 w-24 justify-center"
+              key={option.name}
+            >
+              <Image
+                width={500}
+                height={500}
+                src={option.logo}
+                alt={option.name}
+                className="w-16 h-auto"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="mb-6">
+          <h3 className="text-lg mb-4">Information</h3>
+          <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2">
+            <div className="flex items-center gap-2">
+              <FaCreditCard className="text-neutral-400" />
+              <div className="w-full flex flex-row justify-between">
+                <p className="text-neutral-400">Mimimum withdraw</p>
+                <span>€10</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <FaLock className="text-neutral-400" />
+              <div className="w-full flex flex-row justify-between">
+                <p className="text-neutral-400">Maximum withdraw</p>
+                <span>€5000</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <FaClock className="text-neutral-400" />
+              <div className="w-full flex flex-row justify-between">
+                <p className="text-neutral-400">Processing time</p>
+                <span>1 - 3 business days</span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <FaLock className="text-neutral-400" />
-            <div className="w-full flex flex-row justify-between">
-              <p className="text-neutral-400">Maximum withdraw</p>
-              <span>€5000</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
+        </div>
+        <div className="mb-6 flex flex-col gap-2">
+          <h3 className="text-lg mb-2">Amount</h3>
+          <input
+            type="number"
+            placeholder="10.00€"
+            className="p-4 w-full bg-gray-800 rounded-md"
+            onChange={(e) => setAmount(+e.target.value)}
+          />
+          <div className="flex flex-row gap-2 items-center">
             <FaClock className="text-neutral-400" />
-            <div className="w-full flex flex-row justify-between">
-              <p className="text-neutral-400">Processing time</p>
-              <span>1 - 3 business days</span>
-            </div>
+            <p className="text-neutral-400">
+              Funds will be sent to the selected method
+            </p>
           </div>
         </div>
       </div>
-      <div className="mb-6 flex flex-col gap-2">
-        <h3 className="text-lg mb-2">Amount</h3>
-        <input
-          type="number"
-          placeholder="10.00€"
-          className="p-4 w-full bg-gray-800 rounded-md"
-        />
-        <div className="flex flex-row gap-2 items-center">
-          <FaClock className="text-neutral-400" />
-          <p className="text-neutral-400">
-            Funds will be sent to the selected method
-          </p>
-        </div>
-      </div>
-    </div>
-    <button className="w-full rounded-md bg-bb-accent p-3 mb-16">
-      Withdraw
-    </button>
-  </>
-);
+      {error && <p className="text-neutral-400 mb-2">{error}</p>}
+      <button
+        disabled={!!error}
+        onClick={() =>
+          dispatch("0xF5E8A439C599205C1aB06b535DE46681Aed1007a", amount)}
+        className="w-full rounded-md bg-bb-accent p-3 mb-16 disabled:opacity-50"
+      >
+        Withdraw
+      </button>
+    </>
+  );
+};
 
 interface IHistoryEntry {
   id: string;
@@ -224,7 +255,7 @@ function createHistoryEntries(count: number): IHistoryEntry[] {
   };
 
   return Array.from({ length: count }, generateEntry).sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 }
 
@@ -272,19 +303,21 @@ const HistorySection = () => (
         </div>
         <div className="flex flex-row gap-2">
           {history
-            .filter((h) => h.type === "deposit")
-            .reduce((acc, h) => acc + h.amount, 0) >
-          history
-            .filter((h) => h.type === "withdraw")
-            .reduce((acc, h) => acc + h.amount, 0) ? (
-            <div className="bg-gray-900 p-1 rounded-md">
-              <GoTriangleDown className="text-red-500" />
-            </div>
-          ) : (
-            <div className="bg-gray-900 p-1 rounded-md">
-              <GoTriangleUp className="text-green-500" />
-            </div>
-          )}
+              .filter((h) => h.type === "deposit")
+              .reduce((acc, h) => acc + h.amount, 0) >
+              history
+                .filter((h) => h.type === "withdraw")
+                .reduce((acc, h) => acc + h.amount, 0)
+            ? (
+              <div className="bg-gray-900 p-1 rounded-md">
+                <GoTriangleDown className="text-red-500" />
+              </div>
+            )
+            : (
+              <div className="bg-gray-900 p-1 rounded-md">
+                <GoTriangleUp className="text-green-500" />
+              </div>
+            )}
           <p>
             €
             {history
@@ -306,11 +339,9 @@ const HistorySection = () => (
         >
           <div className="flex flex-row items-center gap-2">
             <div className="bg-gray-900 p-1 rounded-md">
-              {entry.type === "deposit" ? (
-                <FaArrowRight className="text-neutral-400" />
-              ) : (
-                <FaArrowLeft className="text-green-500" />
-              )}
+              {entry.type === "deposit"
+                ? <FaArrowRight className="text-neutral-400" />
+                : <FaArrowLeft className="text-green-500" />}
             </div>
             <div className="flex flex-col gap-1">
               <p className="text-sm text-neutral-400">
@@ -464,7 +495,7 @@ export default function Page() {
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
-            )
+            ),
           )}
         </div>
 
