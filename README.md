@@ -1,29 +1,20 @@
-# blockbet
+# 🎲 BlockBet App 🎲
 
-```
- _____________________________
-< morata +1.5 shots on target >
- -----------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
 
-# usage
+---
 
-> [!NOTE]\
-> This project uses [`pnpm`](https://pnpm.io/) as package manager.
+## 🚀 Introduction
 
-```sh
+Welcome to **BlockBet App**! This project is built using [pnpm](https://pnpm.io/) as the package manager. Dive in to explore and contribute to our decentralized betting platform!
+
+---
+
+## 🛠️ Installation
+
+To get started, clone the repository and install the dependencies using pnpm.
+
+```bash
+git clone https://github.com/cfiestas6/blockbet_app.git
+cd blockbet_app
 pnpm install
-```
 
-```sh
-pnpm dev
-```
-
-```sh
-open localhost:3000
-```
