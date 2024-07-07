@@ -8,7 +8,7 @@
 
 ## 🚀 Introduction
 
-Welcome to **BlockBet App**! This project is built using [pnpm](https://pnpm.io/) as the package manager. Dive in to explore and contribute to our decentralized betting platform!
+Welcome to **BlockBet App**! This project is built using [pnpm](https://pnpm.io/) as the package manager. Dive in to explore and contribute to our open source betting platform!
 
 ---
 
