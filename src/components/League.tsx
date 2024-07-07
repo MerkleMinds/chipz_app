@@ -50,9 +50,7 @@ export default function League() {
         <h1 className="text-white font-bold mx-1 font-just">Competitions</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {leagues.map((item, index) => (
-          <Card key={index} {...item} />
-        ))}
+        {leagues.map((item, index) => <Card key={index} {...item} />)}
       </div>
     </div>
   );

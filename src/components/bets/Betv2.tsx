@@ -13,15 +13,16 @@ type BetBasev2 = {
   potential: number;
 };
 
-export type IBetv2 = BetBasev2 &
-  (
+export type IBetv2 =
+  & BetBasev2
+  & (
     | {
-        kind: MenuState.LIVE | MenuState.OPEN;
-      }
+      kind: MenuState.LIVE | MenuState.OPEN;
+    }
     | {
-        kind: MenuState.SETTLED;
-        result: "win" | "lose" | "cancel" | "cashout";
-      }
+      kind: MenuState.SETTLED;
+      result: "win" | "lose" | "cancel" | "cashout";
+    }
   );
 
 export const hashBet = ({ date, title }: { date: Date; title: string }) =>
@@ -69,7 +70,7 @@ export default function Betv2(props: IBetv2) {
       <div className="flex flex-row justify-between my-2">
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Stake</p>
-          <p className="text-white text-sm">{"€ " + props.stake}</p>
+          <p className="text-white text-sm">{props.stake + " cUSD"}</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Odds</p>
@@ -82,17 +83,13 @@ export default function Betv2(props: IBetv2) {
           <p
             className={`text-sm ${
               props.kind === MenuState.SETTLED
-                ? props.result === "win"
-                  ? "text-green-500"
-                  : "text-neutral-400"
+                ? props.result === "win" ? "text-green-500" : "text-neutral-400"
                 : "text-white"
             }`}
           >
             {props.kind === MenuState.SETTLED
-              ? props.result === "lose"
-                ? "-"
-                : "€ " + props.potential
-              : "€ " + props.potential}
+              ? props.result === "lose" ? "-" : props.potential + " cUSD"
+              : props.potential + " cUSD"}
           </p>
         </div>
       </div>
@@ -105,11 +102,9 @@ export default function Betv2(props: IBetv2) {
           onClick={() => setClosed((c) => !c)}
         >
           <p className="text-neutral-400 text-xs">Details</p>
-          {closed ? (
-            <FaChevronDown className="text-neutral-400 text-xs" />
-          ) : (
-            <FaChevronUp className="text-neutral-400 text-xs" />
-          )}
+          {closed
+            ? <FaChevronDown className="text-neutral-400 text-xs" />
+            : <FaChevronUp className="text-neutral-400 text-xs" />}
         </div>
       </div>
       {!closed && (

@@ -72,8 +72,8 @@ const featured: IMatchv2[] = [
 function Card(props: IMatchv2) {
   const [target, _setTarget] = useState<Date>(
     new Date(
-      Date.now() + 1000 * 60 * 60 * 24 + Math.random() * 1000 * 60 * 60 * 23
-    )
+      Date.now() + 1000 * 60 * 60 * 24 + Math.random() * 1000 * 60 * 60 * 23,
+    ),
   );
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
@@ -211,9 +211,7 @@ export default function Featured() {
         <h1 className="text-white font-bold mx-1 font-just">Featured</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {featured.map((item, index) => (
-          <Card key={index} {...item} />
-        ))}
+        {featured.map((item, index) => <Card key={index} {...item} />)}
       </div>
     </div>
   );

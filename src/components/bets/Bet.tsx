@@ -1,9 +1,9 @@
 import { FaTimes } from "react-icons/fa";
 import {
-  FaScaleBalanced,
-  FaUsers,
   FaChartLine,
   FaChevronUp,
+  FaScaleBalanced,
+  FaUsers,
 } from "react-icons/fa6";
 
 export interface IBet {

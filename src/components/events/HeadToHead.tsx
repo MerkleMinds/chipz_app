@@ -27,7 +27,8 @@ export default function HeadToHead({ home, draw, away }: IHeadToHeadProps) {
         <div
           className="fixed inset-0 bg-black/50 z-50 transition-all duration-300"
           onClick={() => setShowSlip(false)}
-        ></div>
+        >
+        </div>
       )}
       <div className="flex justify-evenly items-center rounded-md p-2 mb-3 bg-gray-900">
         <div
@@ -40,7 +41,8 @@ export default function HeadToHead({ home, draw, away }: IHeadToHeadProps) {
         <div
           onClick={() => setShowSlip(true)}
           className="h-6 w-px bg-white mx-2"
-        ></div>
+        >
+        </div>
         <div className="flex flex-row items-center gap-2 justify-center hover:bg-gray-800 py-2 px-4 rounded-md transition-colors duration-300">
           <p className="text-neutral-400">X</p>
           <p className="font-bold text-white">{draw.odds}</p>
@@ -48,7 +50,8 @@ export default function HeadToHead({ home, draw, away }: IHeadToHeadProps) {
         <div
           onClick={() => setShowSlip(true)}
           className="h-6 w-px bg-white mx-2"
-        ></div>
+        >
+        </div>
         <div className="flex flex-row items-center gap-2 justify-center hover:bg-gray-800 py-2 px-4 rounded-md transition-colors duration-300">
           <p className="text-neutral-400">{away.name}</p>
           <p className="font-bold text-white">{away.odds}</p>

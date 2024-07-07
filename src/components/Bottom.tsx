@@ -3,8 +3,8 @@ import React from "react";
 import {
   FaHouse,
   FaMagnifyingGlass,
-  FaUser,
   FaMoneyBills,
+  FaUser,
 } from "react-icons/fa6";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

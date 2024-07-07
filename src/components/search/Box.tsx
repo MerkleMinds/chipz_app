@@ -3,9 +3,9 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {
   FaBaseballBatBall,
   FaBasketball,
+  FaFootball,
   FaFutbol,
   FaHockeyPuck,
-  FaFootball,
   FaTrophy,
 } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
