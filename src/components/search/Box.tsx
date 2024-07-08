@@ -1,5 +1,5 @@
 "use client";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
+
 import {
   FaBaseballBatBall,
   FaBasketball,
@@ -8,6 +8,8 @@ import {
   FaHockeyPuck,
   FaTrophy,
 } from "react-icons/fa6";
+
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useRouter } from "next/navigation";
 
 export type Item = {

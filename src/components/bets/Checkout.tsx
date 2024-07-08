@@ -1,6 +1,7 @@
 "use client";
+
+import { type IBet } from "@/components/bets/Bet";
 import { useState } from "react";
-import { type IBet } from "./Bet";
 
 interface ICheckout {
   bets: IBet[];

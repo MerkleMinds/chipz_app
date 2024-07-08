@@ -1,8 +1,10 @@
 "use client";
+
 import { FaBolt, FaGear } from "react-icons/fa6";
 import { getIcon, type IMatchv2 } from "@/components/Live";
-import { context } from "@/components/Utils";
-import { useContext } from "react";
+
+import { hashBet } from "@/components/bets/Betv2";
+import { useAppContext } from "@/components/Context";
 
 const matchesv2: IMatchv2[] = [
   {
@@ -168,7 +170,22 @@ const matchesv2: IMatchv2[] = [
 ];
 
 function Entryv2(match: IMatchv2) {
-  const { bets, setBets, setShow } = useContext(context);
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
+
+  const addToBetSlip = (choice: "left" | "right" | "draw") => {
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: `${match.left.team} vs ${match.right.team}`,
+      }),
+      chosen: choice === "draw" ? "Draw" : match[choice].team,
+      bet: "1x2",
+      match: `${match.left.team} vs ${match.right.team}`,
+      odds: match.odds[choice].odds,
+    };
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+  };
 
   return (
     <div className="w-full shadow-md rounded-lg p-4 border border-neutral-700 flex-grow-0 flex-shrink-0 flex-col bg-gray-800  transition-colors duration-300 flex gap-3">
@@ -203,18 +220,7 @@ function Entryv2(match: IMatchv2) {
       </div>
       <div className="flex items-center justify-between gap-2">
         <div
-          onClick={() => {
-            setBets([
-              ...bets,
-              {
-                chosen: match.left.team,
-                bet: "1x2",
-                match: `${match.left.team} vs ${match.right.team}`,
-                odds: match.odds.left.odds,
-              },
-            ]);
-            setShow(true);
-          }}
+          onClick={() => addToBetSlip("left")}
           className="py-1 px-2 rounded-md bg-gray-900 flex justify-between items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
         >
           <p className="text-neutral-300 text-sm">{match.left.team}</p>
@@ -223,18 +229,7 @@ function Entryv2(match: IMatchv2) {
           </div>
         </div>
         <div
-          onClick={() => {
-            setBets([
-              ...bets,
-              {
-                chosen: "Draw",
-                bet: "1x2",
-                match: `${match.left.team} vs ${match.right.team}`,
-                odds: match.odds.draw.odds,
-              },
-            ]);
-            setShow(true);
-          }}
+          onClick={() => addToBetSlip("draw")}
           className="py-1 px-2 rounded-md bg-gray-900 flex justify-between items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
         >
           <p className="text-neutral-300 text-sm">Draw</p>
@@ -243,18 +238,7 @@ function Entryv2(match: IMatchv2) {
           </div>
         </div>
         <div
-          onClick={() => {
-            setBets([
-              ...bets,
-              {
-                chosen: match.right.team,
-                bet: "1x2",
-                match: `${match.left.team} vs ${match.right.team}`,
-                odds: match.odds.right.odds,
-              },
-            ]);
-            setShow(true);
-          }}
+          onClick={() => addToBetSlip("right")}
           className="py-1 px-2 rounded-md bg-gray-900 flex justify-between items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
         >
           <p className="text-neutral-300 text-sm">{match.right.team}</p>
@@ -269,7 +253,7 @@ function Entryv2(match: IMatchv2) {
 
 export default function HeadToHead() {
   return (
-    <div className="flex flex-col mx-3 gap-3">
+    <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
         <FaBolt className="text-bb-accent inline-block" />
         <h1 className="text-white font-bold mx-1 font-just">Head to Head</h1>

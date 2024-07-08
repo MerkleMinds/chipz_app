@@ -1,12 +1,14 @@
 "use client";
-import React from "react";
+
 import {
   FaHouse,
   FaMagnifyingGlass,
   FaMoneyBills,
   FaUser,
 } from "react-icons/fa6";
+
 import Link from "next/link";
+import React from "react";
 import { usePathname } from "next/navigation";
 
 export default function Bottom() {

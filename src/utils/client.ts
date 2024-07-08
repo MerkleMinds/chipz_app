@@ -1,5 +1,5 @@
 import { z } from "zod";
-import schemas from "./schemas";
+import schemas from "@/utils/schemas";
 
 const API_URL = "http://192.168.1.42:8000";
 

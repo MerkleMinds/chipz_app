@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
-import Menu, { MenuState } from "@/components/bets/Menu";
+
 import Betv2, { type IBetv2 } from "@/components/bets/Betv2";
+import Menu, { MenuState } from "@/components/bets/Menu";
+
+import { useState } from "react";
 
 const bets: IBetv2[] = [
   {

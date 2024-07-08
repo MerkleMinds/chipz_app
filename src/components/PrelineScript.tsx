@@ -1,9 +1,9 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-
 import { IStaticMethods } from "preline/preline";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+
 declare global {
   interface Window {
     HSStaticMethods: IStaticMethods;

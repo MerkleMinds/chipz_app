@@ -44,7 +44,7 @@ const leagues: ILeagueProps[] = [
 
 export default function League() {
   return (
-    <div className="flex flex-col mx-3 mt-3 gap-3">
+    <div className="flex flex-col mx-3 mt-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
         <FaTrophy className="text-bb-accent inline-block" />
         <h1 className="text-white font-bold mx-1 font-just">Competitions</h1>

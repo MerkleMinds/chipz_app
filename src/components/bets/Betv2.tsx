@@ -1,7 +1,10 @@
-import { useState } from "react";
+"use client";
+
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+
 import { MenuState } from "@/components/bets/Menu";
 import crypto from "crypto";
+import { useState } from "react";
 
 type BetBasev2 = {
   title: string;

@@ -1,6 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
+
 import {
   FaBaseballBatBall,
   FaBitcoinSign,
@@ -15,8 +14,11 @@ import {
   FaTrophy,
   FaUser,
 } from "react-icons/fa6";
-import { context } from "./Utils";
+import { useEffect, useState } from "react";
+
+import Link from "next/link";
 import { perform } from "@/utils/client";
+import { useAppContext } from "@/components/Context";
 
 const sports = [
   { name: "Live", icon: FaBolt },
@@ -44,6 +46,7 @@ const Icon = ({
   </div>
 );
 
+// TODO(jabolo): Dedupe & merge this with the existing register modal
 const LoginPopup = ({
   isOpen,
   onClose,
@@ -157,6 +160,7 @@ const RegisterPopup = ({
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    // TODO(jabolo): Clean this up and add error handling
     e.preventDefault();
     setLoading(true);
     const result = await perform("user_create", {
@@ -266,6 +270,7 @@ export default function Header() {
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isRegisterOpen, setRegisterOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { amount: [amount] } = useAppContext();
 
   useEffect(() => {
     const isUserLoggedIn = localStorage.getItem("auth_token");
@@ -290,8 +295,6 @@ export default function Header() {
     setRegisterOpen(false);
   };
 
-  const { amount } = useContext(context);
-
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full pt-2 pb-3 bg-gray-900 shadow-lg gap-3">
       <nav
@@ -314,7 +317,7 @@ export default function Header() {
                 <div className="flex items-center justify-center flex-col gap-2">
                   <FaUser className="h-4 w-auto text-neutral-400" />
                   <span className="text-xs text-white font-semibold">
-                    {amount.toFixed(2)} cUSD
+                    {amount} cUSD
                   </span>
                 </div>
               </div>

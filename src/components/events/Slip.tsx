@@ -1,4 +1,5 @@
 "use client";
+
 import Checkout from "@/components/bets/Checkout";
 import { IBet } from "@/components/bets/Bet";
 

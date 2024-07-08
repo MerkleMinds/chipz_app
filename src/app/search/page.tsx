@@ -1,4 +1,3 @@
-"use client";
 import Box, { type Item } from "@/components/search/Box";
 
 const items: Item[] = [

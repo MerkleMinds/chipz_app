@@ -1,8 +1,10 @@
 "use client";
+
 import { FaCrown, FaFire, FaGear } from "react-icons/fa6";
+
 import { type IMatchv2 } from "@/components/Live";
-import { useContext, useEffect, useState } from "react";
-import { context } from "./Utils";
+import { hashBet } from "@/components/bets/Betv2";
+import { useAppContext } from "@/components/Context";
 
 const featured: IMatchv2[] = [
   {
@@ -69,29 +71,27 @@ const featured: IMatchv2[] = [
   },
 ];
 
+const days = 1;
+const hours = 12;
+const minutes = 30;
+
 function Card(props: IMatchv2) {
-  const [target, _setTarget] = useState<Date>(
-    new Date(
-      Date.now() + 1000 * 60 * 60 * 24 + Math.random() * 1000 * 60 * 60 * 23,
-    ),
-  );
-  const [days, setDays] = useState<number>(0);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const diff = target.getTime() - now.getTime();
-      setDays(Math.floor(diff / (1000 * 60 * 60 * 24)));
-      setHours(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-      setMinutes(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [target]);
-
-  const { bets, setBets, setShow } = useContext(context);
+  const addToBetSlip = (choice: "left" | "right" | "draw") => {
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: `${props.left.team} vs ${props.right.team}`,
+      }),
+      chosen: choice === "draw" ? "Draw" : props[choice].team,
+      bet: "1x2",
+      match: `${props.left.team} vs ${props.right.team}`,
+      odds: props.odds[choice].odds,
+    };
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+  };
 
   return (
     <div className="relative w-full shadow-md border border-neutral-700 flex-grow-0 flex-shrink-0 flex-auto rounded-xl bg-gray-800 flex items-center justify-between flex-col p-5 transition-colors duration-300">
@@ -111,18 +111,7 @@ function Card(props: IMatchv2) {
         </div>
         <div className="flex justify-between items-center w-full px-10 mb-4">
           <div
-            onClick={() => {
-              setBets([
-                ...bets,
-                {
-                  chosen: props.left.team,
-                  bet: "1x2",
-                  match: `${props.left.team} vs ${props.right.team}`,
-                  odds: props.odds.left.odds,
-                },
-              ]);
-              setShow(true);
-            }}
+            onClick={() => addToBetSlip("left")}
             className="text-center flex flex-col items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
           >
             <div className="w-16 h-16 rounded-full flex items-center justify-center mb-2">
@@ -134,36 +123,14 @@ function Card(props: IMatchv2) {
             <p className="text-neutral-400">{props.odds.left.odds}</p>
           </div>
           <div
-            onClick={() => {
-              setBets([
-                ...bets,
-                {
-                  chosen: "Draw",
-                  bet: "1x2",
-                  match: `${props.left.team} vs ${props.right.team}`,
-                  odds: props.odds.draw.odds,
-                },
-              ]);
-              setShow(true);
-            }}
+            onClick={() => addToBetSlip("draw")}
             className="text-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
           >
             <p className="font-bold text-xl text-white">X</p>
             <p className="text-neutral-400">{props.odds.draw.odds}</p>
           </div>
           <div
-            onClick={() => {
-              setBets([
-                ...bets,
-                {
-                  chosen: props.right.team,
-                  bet: "1x2",
-                  match: `${props.left.team} vs ${props.right.team}`,
-                  odds: props.odds.right.odds,
-                },
-              ]);
-              setShow(true);
-            }}
+            onClick={() => addToBetSlip("right")}
             className="text-center flex flex-col items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
           >
             <div className="w-16 h-16 rounded-full flex items-center justify-center mb-2">
@@ -205,7 +172,7 @@ function Card(props: IMatchv2) {
 
 export default function Featured() {
   return (
-    <div className="flex flex-col mx-3 gap-3">
+    <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
         <FaFire className="text-bb-accent inline-block" />
         <h1 className="text-white font-bold mx-1 font-just">Featured</h1>
