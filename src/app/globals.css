@@ -23,3 +23,7 @@
   font-family: Montserrat;
   src: url("../../public/montserrat-regular.ttf");
 }
+
+html {
+  scroll-behavior: smooth;
+}
