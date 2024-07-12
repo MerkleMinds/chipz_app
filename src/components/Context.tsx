@@ -12,7 +12,7 @@ type NoUndefinedState<T> = T extends [
 ] ? [S, React.Dispatch<React.SetStateAction<S>>]
   : never;
 
-type StateTuple<T> = NoUndefinedState<ReturnType<typeof useState<T>>>;
+export type StateTuple<T> = NoUndefinedState<ReturnType<typeof useState<T>>>;
 
 type Context = {
   bets: StateTuple<IBetSlipBet[]>;

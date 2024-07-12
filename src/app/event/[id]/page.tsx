@@ -1,4 +1,5 @@
 import Drawer, { type IDrawerProps } from "@/components/events/Drawer";
+import Players, { IPlayerProps } from "@/components/events/Players";
 
 import Accordion from "@/components/events/Accordion";
 import Banner from "@/components/events/Banner";
@@ -839,6 +840,190 @@ const intervalCombinedCornersData: IDrawerProps["boxes"] = {
   ],
 };
 
+const mainSection: {
+  key: string;
+  data: IDrawerProps["boxes"];
+}[] = [
+  {
+    key: "Match result",
+    data: oneXTwoData,
+  },
+  {
+    key: "Draw no bet",
+    data: drawNoBetData,
+  },
+  {
+    key: "Double chance",
+    data: doubleChanceData,
+  },
+  {
+    key: "Both teams to score",
+    data: bothTeamsToScoreData,
+  },
+];
+
+const goalsData: {
+  key: string;
+  data: IDrawerProps["boxes"];
+}[] = [
+  {
+    key: "Spain goals - over",
+    data: spainGoalData,
+  },
+  {
+    key: "Italy goals - over",
+    data: italyGoalData,
+  },
+  {
+    key: "Spain goals - under",
+    data: spainGoalData,
+  },
+  {
+    key: "Italy goals - under",
+    data: italyGoalData,
+  },
+  {
+    key: "Total goals",
+    data: totalGoalsData,
+  },
+  {
+    key: "Goals - handicap",
+    data: goalHandicapData,
+  },
+];
+
+const asianData: {
+  key: string;
+  data: IDrawerProps["boxes"];
+}[] = [
+  {
+    key: "Handicap - 1x2 (1)",
+    data: handicapOneXTwoOneData,
+  },
+  {
+    key: "Handicap - 1x2 (2)",
+    data: handicapOneXTwoTwoData,
+  },
+  {
+    key: "Handicap - 1-2 (0.5)",
+    data: handicapOneXTwoHalfData,
+  },
+  {
+    key: "Handicap - Total",
+    data: handicapTotalData,
+  },
+];
+
+const extraData: {
+  key: string;
+  data: IDrawerProps["boxes"];
+}[] = [
+  {
+    key: "Yellow Cards",
+    data: yellowCardsData,
+  },
+  {
+    key: "Red Cards",
+    data: redCardsData,
+  },
+  {
+    key: "Combined Corners",
+    data: combinedCornersData,
+  },
+  {
+    key: "Throws in - Spain",
+    data: throwsInSpainData,
+  },
+  {
+    key: "Throws in - Italy",
+    data: throwsInItalyData,
+  },
+  {
+    key: "Goal kick - Spain",
+    data: goalKickSpainData,
+  },
+  {
+    key: "Goal kick - Italy",
+    data: goalKickItalyData,
+  },
+  {
+    key: "Head goals - Spain",
+    data: headGoalsSpainData,
+  },
+  {
+    key: "Head goals - Italy",
+    data: headGoalsItalyData,
+  },
+  {
+    key: "First Assist",
+    data: assistsData,
+  },
+  {
+    key: "Penalty Kick",
+    data: penaltyKickData,
+  },
+];
+
+const fifteenMinutesData: {
+  key: string;
+  data: IDrawerProps["boxes"];
+}[] = [
+  {
+    key: "Interval 1x2 15'",
+    data: lead15Data,
+  },
+  {
+    key: "Interval over/under goals 15'",
+    data: intervalOverUnderData,
+  },
+  {
+    key: "Interval yellow cards 15'",
+    data: intervalYellowCardsData,
+  },
+  {
+    key: "Interval combined corners 15'",
+    data: intervalCombinedCornersData,
+  },
+];
+
+const spainPlayers: IPlayerProps["players"] = [
+  { name: "U. Simón" },
+  { name: "C. Azpilicueta" },
+  { name: "A. Laporte" },
+  { name: "P. Torres" },
+  { name: "J. Alba" },
+  { name: "S. Busquets" },
+  { name: "K. Resurrección" },
+  { name: "P. González" },
+  { name: "F. Torres" },
+  { name: "Á. Morata" },
+  { name: "D. Olmo" },
+  { name: "D. de Gea" },
+  { name: "E. García" },
+  { name: "R. Hernández" },
+  { name: "M. Oyarzabal" },
+  { name: "P. Sarabia" },
+];
+
+const italyPlayers: IPlayerProps["players"] = [
+  { name: "G. Donnarumma" },
+  { name: "G. Di Lorenzo" },
+  { name: "L. Bonucci" },
+  { name: "G. Chiellini" },
+  { name: "L. Spinazzola" },
+  { name: "N. Barella" },
+  { name: "J. Frello" },
+  { name: "M. Verratti" },
+  { name: "F. Chiesa" },
+  { name: "C. Immobile" },
+  { name: "L. Insigne" },
+  { name: "S. Sirigu" },
+  { name: "A. Florenzi" },
+  { name: "M. Locatelli" },
+  { name: "A. Belotti" },
+  { name: "D. Berardi" },
+];
+
 export default function Page(_params: { params: { id: string } }) {
   return (
     <main className="flex flex-col gap-2 text-xs">
@@ -852,141 +1037,68 @@ export default function Page(_params: { params: { id: string } }) {
       <div className="flex flex-col overflow-x-scroll gap-3 no-scrollbar">
         <Accordion title="Main" active arrow>
           <div className="flex flex-col gap-2 pt-1 pb-4">
-            <Drawer
-              active
-              title="Match result"
-              boxes={oneXTwoData}
-            />
-            <Drawer
-              title="Draw no bet"
-              boxes={drawNoBetData}
-            />
-            <Drawer
-              title="Double chance"
-              boxes={doubleChanceData}
-            />
-            <Drawer
-              title="Both teams to score"
-              boxes={bothTeamsToScoreData}
-            />
+            {mainSection.map((section, i) => (
+              <Drawer
+                active={i === 0}
+                key={section.key}
+                title={section.key}
+                boxes={section.data}
+              />
+            ))}
           </div>
         </Accordion>
         <Accordion title="Goals" arrow>
           <div className="flex flex-col gap-2 pt-1 pb-4">
-            <Drawer
-              title="Spain goals - over"
-              boxes={spainGoalData}
-            />
-            <Drawer
-              title="Italy goals - over"
-              boxes={italyGoalData}
-            />
-            <Drawer
-              title="Spain goals - under"
-              boxes={spainGoalData}
-            />
-            <Drawer
-              title="Italy goals - under"
-              boxes={italyGoalData}
-            />
-            <Drawer
-              title="Total goals"
-              boxes={totalGoalsData}
-            />
-            <Drawer
-              title="Goals - handicap"
-              boxes={goalHandicapData}
-            />
+            {goalsData.map((section) => (
+              <Drawer
+                key={section.key}
+                title={section.key}
+                boxes={section.data}
+              />
+            ))}
           </div>
         </Accordion>
         <Accordion title="Asian" arrow>
           <div className="flex flex-col gap-2 pt-1 pb-4">
-            <Drawer
-              title="Handicap - 1x2 (1)"
-              boxes={handicapOneXTwoOneData}
-            />
-            <Drawer
-              title="Handicap - 1x2 (2)"
-              boxes={handicapOneXTwoTwoData}
-            />
-            <Drawer
-              title="Handicap - 1-2 (0.5)"
-              boxes={handicapOneXTwoHalfData}
-            />
-            <Drawer
-              title="Handicap - Total"
-              boxes={handicapTotalData}
-            />
+            {asianData.map((section) => (
+              <Drawer
+                key={section.key}
+                title={section.key}
+                boxes={section.data}
+              />
+            ))}
           </div>
         </Accordion>
         <Accordion title="Extra" arrow>
           <div className="flex flex-col gap-2 pt-1 pb-4">
-            <Drawer
-              title="Yellow Cards"
-              boxes={yellowCardsData}
-            />
-            <Drawer
-              title="Red Cards"
-              boxes={redCardsData}
-            />
-            <Drawer
-              title="Combined Corners"
-              boxes={combinedCornersData}
-            />
-            <Drawer
-              title="Throws in - Spain"
-              boxes={throwsInSpainData}
-            />
-            <Drawer
-              title="Throws in - Italy"
-              boxes={throwsInItalyData}
-            />
-            <Drawer
-              title="Goal kick - Spain"
-              boxes={goalKickSpainData}
-            />
-            <Drawer
-              title="Goal kick - Italy"
-              boxes={goalKickItalyData}
-            />
-            <Drawer
-              title="Head goals - Spain"
-              boxes={headGoalsSpainData}
-            />
-            <Drawer
-              title="Head goals - Italy"
-              boxes={headGoalsItalyData}
-            />
-            <Drawer
-              title="First Assist"
-              boxes={assistsData}
-            />
-            <Drawer
-              title="Penalty Kick"
-              boxes={penaltyKickData}
-            />
+            {extraData.map((section) => (
+              <Drawer
+                key={section.key}
+                title={section.key}
+                boxes={section.data}
+              />
+            ))}
           </div>
         </Accordion>
         <Accordion title="15 minutes" arrow>
           <div className="flex flex-col gap-2 pt-1 pb-4">
-            <Drawer
-              title="Interval 1x2 15'"
-              boxes={lead15Data}
-            />
-            <Drawer
-              title="Interval over/under goals 15'"
-              boxes={intervalOverUnderData}
-            />
-            <Drawer
-              title="Interval yellow cards 15'"
-              boxes={intervalYellowCardsData}
-            />
-            <Drawer
-              title="Interval combined corners 15'"
-              boxes={intervalCombinedCornersData}
-            />
+            {fifteenMinutesData.map((section) => (
+              <Drawer
+                key={section.key}
+                title={section.key}
+                boxes={section.data}
+              />
+            ))}
           </div>
         </Accordion>
+        <Players
+          team="Spain"
+          players={spainPlayers}
+        />
+        <Players
+          team="Italy"
+          players={italyPlayers}
+        />
       </div>
       <Footer />
     </main>

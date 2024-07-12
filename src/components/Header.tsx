@@ -7,6 +7,7 @@ import {
   FaCalendarDay,
   FaFootball,
   FaFutbol,
+  FaGift,
   FaGolfBallTee,
   FaMagnifyingGlass,
   FaSpinner,
@@ -24,6 +25,7 @@ const sports = [
   { name: "Live", icon: FaBolt },
   { name: "Today", icon: FaCalendarDay },
   { name: "Lossless", icon: FaBitcoinSign },
+  { name: "Promo", icon: FaGift },
   { name: "NFL", icon: FaFootball },
   { name: "Soccer", icon: FaFutbol },
   { name: "Baseball", icon: FaBaseballBatBall },
@@ -343,7 +345,11 @@ export default function Header() {
         </div>
       </nav>
       <div className="flex mx-4 gap-5 overflow-x-scroll no-scrollbar">
-        {sports.map((sport) => <Icon key={sport.name} {...sport} />)}
+        {sports.map((sport) => (
+          <Link key={sport.name} href={`/${sport.name.toLowerCase()}`}>
+            <Icon key={sport.name} {...sport} />
+          </Link>
+        ))}
       </div>
 
       <LoginPopup isOpen={isLoginOpen} onClose={closeLoginPopup} />
