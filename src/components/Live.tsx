@@ -205,7 +205,7 @@ export default function Live() {
     <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
         <FaChartLine className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1 font-just">Live</h1>
+        <h1 className="text-white font-bold mx-1 font-just text-sm">Live</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar ">
         {matchesv2.map((match, index) => <Card key={index} {...match} />)}

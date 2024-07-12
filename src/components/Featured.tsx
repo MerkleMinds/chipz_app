@@ -175,7 +175,9 @@ export default function Featured() {
     <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
         <FaFire className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1 font-just">Featured</h1>
+        <h1 className="text-white font-bold mx-1 font-just text-sm">
+          Featured
+        </h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
         {featured.map((item, index) => <Card key={index} {...item} />)}
