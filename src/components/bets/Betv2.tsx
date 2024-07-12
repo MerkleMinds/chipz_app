@@ -42,7 +42,7 @@ export default function Betv2(props: IBetv2) {
     <div className="rounded-md bg-gray-800 flex flex-col w-full transition-all px-4 py-2">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between items-center">
-          <div className="text-white font-bold">{props.bet}</div>
+          <div className="text-white text-sm font-bold">{props.bet}</div>
           {props.kind === MenuState.SETTLED && (
             <div
               className={`text-sm text-white rounded-sm px-2 ${
@@ -65,8 +65,8 @@ export default function Betv2(props: IBetv2) {
         </div>
       </div>
       <div className="flex flex-col my-2">
-        <p className="text-neutral-400 text-sm">{props.title}</p>
-        <p className="text-neutral-400 text-sm">
+        <p className="text-neutral-400 text-xs">{props.title}</p>
+        <p className="text-neutral-400 text-xs">
           {props.date.toLocaleDateString()}
         </p>
       </div>
