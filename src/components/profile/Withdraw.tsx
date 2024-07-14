@@ -100,7 +100,10 @@ export default function Withdraw() {
           error={error}
           callback={async () => {
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            dispatch("0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9", amount);
+            await dispatch(
+              "0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9",
+              amount,
+            );
           }}
           update={(n) => setAmount((o) => o - n)}
           hide={() => setHide(true)}
