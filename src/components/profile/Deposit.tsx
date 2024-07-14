@@ -148,7 +148,10 @@ export default function Deposit() {
         <AmountPopUp
           error={error}
           callback={async () => {
-            dispatch("0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9", amount);
+            await dispatch(
+              "0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9",
+              amount,
+            );
           }}
           update={(n) => setAmount((o) => o + n)}
           hide={() => setHide(true)}
