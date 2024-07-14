@@ -12,13 +12,13 @@ const config: Config = {
       colors: {
         "bb-accent": "#ff5f1f",
         "bb-action": "#ff0",
-        "bb-success": "#50ad44",
+        "bb-success": "#22c55e",
         "bb-error": "#ff0000",
       },
       fontFamily: {
         just: ["JustSans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
-      }
+      },
     },
   },
   plugins: [
