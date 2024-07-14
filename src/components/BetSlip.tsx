@@ -132,7 +132,7 @@ export default function Betslip() {
                     <p className="text-white font-bold">
                       {(
                         quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
-                      ).toFixed(2)} cUSD
+                      ).toFixed(2)} $
                     </p>
                   </div>
                   <button

@@ -67,7 +67,7 @@ export default function History() {
           <p>
             {history
               .filter((h) => h.type === "deposit")
-              .reduce((acc, h) => acc + h.amount, 0)} cUSD
+              .reduce((acc, h) => acc + h.amount, 0)} $
           </p>
         </div>
         <div className="w-full flex justify-between items-center">
@@ -80,7 +80,7 @@ export default function History() {
           <p>
             {history
               .filter((h) => h.type === "withdraw")
-              .reduce((acc, h) => acc + h.amount, 0)} cUSD
+              .reduce((acc, h) => acc + h.amount, 0)} $
           </p>
         </div>
         <div className="w-full flex justify-between items-center">
@@ -110,7 +110,7 @@ export default function History() {
                 .reduce((acc, h) => acc + h.amount, 0) -
                 history
                   .filter((h) => h.type === "deposit")
-                  .reduce((acc, h) => acc + h.amount, 0)} cUSD
+                  .reduce((acc, h) => acc + h.amount, 0)} $
             </p>
           </div>
         </div>
@@ -151,7 +151,7 @@ export default function History() {
                 >
                   {entry.state}
                 </p>
-                <p className="text-sm">{entry.amount} cUSD</p>
+                <p className="text-sm">{entry.amount} $</p>
               </div>
             </div>
           </div>

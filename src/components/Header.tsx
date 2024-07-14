@@ -317,7 +317,7 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <FaUser className="h-4 text-neutral-400" />
                   <span className="text-xs text-white font-semibold">
-                    {amount} cUSD
+                    {amount} $
                   </span>
                 </div>
               </div>

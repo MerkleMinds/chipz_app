@@ -73,7 +73,7 @@ export default function AmountPopUp({
         <p className="text-neutral-400 text-xs">{text.subtitle}</p>
         <input
           type="number"
-          placeholder="1.00 cUSD"
+          placeholder="1.00 $"
           className="p-4 w-full bg-gray-900 rounded-md"
           onChange={(e) => setValue(+e.target.value)}
         />

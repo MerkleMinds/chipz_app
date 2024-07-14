@@ -36,7 +36,7 @@ const quests: IQuest[] = [
   },
   {
     name: "Special Quest",
-    description: "Bet 10 cUSD 2 times in the EFL week 1",
+    description: "Bet 10 $ 2 times in the EFL week 1",
     points: 100,
     progress: 33,
     completed: false,

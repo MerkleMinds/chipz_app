@@ -80,7 +80,7 @@ export default function Points() {
                   <AnimatedNumber number={255} />
                 </p>
                 <p className="mt-1 text-gray-500 dark:text-neutral-500">
-                  cUSD worth of rewards redeemed
+                  $ worth of rewards redeemed
                 </p>
               </div>
 

@@ -73,7 +73,7 @@ export default function Betv2(props: IBetv2) {
       <div className="flex flex-row justify-between my-2">
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Stake</p>
-          <p className="text-white text-sm">{props.stake + " cUSD"}</p>
+          <p className="text-white text-sm">{props.stake + " $"}</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Odds</p>
@@ -91,8 +91,8 @@ export default function Betv2(props: IBetv2) {
             }`}
           >
             {props.kind === MenuState.SETTLED
-              ? props.result === "lose" ? "-" : props.potential + " cUSD"
-              : props.potential + " cUSD"}
+              ? props.result === "lose" ? "-" : props.potential + " $"
+              : props.potential + " $"}
           </p>
         </div>
       </div>

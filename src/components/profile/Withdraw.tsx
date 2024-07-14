@@ -15,7 +15,7 @@ export default function Withdraw() {
   const [banner, setBanner] = useState<Nullable<string>>();
   const [method, setMethod] = useState<Methods>();
   const [hide, setHide] = useState<boolean>(true);
-  const [{ error, success }, dispatch] = useTransaction("cUSD", true); // TODO(jabolo): Send to user wallet
+  const [{ error, success }, dispatch] = useTransaction("cUSD", true);
   const [processed, setProcessed] = useState<boolean>(false);
   const { amount: [amount, setAmount] } = useAppContext();
 
@@ -29,7 +29,7 @@ export default function Withdraw() {
       }
       case success: {
         if (!processed) {
-          setBanner(`${amount} cUSD on the way to ${method}!`);
+          setBanner(`${amount} $ on the way to ${method}!`);
           setHide(true);
           setProcessed(true);
         }
@@ -75,14 +75,14 @@ export default function Withdraw() {
               <FaCreditCard className="text-neutral-400" />
               <div className="w-full flex flex-row justify-between items-center text-xs">
                 <p className="text-neutral-400">Mimimum withdraw</p>
-                <span>10 cUSD</span>
+                <span>10 $</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <FaLock className="text-neutral-400" />
               <div className="w-full flex flex-row justify-between items-center text-xs">
                 <p className="text-neutral-400">Maximum withdraw</p>
-                <span>5000 cUSD</span>
+                <span>5000 $</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function Withdraw() {
           error={error}
           callback={async () => {
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            dispatch("0xF5E8A439C599205C1aB06b535DE46681Aed1007a", amount);
+            dispatch("0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9", amount);
           }}
           update={(n) => setAmount((o) => o - n)}
           hide={() => setHide(true)}
@@ -108,7 +108,7 @@ export default function Withdraw() {
             title: `Withdraw (${method})`,
             subtitle: "Enter the amount you want to withdraw",
             button: "Withdraw",
-            minimum: "1 cUSD",
+            minimum: "1 $",
             question: "Need help? Contact support",
           }}
         />

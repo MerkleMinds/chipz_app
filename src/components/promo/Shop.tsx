@@ -10,13 +10,13 @@ interface IShopItem {
 const shopItems: IShopItem[] = [
   {
     name: "Free bet",
-    description: "Value of 10 cUSD",
+    description: "Value of 10 $",
     price: 250,
     image: "https://via.placeholder.com/150",
   },
   {
     name: "Free bet",
-    description: "Value of 50 cUSD",
+    description: "Value of 50 $",
     price: 2000,
     image: "https://via.placeholder.com/150",
   },
@@ -34,13 +34,13 @@ const shopItems: IShopItem[] = [
   },
   {
     name: "Instant cashout",
-    description: "Cash out 10 cUSD instantly",
+    description: "Cash out 10 $ instantly",
     price: 2500,
     image: "https://via.placeholder.com/150",
   },
   {
     name: "Instant cashout",
-    description: "Cash out 50 cUSD instantly",
+    description: "Cash out 50 $ instantly",
     price: 22500,
     image: "https://via.placeholder.com/150",
   },
