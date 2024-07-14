@@ -111,7 +111,9 @@ export default function Quests() {
         <h1 className="text-white font-bold text-sm">Quests</h1>
       </div>
       <div className="flex flex-col gap-4">
-        {quests.map((quest, index) => <Quest key={index} {...quest} />)}
+        {quests.map((quest, index) => (
+          <Quest key={`quest-${index}`} {...quest} />
+        ))}
       </div>
     </div>
   );

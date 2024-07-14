@@ -180,7 +180,9 @@ export default function Featured() {
         </h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {featured.map((item, index) => <Card key={index} {...item} />)}
+        {featured.map((item, index) => (
+          <Card key={`featured-${index}`} {...item} />
+        ))}
       </div>
     </div>
   );

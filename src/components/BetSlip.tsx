@@ -114,7 +114,9 @@ export default function Betslip() {
                   </button>
                 </div>
                 <div className="max-h-[400px] overflow-y-auto">
-                  {bets.map((bet, index) => <Bet {...bet} key={index} />)}
+                  {bets.map((bet, index) => (
+                    <Bet {...bet} key={`betslip-${index}`} />
+                  ))}
                 </div>
                 <div className="mt-4 flex flex-col gap-3">
                   <div className="flex flex-row justify-between items-center">

@@ -21,12 +21,6 @@ const shopItems: IShopItem[] = [
     image: "/promo_freebet.png",
   },
   {
-    name: "Free bet",
-    description: "Value of 50 $",
-    price: 2000,
-    image: "/promo_freebet.png",
-  },
-  {
     name: "Odds boost",
     description: "Boosts your odds by 1.5x",
     price: 500,
@@ -43,6 +37,12 @@ const shopItems: IShopItem[] = [
     description: "Cash out 10 $ instantly",
     price: 2500,
     image: "/promo_cashout.png",
+  },
+  {
+    name: "Free bet",
+    description: "Value of 50 $",
+    price: 3000,
+    image: "/promo_freebet.png",
   },
   {
     name: "Instant cashout",
@@ -66,7 +66,7 @@ const ShopItem: React.FC<IShopItem> = ({ image, name, description, price }) => {
       console.error(error);
       setBought(false);
     }
-  }, [error, success]);
+  }, [error, price, setPoints, success]);
 
   return (
     <div className="flex flex-col bg-gray-800 p-2 rounded-lg shadow-md">
@@ -116,8 +116,8 @@ export default function Shop() {
         <h1 className="text-white font-bold text-sm">Shop</h1>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        {shopItems.sort((a, b) => a.price - b.price).map((item, index) => (
-          <ShopItem key={index} {...item} />
+        {shopItems.map((item, index) => (
+          <ShopItem key={`shop-item-${index}`} {...item} />
         ))}
       </div>
     </div>

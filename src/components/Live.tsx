@@ -208,7 +208,9 @@ export default function Live() {
         <h1 className="text-white font-bold mx-1 font-just text-sm">Live</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar ">
-        {matchesv2.map((match, index) => <Card key={index} {...match} />)}
+        {matchesv2.map((match, index) => (
+          <Card key={`live-${index}`} {...match} />
+        ))}
       </div>
     </div>
   );

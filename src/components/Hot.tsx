@@ -49,7 +49,7 @@ export default function Hot() {
         <h1 className="text-white font-bold mx-1 font-just">Hot Today</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {ratings.map((item, index) => <Card key={index} {...item} />)}
+        {ratings.map((item, index) => <Card key={`hot-${index}`} {...item} />)}
       </div>
     </div>
   );

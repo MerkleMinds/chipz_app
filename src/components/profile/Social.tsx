@@ -106,7 +106,9 @@ export default function Social() {
         <h1 className="text-white font-bold mx-1 font-just text-sm">Friends</h1>
       </div>
       <div className="flex flex-col gap-2">
-        {friends.map((friend, index) => <Friend key={index} {...friend} />)}
+        {friends.map((friend, index) => (
+          <Friend key={`social-${index}`} {...friend} />
+        ))}
       </div>
     </div>
   );
