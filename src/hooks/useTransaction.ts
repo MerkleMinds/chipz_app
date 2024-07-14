@@ -8,8 +8,9 @@ import {
   parseUnits,
 } from "viem";
 import { celoAlfajores } from "viem/chains";
+import hackathonABI from "@/contracts/abi.json";
 
-type AllowedTokens = "cUSD";
+type AllowedTokens = "cUSD" | "lHKTHN";
 
 const tokenMap: {
   [k in AllowedTokens]: {
@@ -35,6 +36,11 @@ const tokenMap: {
       ],
       constant: false,
     }],
+  },
+  "lHKTHN": {
+    address: "0xeC8027457e5d353FA28D45f62C4De57a607749B6",
+    decimals: 0,
+    abi: hackathonABI as Abi,
   },
 };
 
@@ -71,21 +77,38 @@ export default function useTransaction(
       return;
     }
 
+    const writeArgs: {
+      [k in AllowedTokens]: { functionName: string; args: unknown[] };
+    } = {
+      "cUSD": {
+        functionName: "transfer",
+        args: [
+          to,
+          parseUnits(amount.toString(), 0),
+        ],
+      },
+      "lHKTHN": {
+        functionName: "transferFrom",
+        args: [
+          to,
+          parseUnits(amount.toString(), 0),
+        ],
+      },
+    };
+
     setError(null);
     setSuccess(null);
 
-    const { address, abi, decimals } = tokenMap[token];
+    const { address, abi } = tokenMap[token];
+    const { functionName, args } = writeArgs[token];
 
     try {
       const hash = await client.writeContract({
         address,
         abi,
-        functionName: "transfer",
+        functionName,
         account: (await client.getAddresses())[0],
-        args: [
-          to,
-          parseUnits(amount.toString(), decimals),
-        ],
+        args,
       });
 
       const transaction = await publicClient.waitForTransactionReceipt({
