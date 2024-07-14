@@ -4,7 +4,7 @@ import Drawer, { IDrawerProps } from "@/components/events/Drawer";
 
 import Accordion from "@/components/events/Accordion";
 import { FaPerson } from "react-icons/fa6";
-import { StateTuple } from "../Context";
+import { StateTuple } from "@/components/Context";
 import { useState } from "react";
 
 interface IPlayer {
