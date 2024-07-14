@@ -48,7 +48,6 @@ const Icon = ({
   </div>
 );
 
-// TODO(jabolo): Dedupe & merge this with the existing register modal
 const LoginPopup = ({
   isOpen,
   onClose,
@@ -71,7 +70,7 @@ const LoginPopup = ({
       onClick={onClose}
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[155] ${
         isOpen ? "" : "hidden"
-      }`}
+      } mx-2`}
     >
       <div
         className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 rounded-md m-5 w-[24rem] mx-auto"
@@ -162,7 +161,6 @@ const RegisterPopup = ({
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    // TODO(jabolo): Clean this up and add error handling
     e.preventDefault();
     setLoading(true);
     const result = await perform("user_create", {
@@ -192,7 +190,7 @@ const RegisterPopup = ({
       onClick={onClose}
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[155] ${
         isOpen ? "" : "hidden"
-      }`}
+      } mx-2`}
     >
       <div
         className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 rounded-md m-5 w-[24rem] mx-auto"
@@ -314,10 +312,10 @@ export default function Header() {
                 >
                   Deposit
                 </Link>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-col">
                   <FaUser className="h-4 text-neutral-400" />
                   <span className="text-xs text-white font-semibold">
-                    {amount} $
+                    {amount.toFixed(2)} $
                   </span>
                 </div>
               </div>
