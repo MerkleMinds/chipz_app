@@ -62,7 +62,7 @@ export default function AmountPopUp({
       className="w-full h-full bg-gray-900 bg-opacity-80 fixed top-0 left-0 flex justify-center items-center z-[152]"
       onClick={handleOuterClick}
     >
-      <div className="relative w-full m-5 bg-gray-800 flex flex-col gap-5 p-5 rounded-md border-2 border-gray-700">
+      <div className="relative mx-auto w-[24rem] m-5 bg-gray-800 flex flex-col gap-5 p-5 rounded-md border-2 border-gray-700">
         <button
           onClick={hide}
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-200"

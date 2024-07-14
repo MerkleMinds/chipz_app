@@ -24,10 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-gray-900`}>
         <AppContextProvider>
-          <Header />
-          {children}
-          <Bottom />
-          <Betslip />
+          <div className="max-w-sm mx-auto">
+            <Header />
+            {children}
+            <Bottom />
+            <Betslip />
+          </div>
         </AppContextProvider>
       </body>
       <PrelineScript />

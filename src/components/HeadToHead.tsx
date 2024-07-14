@@ -1,8 +1,9 @@
 "use client";
 
 import { FaBolt, FaGear } from "react-icons/fa6";
-import { getIcon, type IMatchv2 } from "@/components/Live";
 
+import { type IMatchv2 } from "@/components/Live";
+import { getIcon } from "@/components/Live";
 import { hashBet } from "@/components/bets/Betv2";
 import { useAppContext } from "@/components/Context";
 

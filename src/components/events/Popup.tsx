@@ -18,8 +18,8 @@ export default function Popup({ fn }: IPopupProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 transition-all duration-300">
-      <div className="relative bg-gray-900 text-white py-6 px-10 rounded-lg shadow-2xl flex flex-col gap-6 animate-fadeIn w-[80%]">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-[156] transition-all duration-300">
+      <div className="relative bg-gray-900 text-white py-6 px-10 rounded-lg shadow-2xl flex flex-col gap-6 animate-fadeIn w-[24rem] mx-auto">
         <div className="flex flex-col items-center text-center">
           <FaCheckCircle className="text-green-500 text-4xl mb-3" />
           <h2 className="text-3xl mb-2 font-bold">Success</h2>

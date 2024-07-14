@@ -74,7 +74,7 @@ const LoginPopup = ({
       }`}
     >
       <div
-        className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 w-full rounded-md m-5"
+        className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 rounded-md m-5 w-[24rem] mx-auto"
         onClick={stopPropagation}
       >
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -189,12 +189,13 @@ const RegisterPopup = ({
 
   return (
     <div
+      onClick={onClose}
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[155] ${
         isOpen ? "" : "hidden"
       }`}
     >
       <div
-        className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 w-full rounded-md m-5"
+        className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-800 rounded-md m-5 w-[24rem] mx-auto"
         onClick={stopPropagation}
       >
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -298,26 +299,23 @@ export default function Header() {
   };
 
   return (
-    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full pt-2 pb-3 bg-gray-900 shadow-lg gap-3">
-      <nav
-        className="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-8 mx-auto"
-        aria-label="Global"
-      >
-        <Link className="md:col-span-3" href="/">
+    <header className="w-full bg-gray-900 shadow-lg">
+      <div className="flex justify-between items-center px-4 py-2 pt-4 md:px-4">
+        <Link href="/" className="flex items-center">
           <img src="/logo.png" alt="BlockBet" width={100} height={100} />
         </Link>
-        <div className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
+        <div className="flex items-center gap-2">
           {isLoggedIn
             ? (
-              <div className="flex items-center flex-row gap-3">
+              <div className="flex items-center gap-3">
                 <Link
                   href="/profile"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent disabled:opacity-50 disabled:pointer-events-none"
+                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent"
                 >
                   Deposit
                 </Link>
-                <div className="flex items-center justify-center flex-col gap-2">
-                  <FaUser className="h-4 w-auto text-neutral-400" />
+                <div className="flex items-center gap-2">
+                  <FaUser className="h-4 text-neutral-400" />
                   <span className="text-xs text-white font-semibold">
                     {amount} cUSD
                   </span>
@@ -328,14 +326,14 @@ export default function Header() {
               <>
                 <button
                   type="button"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-gray-200 text-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  className="py-2 px-3 text-sm font-medium border-2 border-gray-200 text-gray-200 rounded-lg"
                   onClick={openLoginPopup}
                 >
                   Log in
                 </button>
                 <button
                   type="button"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent bg-[#ff5f1f30] hover:border-bb-accent transition disabled:opacity-50 disabled:pointer-events-none focus:bg-[#ff5f1f50]"
+                  className="py-2 px-3 text-sm font-medium border-2 border-bb-accent text-bb-accent bg-[#ff5f1f30] hover:bg-[#ff5f1f50] rounded-lg"
                   onClick={openRegisterPopup}
                 >
                   Register
@@ -343,15 +341,18 @@ export default function Header() {
               </>
             )}
         </div>
-      </nav>
-      <div className="flex mx-4 gap-5 overflow-x-scroll no-scrollbar">
+      </div>
+      <div className="flex overflow-x-auto no-scrollbar p-4">
         {sports.map((sport) => (
-          <Link key={sport.name} href={`/${sport.name.toLowerCase()}`}>
-            <Icon key={sport.name} {...sport} />
+          <Link
+            key={sport.name}
+            href={`/${sport.name.toLowerCase()}`}
+            className="mr-5"
+          >
+            <Icon {...sport} />
           </Link>
         ))}
       </div>
-
       <LoginPopup isOpen={isLoginOpen} onClose={closeLoginPopup} />
       <RegisterPopup isOpen={isRegisterOpen} onClose={closeRegisterPopup} />
     </header>

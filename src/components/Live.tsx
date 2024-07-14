@@ -157,7 +157,7 @@ function Card(match: IMatchv2) {
           </span>
         </div>
       </div>
-      <p className="text-neutral-400 text-sm mb-1">{match.kind}</p>
+      <p className="text-neutral-400 text-sm my-2 mb-1">{match.kind}</p>
       <div className="flex items-center justify-between gap-2">
         <div
           onClick={() => addToBetSlip("left")}

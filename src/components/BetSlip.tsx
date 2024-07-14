@@ -75,7 +75,7 @@ export default function Betslip() {
       {show && (
         <>
           <div
-            className={`fixed bottom-0 left-0 w-full bg-gray-700 text-white flex justify-center items-end z-[150] transition-opacity mb-16`}
+            className={`fixed bottom-0 w-[24rem] bg-gray-700 text-white flex justify-center items-end z-[150] transition-opacity mb-16`}
           >
             <div className="flex items-center justify-between w-full p-4">
               <div className="flex items-center gap-2">
@@ -98,12 +98,12 @@ export default function Betslip() {
             <>
               <div
                 onClick={handleClose}
-                className={`fixed bottom-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 text-white flex justify-center items-end z-[150] transition-opacity ${
+                className={`fixed bottom-0 mx-auto w-[24rem] h-full bg-gray-900 bg-opacity-75 text-white flex justify-center items-end z-[150] transition-opacity ${
                   show ? "opacity-100" : "opacity-0"
                 }`}
               >
               </div>
-              <div className="fixed bottom-0 left-0 bg-gray-800 rounded-t-lg shadow-lg w-full max-w-md p-4 z-[151]">
+              <div className="fixed bottom-0 mx-auto w-[24rem] bg-gray-800 rounded-t-lg shadow-lg max-w-md p-4 z-[151]">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold text-white">Betslip</h2>
                   <button
