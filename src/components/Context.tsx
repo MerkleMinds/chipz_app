@@ -19,6 +19,7 @@ type Context = {
   show: StateTuple<boolean>;
   amount: StateTuple<number>;
   user: StateTuple<z.infer<typeof schemas["user_create"]["response"]>>;
+  points: StateTuple<number>;
 };
 
 function placeHolder<T>(value: T): StateTuple<T> {
@@ -34,6 +35,7 @@ const context = createContext<Context>({
   show: placeHolder(false),
   amount: placeHolder(0),
   user: placeHolder({} as Context["user"][0]),
+  points: placeHolder(0),
 });
 
 export function useAppContext() {
@@ -47,12 +49,13 @@ type AppProps = {
 export function AppContextProvider({ children }: AppProps) {
   const bets = useState<IBetSlipBet[]>([]);
   const show = useState<boolean>(false);
-  const amount = useState<number>(0);
+  const amount = useState<number>(75);
   const user = useState<Context["user"][0]>({} as Context["user"][0]);
+  const points = useState<number>(1255);
 
   return (
     <context.Provider
-      value={{ bets, show, amount, user }}
+      value={{ bets, show, amount, user, points }}
     >
       {children}
     </context.Provider>
