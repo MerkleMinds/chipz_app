@@ -3,6 +3,7 @@
 import Deposit from "@/components/profile/Deposit";
 import History from "@/components/profile/History";
 import Settings from "@/components/profile/Settings";
+import Social from "@/components/profile/Social";
 import Withdraw from "@/components/profile/Withdraw";
 import { useState } from "react";
 
@@ -10,6 +11,7 @@ const sections = {
   deposit: Deposit,
   withdraw: Withdraw,
   history: History,
+  Social: Social,
   settings: Settings,
 };
 
