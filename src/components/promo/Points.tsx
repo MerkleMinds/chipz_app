@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { useAppContext } from "@/components/Context";
+
 interface AnimatedNumberProps {
   number: number;
   duration?: number;
@@ -41,12 +43,14 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = (
 };
 
 export default function Points() {
+  const { points: [points] } = useAppContext();
+
   return (
     <div className="flex overflow-x-scroll gap-3 no-scrollbar">
       <div className="max-w-[85rem] px-6 pt-10 pb-5 sm:px-6 mx-auto">
         <div className="grid items-center gap-6">
           <p className="text-6xl font-bold leading-10">
-            <AnimatedNumber number={1255} />
+            <AnimatedNumber number={points} />
             <span className="ms-1 inline-flex items-center gap-x-1 bg-gray-200 font-medium text-gray-800 text-xs leading-4 rounded-full py-0.5 px-2 dark:bg-neutral-800 dark:text-neutral-300">
               <svg
                 className="flex-shrink-0 size-4"
