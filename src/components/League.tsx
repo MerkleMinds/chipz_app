@@ -52,10 +52,12 @@ export default function League() {
         </h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {leagues.map((item, index) => <Card
-          key={`league-${index}`}
-          {...item}
-        />)}
+        {leagues.map((item, index) => (
+          <Card
+            key={`league-${index}`}
+            {...item}
+          />
+        ))}
       </div>
     </div>
   );
