@@ -25,7 +25,7 @@ export default function Banner({ name, points }: IBannerProps) {
         <FaTimes />
       </button>
       <p className="text-neutral-400">
-        Hi <span className="text-white font-bold">{name}</span>,
+        Hi <span className="text-white font-mono font-bold">{name}</span>,
       </p>
       <p className="text-neutral-400 text-sm">
         you have <span className="font-bold">{points}</span>{" "}

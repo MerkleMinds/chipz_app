@@ -46,7 +46,7 @@ function Friend({ name, points, joinedAt }: IFriendProps) {
           <FaUser className="text-neutral-400" />
         </div>
         <div className="flex flex-col gap-1">
-          <h1 className="text-white font-bold text-sm">{name}</h1>
+          <h1 className="text-white font-bold text-sm font-mono">{name}</h1>
           <p className="text-neutral-400 text-xs">
             {joinedAt.toLocaleDateString()} -{" "}
             <span className="font-bold">{points}</span> points
@@ -64,32 +64,32 @@ function Friend({ name, points, joinedAt }: IFriendProps) {
 
 const friends: IFriendProps[] = [
   {
-    name: "Dennis R.",
+    name: "0xA1B2...C3D4",
     points: 100,
     joinedAt: new Date(),
   },
   {
-    name: "Kernighan B.",
+    name: "0xE5F6...G7H8",
     points: 200,
     joinedAt: new Date(),
   },
   {
-    name: "Ritchie D.",
+    name: "0xI9J0...K1L2",
     points: 300,
     joinedAt: new Date(),
   },
   {
-    name: "Thompson K.",
+    name: "0xM3N4...O5P6",
     points: 400,
     joinedAt: new Date(),
   },
   {
-    name: "Pike R.",
+    name: "0xQ7R8...S9T0",
     points: 500,
     joinedAt: new Date(),
   },
   {
-    name: "Lovelace A.",
+    name: "0xU1V2...W3X4",
     points: 600,
     joinedAt: new Date(),
   },
@@ -102,8 +102,7 @@ export default function Social() {
         <ShareURL />
       </div>
       <div className="flex flex-row gap-1 items-center">
-        <FaClipboardList className="text-bb-accent inline-block" />
-        <h1 className="text-white font-bold mx-1 font-just text-sm">Friends</h1>
+        <h3 className="text-lg">Friends</h3>
       </div>
       <div className="flex flex-col gap-2">
         {friends.map((friend, index) => (
