@@ -7,12 +7,20 @@ import {
   http,
   parseUnits,
 } from "viem";
-import { celoAlfajores } from "viem/chains";
+import { celo, celoAlfajores } from "viem/chains";
 import hackathonABI from "@/contracts/abi.json";
 
-type AllowedTokens = "cUSD" | "lHKTHN";
+type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN";
 
-const tokenMap: {
+const chainMap: {
+  [k in AllowedTokens]: typeof celo | typeof celoAlfajores;
+} = {
+  "cUSD": celo,
+  "cUSDt": celo,
+  "lHKTHN": celoAlfajores,
+};
+
+export const tokenMap: {
   [k in AllowedTokens]: {
     address: `0x${string}`;
     decimals: number;
@@ -20,6 +28,24 @@ const tokenMap: {
   };
 } = {
   "cUSD": {
+    address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
+    decimals: 0,
+    abi: [{
+      type: "function",
+      stateMutability: "nonpayable",
+      payable: false,
+      outputs: [
+        { "type": "bool", "name": "", "internalType": "bool" },
+      ],
+      name: "transfer",
+      inputs: [
+        { type: "address", name: "to", internalType: "address" },
+        { type: "uint256", name: "value", internalType: "uint256" },
+      ],
+      constant: false,
+    }],
+  },
+  "cUSDt": {
     address: "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
     decimals: 0,
     abi: [{
@@ -46,10 +72,7 @@ const tokenMap: {
 
 export type Nullable<T> = T | null;
 
-export default function useTransaction(
-  token: AllowedTokens,
-  mock = false,
-): [
+export default function useTransaction(token: AllowedTokens): [
   { error: Nullable<string>; success: Nullable<boolean> },
   (to: `0x${string}`, amount: number) => Promise<void>,
 ] {
@@ -59,13 +82,13 @@ export default function useTransaction(
   const dispatch = async (to: `0x${string}`, amount: number) => {
     const client = window.ethereum
       ? createWalletClient({
-        chain: celoAlfajores,
+        chain: chainMap[token],
         transport: custom(window.ethereum),
       })
       : null;
 
     const publicClient = createPublicClient({
-      chain: celoAlfajores,
+      chain: chainMap[token],
       transport: http(),
     });
 
@@ -81,6 +104,13 @@ export default function useTransaction(
       [k in AllowedTokens]: { functionName: string; args: unknown[] };
     } = {
       "cUSD": {
+        functionName: "transfer",
+        args: [
+          to,
+          parseUnits(amount.toString(), 0),
+        ],
+      },
+      "cUSDt": {
         functionName: "transfer",
         args: [
           to,
@@ -125,10 +155,5 @@ export default function useTransaction(
     }
   };
 
-  const fn = async () => {
-    setSuccess(true);
-    setError(null);
-  };
-
-  return [{ error, success }, mock ? fn : dispatch];
+  return [{ error, success }, dispatch];
 }
