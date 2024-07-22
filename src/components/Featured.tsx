@@ -14,14 +14,12 @@ const featured: IMatchv2[] = [
     kind: "Basketball",
     left: {
       team: "Utah Jazz",
-      image:
-        "https://cdn.inspireuplift.com/uploads/images/seller_products/1684740301_jazz4.png",
+      image: "/utah_jazz.png",
       score: 45,
     },
     right: {
       team: "GS Warriors",
-      image:
-        "https://www.pngall.com/wp-content/uploads/13/Golden-State-Warriors-Logo.png",
+      image: "/warriors.png",
       score: 50,
     },
     odds: {
