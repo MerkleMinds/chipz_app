@@ -1,6 +1,6 @@
 "use client";
 
-import Accordion from "./Accordion";
+import Accordion from "@/components/events/Accordion";
 import { hashBet } from "@/components/bets/Betv2";
 import { useAppContext } from "@/components/Context";
 import { useState } from "react";
