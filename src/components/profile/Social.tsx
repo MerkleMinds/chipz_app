@@ -1,4 +1,4 @@
-import { FaClipboard, FaClipboardList, FaShare, FaUser } from "react-icons/fa6";
+import { FaClipboard, FaShare, FaUser } from "react-icons/fa6";
 
 import { hashBet } from "@/components/bets/Betv2";
 
