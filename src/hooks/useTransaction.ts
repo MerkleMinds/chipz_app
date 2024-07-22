@@ -29,7 +29,7 @@ export const tokenMap: {
 } = {
   "cUSD": {
     address: "0x765DE816845861e75A25fCA122bb6898B8B1282a",
-    decimals: 0,
+    decimals: 18,
     abi: [{
       type: "function",
       stateMutability: "nonpayable",
