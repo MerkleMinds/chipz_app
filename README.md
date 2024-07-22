@@ -1,11 +1,15 @@
 ![](/public/banner.png)
 
-BlockBet is a crypto-native sports betting platform integrated with **Minipay** and **Opera Mini**. This project aims to provide a seamless betting experience leveraging the **Celo** blockchain for low fees, scalability, and stablecoin transactions.
+BlockBet is a crypto-native sports betting platform integrated with **Minipay**
+and **Opera Mini**. This project aims to provide a seamless betting experience
+leveraging the **Celo** blockchain for low fees, scalability, and stablecoin
+transactions.
 
 # development
 
 > [!NOTE]\
-> Blockbet is in development and is not yet ready for production use. Check the staging environment [here](https://blockbet-staging.vercel.app/).
+> Blockbet is in development and is not yet ready for production use. Check the
+> staging environment [here](https://blockbet-staging.vercel.app/).
 
 1. Clone the repository.
 
@@ -30,4 +34,5 @@ pnpm install && pnpm dev
 
 # license
 
-This repository is licensed under the MIT License. See the [LICENSE](/LICENSE) file for more information.
+This repository is licensed under the MIT License. See the [LICENSE](/LICENSE)
+file for more information.
