@@ -117,45 +117,47 @@ export default function History() {
       </div>
       <h3 className="text-lg mb-4">Detailed Overview</h3>
       <div className="mb-16 flex flex-col gap-2">
-        {history.map((entry) => (
-          <div
-            className="w-full bg-gray-800 rounded-md p-2 flex items-center justify-between"
-            key={entry.id}
-          >
-            <div className="flex flex-row items-center gap-2">
-              <div className="bg-gray-900 p-1 rounded-md">
-                {entry.type === "deposit"
-                  ? <FaArrowRight className="text-neutral-400" />
-                  : <FaArrowLeft className="text-green-500" />}
+        {history.sort((a, b) => b.state.charCodeAt(1) - a.state.charCodeAt(1))
+          .map((entry) => (
+            <div
+              className="w-full bg-gray-800 rounded-md p-2 flex items-center justify-between"
+              key={entry.id}
+            >
+              <div className="flex flex-row items-center gap-2">
+                <div className="bg-gray-900 p-1 rounded-md">
+                  {entry.type === "deposit"
+                    ? <FaArrowRight className="text-neutral-400" />
+                    : <FaArrowLeft className="text-green-500" />}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm text-neutral-400">
+                    <span className="font-mono">{entry.time}</span> |{" "}
+                    {entry.type}
+                  </p>
+                  <p className="text-sm text-neutral-400">
+                    {entry.method
+                      .split("_")
+                      .map((m) => m.charAt(0).toUpperCase() + m.slice(1))
+                      .join(" ")}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <p className="text-sm text-neutral-400">
-                  <span className="font-mono">{entry.time}</span> | {entry.type}
-                </p>
-                <p className="text-sm text-neutral-400">
-                  {entry.method
-                    .split("_")
-                    .map((m) => m.charAt(0).toUpperCase() + m.slice(1))
-                    .join(" ")}
-                </p>
+              <div className="flex flex-row gap-2 items-center mx-2">
+                <div className="flex flex-col gap-2 items-end">
+                  <p
+                    className={`text-sm ${
+                      entry.state === "processed"
+                        ? "text-green-500"
+                        : "text-neutral-400"
+                    }`}
+                  >
+                    {entry.state}
+                  </p>
+                  <p className="text-sm">{entry.amount} $</p>
+                </div>
               </div>
             </div>
-            <div className="flex flex-row gap-2 items-center mx-2">
-              <div className="flex flex-col gap-2 items-end">
-                <p
-                  className={`text-sm ${
-                    entry.state === "processed"
-                      ? "text-green-500"
-                      : "text-neutral-400"
-                  }`}
-                >
-                  {entry.state}
-                </p>
-                <p className="text-sm">{entry.amount} $</p>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
