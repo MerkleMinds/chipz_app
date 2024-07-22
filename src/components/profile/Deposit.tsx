@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import useTransaction, { Nullable } from "@/hooks/useTransaction";
 
 import Image from "next/image";
-import { useAppContext } from "@/components/Context";
 
 export default function Deposit() {
   const [{ error, success }, dispatch] = useTransaction("cUSD");
@@ -14,7 +13,7 @@ export default function Deposit() {
   const [hide, setHide] = useState<boolean>(true);
   const [banner, setBanner] = useState<Nullable<string>>();
   const [processed, setProcessed] = useState<boolean>(false);
-  const { amount: [amount, setAmount] } = useAppContext();
+  const amount = 0; // FIXME: Add amount state
 
   useEffect(() => {
     switch (true) {
@@ -27,14 +26,14 @@ export default function Deposit() {
       }
       case success: {
         if (!processed) {
-          setBanner(`Deposited ${amount} $ via ${method}!`);
+          setBanner(`Successfully deposited via ${method}!`);
           setHide(true);
           setProcessed(true);
         }
         return;
       }
     }
-  }, [amount, method, success, processed]);
+  }, [method, success, processed]);
 
   return (
     <>
@@ -153,7 +152,7 @@ export default function Deposit() {
               amount,
             );
           }}
-          update={(n) => setAmount((o) => o + n)}
+          update={() => void 0}
           hide={() => setHide(true)}
           text={{
             title: `Deposit (${method})`,

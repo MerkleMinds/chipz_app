@@ -9,15 +9,14 @@ import { useEffect, useState } from "react";
 import useTransaction, { Nullable } from "@/hooks/useTransaction";
 
 import Image from "next/image";
-import { useAppContext } from "@/components/Context";
 
 export default function Withdraw() {
   const [banner, setBanner] = useState<Nullable<string>>();
   const [method, setMethod] = useState<Methods>();
   const [hide, setHide] = useState<boolean>(true);
-  const [{ error, success }, dispatch] = useTransaction("cUSD", true);
+  const [{ error, success }, dispatch] = useTransaction("cUSD");
   const [processed, setProcessed] = useState<boolean>(false);
-  const { amount: [amount, setAmount] } = useAppContext();
+  const amount = 0; // FIXME: Add amount state
 
   useEffect(() => {
     switch (true) {
@@ -36,7 +35,7 @@ export default function Withdraw() {
         return;
       }
     }
-  }, [amount, method, processed, success]);
+  }, [method, processed, success]);
 
   return (
     <>
@@ -105,7 +104,7 @@ export default function Withdraw() {
               amount,
             );
           }}
-          update={(n) => setAmount((o) => o - n)}
+          update={() => void 0}
           hide={() => setHide(true)}
           text={{
             title: `Withdraw (${method})`,

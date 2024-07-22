@@ -49,9 +49,9 @@ type AppProps = {
 export function AppContextProvider({ children }: AppProps) {
   const bets = useState<IBetSlipBet[]>([]);
   const show = useState<boolean>(false);
-  const amount = useState<number>(75);
+  const amount = useState<number>(0);
   const user = useState<Context["user"][0]>({} as Context["user"][0]);
-  const points = useState<number>(1255);
+  const points = useState<number>(0);
 
   return (
     <context.Provider

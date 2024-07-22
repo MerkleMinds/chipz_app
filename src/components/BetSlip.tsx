@@ -43,11 +43,7 @@ export default function Betslip() {
   const [expand, setExpand] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  const {
-    bets: [bets, setBets],
-    show: [show, setShow],
-    amount: [amount, setAmount],
-  } = useAppContext();
+  const { bets: [bets, setBets], show: [show, setShow] } = useAppContext();
 
   useEffect(() => {
     const body = document.querySelector("body")!;
@@ -146,9 +142,6 @@ export default function Betslip() {
                       setShow(false);
                       setExpand(false);
                       setQuantity(0);
-                      if (amount >= quantity) {
-                        setAmount((prev) => prev - quantity);
-                      }
                       setShowPopup(true);
                     }}
                     className="bg-bb-accent hover:bg-orange-600 text-white px-4 py-2 rounded-md w-full"
