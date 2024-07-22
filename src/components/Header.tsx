@@ -14,13 +14,13 @@ import {
   FaTrophy,
   FaUser,
 } from "react-icons/fa6";
-import { useEffect, useState } from "react";
 
 import Link from "next/link";
-import { useAppContext } from "@/components/Context";
-import useGetBalance from "@/hooks/useGetBalance";
 import { MdOutlineOpenInNew } from "react-icons/md";
+import { useAppContext } from "@/components/Context";
+import { useEffect } from "react";
 import useGetAddress from "@/hooks/useGetAddress";
+import useGetBalance from "@/hooks/useGetBalance";
 
 const sports = [
   { name: "Live", icon: FaBolt },
@@ -74,12 +74,6 @@ export default function Header() {
           {address
             ? (
               <div className="flex items-center gap-3">
-                <Link
-                  href="/profile"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-bb-accent text-bb-accent"
-                >
-                  Deposit
-                </Link>
                 <div className="flex items-center gap-2 flex-col">
                   <FaUser className="h-4 text-neutral-400" />
                   <span className="text-xs text-white font-semibold">
