@@ -107,7 +107,7 @@ export default function useTransaction(token: AllowedTokens): [
         functionName: "transfer",
         args: [
           to,
-          parseUnits(amount.toString(), 0),
+          parseUnits(amount.toString(), 18),
         ],
       },
       "cUSDt": {
