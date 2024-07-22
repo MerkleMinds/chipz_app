@@ -51,7 +51,7 @@ export function AppContextProvider({ children }: AppProps) {
   const show = useState<boolean>(false);
   const amount = useState<number>(0);
   const user = useState<Context["user"][0]>({} as Context["user"][0]);
-  const points = useState<number>(0);
+  const points = useState<number>(800);
 
   return (
     <context.Provider
