@@ -16,7 +16,7 @@ const chainMap: {
   [k in AllowedTokens]: typeof celo | typeof celoAlfajores;
 } = {
   "cUSD": celo,
-  "cUSDt": celo,
+  "cUSDt": celoAlfajores,
   "lHKTHN": celoAlfajores,
 };
 

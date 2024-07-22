@@ -31,7 +31,6 @@ export default function useGetBalance(): [
 
   return [
     balance,
-    (address: `0x${string}`) =>
-      check(address).then(setBalance).catch((err) => alert(err)),
+    (address: `0x${string}`) => check(address).then(setBalance),
   ];
 }

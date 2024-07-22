@@ -1,11 +1,14 @@
 "use client";
 
-import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { FaChevronDown, FaChevronUp, FaSpinner } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 
 import { FaTimes } from "react-icons/fa";
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
+import useGetAddress from "@/hooks/useGetAddress";
+import useTransaction from "@/hooks/useTransaction";
+import useGetBalance from "@/hooks/useGetBalance";
 
 export interface IBetSlipBet {
   id: string;
@@ -43,12 +46,45 @@ export default function Betslip() {
   const [expand, setExpand] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  const { bets: [bets, setBets], show: [show, setShow] } = useAppContext();
+  const {
+    bets: [bets, setBets],
+    show: [show, setShow],
+    amount: [, setAmount],
+  } = useAppContext();
+  const [{ error, success }, dispatch] = useTransaction("cUSD");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const address = useGetAddress();
+  const [balance, getBalance] = useGetBalance();
+  const [placedBet, setPlacedBet] = useState<boolean>(false);
+  const [isPlacingBet, setIsPlacingBet] = useState<boolean>(false);
 
   useEffect(() => {
     const body = document.querySelector("body")!;
     body.style.overflow = expand ? "hidden" : "auto";
   }, [expand]);
+
+  useEffect(() => {
+    setAmount(balance);
+  }, [balance, setAmount]);
+
+  useEffect(() => {
+    if (!address || !placedBet) {
+      return;
+    }
+
+    if (!error) {
+      setBets([]);
+      setShow(false);
+      setExpand(false);
+      setQuantity(0);
+      setShowPopup(true);
+      getBalance(address);
+    } else {
+      setErrorMessage(error);
+    }
+    setPlacedBet(false);
+    setIsPlacingBet(false);
+  }, [error, setBets, setShow, success, getBalance, address, placedBet]);
 
   const handleClose = () => {
     if (bets.length === 0) {
@@ -56,6 +92,8 @@ export default function Betslip() {
       setExpand(false);
     } else {
       setExpand(false);
+      setErrorMessage("");
+      setQuantity(0);
     }
   };
 
@@ -66,12 +104,18 @@ export default function Betslip() {
     }
   }, [bets, setShow]);
 
+  const handlePlaceBet = async () => {
+    setIsPlacingBet(true);
+    await dispatch("0x6E2D3e6a1D03f196f86311F773abC019Eb098fD9", quantity);
+    setPlacedBet(true);
+  };
+
   return (
     <>
       {show && (
         <>
           <div
-            className={`fixed bottom-0 w-[24rem] bg-gray-700 text-white flex justify-center items-end z-[150] transition-opacity mb-16`}
+            className={`fixed bottom-0 w-[24rem] bg-gray-700 text-white flex justify-center items-end z-[150] transition-all duration-300 mb-16`}
           >
             <div className="flex items-center justify-between w-full p-4">
               <div className="flex items-center gap-2">
@@ -133,20 +177,30 @@ export default function Betslip() {
                       ).toFixed(2)} $
                     </p>
                   </div>
+                  {errorMessage && (
+                    <div className="flex flex-row justify-between items-center w-full overflow-scroll mx-auto">
+                      <p className="text-bb-error text-xs">{errorMessage}</p>
+                    </div>
+                  )}
                   <button
-                    onClick={() => {
-                      if (quantity <= 0) {
-                        return;
-                      }
-                      setBets([]);
-                      setShow(false);
-                      setExpand(false);
-                      setQuantity(0);
-                      setShowPopup(true);
-                    }}
-                    className="bg-bb-accent hover:bg-orange-600 text-white px-4 py-2 rounded-md w-full"
+                    disabled={!address || quantity <= 0 || isPlacingBet}
+                    onClick={handlePlaceBet}
+                    className={`${
+                      address
+                        ? "bg-bb-accent hover:bg-orange-600"
+                        : "bg-neutral-400 hover:bg-neutral-500"
+                    } text-white px-4 py-2 rounded-md w-full disabled:opacity-50 flex justify-center items-center gap-2`}
                   >
-                    Place Bet
+                    {isPlacingBet
+                      ? (
+                        <>
+                          <FaSpinner className="animate-spin" />
+                          Placing bet...
+                        </>
+                      )
+                      : (
+                        "Place Bet"
+                      )}
                   </button>
                 </div>
               </div>
