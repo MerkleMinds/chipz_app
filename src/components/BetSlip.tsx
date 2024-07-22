@@ -7,8 +7,8 @@ import { FaTimes } from "react-icons/fa";
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
 import useGetAddress from "@/hooks/useGetAddress";
-import useTransaction from "@/hooks/useTransaction";
 import useGetBalance from "@/hooks/useGetBalance";
+import useTransaction from "@/hooks/useTransaction";
 
 export interface IBetSlipBet {
   id: string;
