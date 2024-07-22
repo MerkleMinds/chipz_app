@@ -15,8 +15,10 @@ function Kind({ state, setState, kind, children }: IKind) {
   return (
     <div
       onClick={() => setState(kind)}
-      className={`py-1 px-2 rounded-md transition-all ${
-        state === kind ? "text-white" : "text-neutral-400"
+      className={`px-2 py-1 transition-colors duration-300 ease-in-out rounded-md text-xs ${
+        state === kind
+          ? "text-white bg-gray-800"
+          : "text-neutral-400 hover:text-white"
       }`}
     >
       {children}
@@ -31,15 +33,15 @@ interface IMenu {
 
 export default function Menu({ state, setState }: IMenu) {
   return (
-    <div className="w-full flex flex-row justify-evenly py-2">
+    <div className="w-full flex flex-row justify-evenly pt-2">
       <Kind state={state} setState={setState} kind={MenuState.LIVE}>
-        <p className="text-lg">Live</p>
+        <p className="text-sm">Live</p>
       </Kind>
       <Kind state={state} setState={setState} kind={MenuState.OPEN}>
-        <p className="text-lg">Open</p>
+        <p className="text-sm">Open</p>
       </Kind>
       <Kind state={state} setState={setState} kind={MenuState.SETTLED}>
-        <p className="text-lg">Settled</p>
+        <p className="text-sm">Settled</p>
       </Kind>
     </div>
   );
