@@ -1,4 +1,3 @@
-![](/public/banner.png)
 
 Chipz is a crypto-native sports betting platform integrated with **Minipay**
 and **Opera Mini**. This project aims to provide a seamless betting experience
