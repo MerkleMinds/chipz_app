@@ -1,0 +1,122 @@
+[
+    {
+        "id": 0,
+        "name": "Athletic Bilbao",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223989_1.png"
+    },
+    {
+        "id": 1,
+        "name": "Atletico Madrid",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_212592_1.png"
+    },
+    {
+        "id": 2,
+        "name": "CA Osasuna",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222204_1.png"
+    },
+    {
+        "id": 3,
+        "name": "CD Leganes",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_226066_1.png"
+    },
+    {
+        "id": 4,
+        "name": "Deportivo Alaves",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222835_1.png"
+    },
+    {
+        "id": 5,
+        "name": "Espanyol",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222310_1.png"
+    },
+    {
+        "id": 6,
+        "name": "FC Barcelona",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223259_1.png"
+    },
+    {
+        "id": 7,
+        "name": "Getafe CF",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222122_1.png"
+    },
+    {
+        "id": 8,
+        "name": "Gerona FC",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_229253_1.png"
+    },
+    {
+        "id": 9,
+        "name": "Rayo Vallecano",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223569_1.png"
+    },
+    {
+        "id": 10,
+        "name": "Celta de Vigo",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223051_1.png"
+    },
+    {
+        "id": 11,
+        "name": "Villareal CF",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223671_1.png"
+    },
+    {
+        "id": 12,
+        "name": "RCD Mallorca",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222423_1.png"
+    },
+    {
+        "id": 13,
+        "name": "Real Betis",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222527_1.png"
+    },
+    {
+        "id": 14,
+        "name": "Real Madrid",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_212591_1.png"
+    },
+    {
+        "id": 15,
+        "name": "Real Sociedad",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223351_1.png"
+    },
+    {
+        "id": 16,
+        "name": "Real Valladolid",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_225446_1.png"
+    },
+    {
+        "id": 17,
+        "name": "Sevilla FC",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223471_1.png"
+    },
+    {
+        "id": 18,
+        "name": "UD Las Palmas",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_229894_1.png"
+    },
+    {
+        "id": 19,
+        "name": "Valencia CF",
+        "kind": "Soccer",
+        "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222023_1.png"
+    }
+]

@@ -10,10 +10,14 @@ import {
   FaFutbol,
   FaGear,
   FaQuestion,
+  FaSpinner,
 } from "react-icons/fa6";
 
 import { hashBet } from "@/components/bets/Betv2";
 import { useAppContext } from "@/components/Context";
+import { perform, populate } from "@/utils/client";
+import { ExtractFrom } from "@/utils/types";
+import { useEffect, useState } from "react";
 
 export interface IMatchv2 {
   competition: string;
@@ -62,39 +66,6 @@ export const getIcon = (competition: string) => {
 
   return competitionIcons[competition];
 };
-
-const matchesv2: IMatchv2[] = [
-  {
-    competition: "Euro 2024",
-    elapsed: 63,
-    status: "2nd half",
-    kind: "1x2",
-    left: {
-      team: "Spain",
-      image: "/spain.png",
-      score: 3,
-    },
-    right: {
-      team: "Italy",
-      image: "/italy.png",
-      score: 1,
-    },
-    odds: {
-      left: {
-        odds: 1.14,
-        movement: 1,
-      },
-      draw: {
-        odds: 5.9,
-        movement: 1,
-      },
-      right: {
-        odds: 30.0,
-        movement: -1,
-      },
-    },
-  },
-];
 
 function Card(match: IMatchv2) {
   const { bets: [, setBets], show: [, setShow] } = useAppContext();
@@ -201,6 +172,22 @@ function Card(match: IMatchv2) {
 }
 
 export default function Live() {
+  const [live, setLive] = useState<
+    ExtractFrom<"all_events", "data"> | null
+  >();
+
+  useEffect(() => {
+    perform("all_events").then(populate(setLive));
+  }, []);
+
+  if (!live) {
+    return (
+      <div className="h-[150px] flex items-center justify-center border border-neutral-500 rounded-md mx-3 mt-3">
+        <FaSpinner className="animate-spin text-bb-accent mx-auto" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
@@ -208,7 +195,7 @@ export default function Live() {
         <h1 className="text-white font-bold mx-1 font-just text-sm">Live</h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar ">
-        {matchesv2.map((match, index) => (
+        {live["live"].map((match, index) => (
           <Card key={`live-${index}`} {...match} />
         ))}
       </div>

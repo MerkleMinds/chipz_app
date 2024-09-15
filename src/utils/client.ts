@@ -1,16 +1,17 @@
 import { z } from "zod";
 import schemas from "@/utils/schemas";
 
-const API_URL = "http://192.168.1.42:8000";
+const API_URL = "/api/";
 
 export const perform = async <T extends keyof typeof schemas>(
   action: T,
-  payload: z.infer<typeof schemas[T]["schema"]>,
+  payload?: z.infer<typeof schemas[T]["schema"]>,
   headers?: HeadersInit,
-): Promise<{
-  data?: z.infer<typeof schemas[T]["response"]>;
-  error?: string;
-}> => {
+): Promise<
+  {
+    data: z.infer<typeof schemas[T]["response"]>;
+  } | { error: string }
+> => {
   const valid = schemas[action].schema.safeParse(payload);
 
   if (!valid.success) {
@@ -32,3 +33,9 @@ export const perform = async <T extends keyof typeof schemas>(
 
   return { data: await response.json() };
 };
+
+export const populate = <T>(
+  setter: React.Dispatch<React.SetStateAction<T | null>>,
+) =>
+// deno-lint-ignore no-explicit-any
+(data: any) => "error" in data ? setter(null) : setter(data.data);

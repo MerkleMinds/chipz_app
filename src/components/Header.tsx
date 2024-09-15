@@ -68,7 +68,7 @@ export default function Header() {
     <header className="w-full bg-gray-900 shadow-lg">
       <div className="flex justify-between items-center px-4 py-2 pt-4 md:px-4">
         <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="BlockBet" width={100} height={100} />
+          <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
         <div className="flex items-center gap-2">
           {address

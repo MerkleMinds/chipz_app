@@ -99,13 +99,13 @@ export default function Footer() {
             <Link
               className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
               href="#"
-              aria-label="BlockBet"
+              aria-label="Chipz"
             >
-              <img src="/logo.png" alt="BlockBet" width={100} height={100} />
+              <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
             </Link>
 
             <div className="border-s border-neutral-700 ps-5 ms-5">
-              <p className="text-sm text-neutral-400">2024 BlockBet Co.</p>
+              <p className="text-sm text-neutral-400">2024 Chipz Co.</p>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import copy from "copy-to-clipboard";
 import { FaClipboard, FaShare, FaUser } from "react-icons/fa6";
 
 import { hashBet } from "@/components/bets/Betv2";
@@ -15,6 +16,7 @@ function ShareURL() {
       <div className="w-full rounded-md flex items-center flex-row gap-2">
         <input
           type="text"
+          id="share-url"
           className="w-full bg-gray-900 text-neutral-100 p-2 h-full rounded-md text-sm underline"
           value={`blockbet-staging.vercel.app/?ref=${
             hashBet({
@@ -24,8 +26,21 @@ function ShareURL() {
           }`}
           readOnly
         />
-        <button className="bg-gray-700 text-neutral-100 rounded-md p-2">
-          <FaClipboard />
+        <button
+          id="copy-btn"
+          className="bg-gray-700 text-neutral-100 rounded-md p-2"
+        >
+          <FaClipboard
+            onClick={() => {
+              const input = document.getElementById(
+                "share-url",
+              ) as HTMLInputElement;
+              const url = input.value;
+              copy(url);
+              const button = document.getElementById("copy-btn");
+              button?.classList.add("opacity-50");
+            }}
+          />
         </button>
       </div>
     </div>

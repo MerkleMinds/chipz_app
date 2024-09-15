@@ -1,0 +1,113 @@
+{
+  "competitions": [
+    {
+      "region": "Spain",
+      "league": "La Liga",
+      "image": "https://assets.laliga.com/assets/logos/LL_RGB_h_color/LL_RGB_h_color.png"
+    },
+    {
+      "region": "Europe",
+      "league": "Euro 2024",
+      "image": "/euro2024_dark.png"
+    },
+    {
+      "region": "England",
+      "league": "Premier League",
+      "image": "https://seeklogo.com/images/P/premier-league-new-logo-D22A0CE87E-seeklogo.com.png"
+    }
+  ],
+  "featured": [
+    {
+      "competition": "NBA 2024",
+      "elapsed": 45,
+      "status": "Tomorrow, 19:00",
+      "kind": "Basketball",
+      "left": {
+        "team": "Utah Jazz",
+        "image": "/utah_jazz.png",
+        "score": 45
+      },
+      "right": {
+        "team": "GS Warriors",
+        "image": "/warriors.png",
+        "score": 50
+      },
+      "odds": {
+        "left": {
+          "odds": 1.5,
+          "movement": 0.1
+        },
+        "draw": {
+          "odds": 2.5,
+          "movement": 0.1
+        },
+        "right": {
+          "odds": 3.5,
+          "movement": 0.1
+        }
+      }
+    },
+    {
+      "competition": "NFL 2024",
+      "elapsed": 15,
+      "status": "1st quarter",
+      "kind": "1x2",
+      "left": {
+        "team": "Giants",
+        "image": "/giants.svg",
+        "score": 7
+      },
+      "right": {
+        "team": "Browns",
+        "image": "/browns.svg",
+        "score": 3
+      },
+      "odds": {
+        "left": {
+          "odds": 1.8,
+          "movement": 1
+        },
+        "draw": {
+          "odds": 3.2,
+          "movement": 1
+        },
+        "right": {
+          "odds": 2.8,
+          "movement": -1
+        }
+      }
+    }
+  ],
+  "live": [
+    {
+      "competition": "Euro 2024",
+      "elapsed": 63,
+      "status": "2nd half",
+      "kind": "1x2",
+      "left": {
+        "team": "Spain",
+        "image": "/spain.png",
+        "score": 3
+      },
+      "right": {
+        "team": "Italy",
+        "image": "/italy.png",
+        "score": 1
+      },
+      "odds": {
+        "left": {
+          "odds": 1.14,
+          "movement": 1
+        },
+        "draw": {
+          "odds": 5.9,
+          "movement": 1
+        },
+        "right": {
+          "odds": 30.0,
+          "movement": -1
+        }
+      }
+    }
+  ]
+}

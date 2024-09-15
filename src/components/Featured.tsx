@@ -1,73 +1,12 @@
 "use client";
 
-import { FaCrown, FaFire, FaGear } from "react-icons/fa6";
-
 import { type IMatchv2 } from "@/components/Live";
 import { hashBet } from "@/components/bets/Betv2";
 import { useAppContext } from "@/components/Context";
-
-const featured: IMatchv2[] = [
-  {
-    competition: "NBA 2024",
-    elapsed: 45,
-    status: "Tomorrow, 19:00",
-    kind: "Basketball",
-    left: {
-      team: "Utah Jazz",
-      image: "/utah_jazz.png",
-      score: 45,
-    },
-    right: {
-      team: "GS Warriors",
-      image: "/warriors.png",
-      score: 50,
-    },
-    odds: {
-      left: {
-        odds: 1.5,
-        movement: 0.1,
-      },
-      draw: {
-        odds: 2.5,
-        movement: 0.1,
-      },
-      right: {
-        odds: 3.5,
-        movement: 0.1,
-      },
-    },
-  },
-  {
-    competition: "NFL 2024",
-    elapsed: 15,
-    status: "1st quarter",
-    kind: "1x2",
-    left: {
-      team: "Giants",
-      image: "/giants.svg",
-      score: 7,
-    },
-    right: {
-      team: "Browns",
-      image: "/browns.svg",
-      score: 3,
-    },
-    odds: {
-      left: {
-        odds: 1.8,
-        movement: 1,
-      },
-      draw: {
-        odds: 3.2,
-        movement: 1,
-      },
-      right: {
-        odds: 2.8,
-        movement: -1,
-      },
-    },
-  },
-];
+import { perform, populate } from "@/utils/client";
+import { ExtractFrom } from "@/utils/types";
+import { useEffect, useState } from "react";
+import { FaCrown, FaFire, FaGear, FaSpinner } from "react-icons/fa6";
 
 const days = 1;
 const hours = 12;
@@ -169,6 +108,22 @@ function Card(props: IMatchv2) {
 }
 
 export default function Featured() {
+  const [featured, setFeatured] = useState<
+    ExtractFrom<"all_events", "data"> | null
+  >();
+
+  useEffect(() => {
+    perform("all_events").then(populate(setFeatured));
+  }, []);
+
+  if (!featured) {
+    return (
+      <div className="h-[410px] flex items-center justify-center border border-neutral-500 rounded-md mx-3 mt-3">
+        <FaSpinner className="animate-spin text-bb-accent mx-auto" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col mx-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
@@ -178,7 +133,7 @@ export default function Featured() {
         </h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {featured.map((item, index) => (
+        {featured["featured"].map((item, index) => (
           <Card key={`featured-${index}`} {...item} />
         ))}
       </div>

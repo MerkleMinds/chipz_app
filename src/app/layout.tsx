@@ -11,7 +11,7 @@ import PrelineScript from "@/components/PrelineScript";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BlockBet",
+  title: "Chipz",
   description: "A blockchain-based betting platform",
 };
 

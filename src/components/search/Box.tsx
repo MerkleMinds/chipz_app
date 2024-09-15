@@ -15,7 +15,13 @@ import { useRouter } from "next/navigation";
 export type Item = {
   id: number;
   name: string;
-  kind: "Baseball" | "Basketball" | "Football" | "Hockey" | "Soccer" | "Euro";
+  kind:
+    | "Baseball"
+    | "Basketball"
+    | "Football"
+    | "Hockey"
+    | "Soccer"
+    | "Euro";
 };
 
 const kindToIcon: {

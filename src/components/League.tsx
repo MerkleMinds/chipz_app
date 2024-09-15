@@ -1,4 +1,8 @@
-import { FaAnglesRight, FaTrophy } from "react-icons/fa6";
+"use client";
+import { perform, populate } from "@/utils/client";
+import { ExtractFrom } from "@/utils/types";
+import { useEffect, useState } from "react";
+import { FaAnglesRight, FaSpinner, FaTrophy } from "react-icons/fa6";
 
 interface ILeagueProps {
   region: string;
@@ -22,27 +26,23 @@ function Card({ region, league, image }: ILeagueProps) {
   );
 }
 
-const leagues: ILeagueProps[] = [
-  {
-    region: "Spain",
-    league: "La Liga",
-    image:
-      "https://assets.laliga.com/assets/logos/LL_RGB_h_color/LL_RGB_h_color.png",
-  },
-  {
-    region: "Europe",
-    league: "Euro 2024",
-    image: "/euro2024_dark.png",
-  },
-  {
-    region: "England",
-    league: "Premier League",
-    image:
-      "https://seeklogo.com/images/P/premier-league-new-logo-D22A0CE87E-seeklogo.com.png",
-  },
-];
-
 export default function League() {
+  const [competitions, setCompetitions] = useState<
+    ExtractFrom<"all_events", "data"> | null
+  >();
+
+  useEffect(() => {
+    perform("all_events").then(populate(setCompetitions));
+  }, []);
+
+  if (!competitions) {
+    return (
+      <div className="h-[157px] flex items-center justify-center border border-neutral-500 rounded-md mx-3 mt-3">
+        <FaSpinner className="animate-spin text-bb-accent mx-auto" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col mx-3 mt-3 gap-3 text-xs">
       <div className="flex flex-row gap-1 items-center">
@@ -52,7 +52,7 @@ export default function League() {
         </h1>
       </div>
       <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-        {leagues.map((item, index) => (
+        {competitions["competitions"].map((item, index) => (
           <Card
             key={`league-${index}`}
             {...item}

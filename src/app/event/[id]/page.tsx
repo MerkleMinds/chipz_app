@@ -1,35 +1,38 @@
 import Drawer, { type IDrawerProps } from "@/components/events/Drawer";
 import Players, { IPlayerProps } from "@/components/events/Players";
+import { faker } from "@faker-js/faker";
 
 import Accordion from "@/components/events/Accordion";
 import Banner from "@/components/events/Banner";
 import Footer from "@/components/Footer";
 import Menu from "@/components/events/Menu";
 
+import available from "@/utils/data/available.json" with { type: "json" };
+
 const oneXTwoData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full Time",
       data: [
-        { name: "Spain", odds: 1.5 },
+        { name: "Home", odds: 1.5 },
         { name: "X", odds: 2.2 },
-        { name: "Italy", odds: 3.3 },
+        { name: "Away", odds: 3.3 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain", odds: 1.9 },
+        { name: "Home", odds: 1.9 },
         { name: "X", odds: 2.5 },
-        { name: "Italy", odds: 3.1 },
+        { name: "Away", odds: 3.1 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain", odds: 1.5 },
+        { name: "Home", odds: 1.5 },
         { name: "X", odds: 2.2 },
-        { name: "Italy", odds: 3.3 },
+        { name: "Away", odds: 3.3 },
       ],
     },
   ],
@@ -40,22 +43,22 @@ const drawNoBetData: IDrawerProps["boxes"] = {
     {
       key: "Full Time",
       data: [
-        { name: "Spain", odds: 1.5 },
-        { name: "Italy", odds: 2.2 },
+        { name: "Home", odds: 1.5 },
+        { name: "Away", odds: 2.2 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain", odds: 1.9 },
-        { name: "Italy", odds: 2.5 },
+        { name: "Home", odds: 1.9 },
+        { name: "Away", odds: 2.5 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain", odds: 1.5 },
-        { name: "Italy", odds: 2.2 },
+        { name: "Home", odds: 1.5 },
+        { name: "Away", odds: 2.2 },
       ],
     },
   ],
@@ -66,25 +69,25 @@ const doubleChanceData: IDrawerProps["boxes"] = {
     {
       key: "Full time",
       data: [
-        { name: "Spain/X", odds: 1.5 },
-        { name: "Spain/Italy", odds: 2.2 },
-        { name: "X/Italy", odds: 3.3 },
+        { name: "Home/X", odds: 1.5 },
+        { name: "Home/Away", odds: 2.2 },
+        { name: "X/Away", odds: 3.3 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain/X", odds: 1.9 },
-        { name: "Spain/Italy", odds: 2.5 },
-        { name: "X/Italy", odds: 3.1 },
+        { name: "Home/X", odds: 1.9 },
+        { name: "Home/Away", odds: 2.5 },
+        { name: "X/Away", odds: 3.1 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain/X", odds: 1.5 },
-        { name: "Spain/Italy", odds: 2.2 },
-        { name: "X/Italy", odds: 3.3 },
+        { name: "Home/X", odds: 1.5 },
+        { name: "Home/Away", odds: 2.2 },
+        { name: "X/Away", odds: 3.3 },
       ],
     },
   ],
@@ -116,7 +119,7 @@ const bothTeamsToScoreData: IDrawerProps["boxes"] = {
   ],
 };
 
-const spainGoalData: IDrawerProps["boxes"] = {
+const homeGoalData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Over 0.5",
@@ -142,7 +145,7 @@ const spainGoalData: IDrawerProps["boxes"] = {
   ],
 };
 
-const italyGoalData: IDrawerProps["boxes"] = {
+const awayGoalData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Over 0.5",
@@ -205,22 +208,22 @@ const goalHandicapData: IDrawerProps["boxes"] = {
     {
       key: "Full time",
       data: [
-        { name: "Spain -1", odds: 1.5 },
-        { name: "Italy +1", odds: 2.2 },
+        { name: "Home -1", odds: 1.5 },
+        { name: "Away +1", odds: 2.2 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain -1", odds: 1.9 },
-        { name: "Italy +1", odds: 2.5 },
+        { name: "Home -1", odds: 1.9 },
+        { name: "Away +1", odds: 2.5 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain -1", odds: 1.5 },
-        { name: "Italy +1", odds: 2.2 },
+        { name: "Home -1", odds: 1.5 },
+        { name: "Away +1", odds: 2.2 },
       ],
     },
   ],
@@ -231,25 +234,25 @@ const handicapOneXTwoOneData: IDrawerProps["boxes"] = {
     {
       key: "Full time",
       data: [
-        { name: "Spain - 1", odds: 1.5 },
-        { name: "X - 1 (Italy)", odds: 2.2 },
-        { name: "Italy + 1", odds: 3.3 },
+        { name: "Home - 1", odds: 1.5 },
+        { name: "X - 1 (Away)", odds: 2.2 },
+        { name: "Away + 1", odds: 3.3 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain - 1", odds: 1.9 },
-        { name: "X - 1 (Italy)", odds: 2.5 },
-        { name: "Italy + 1", odds: 3.1 },
+        { name: "Home - 1", odds: 1.9 },
+        { name: "X - 1 (Away)", odds: 2.5 },
+        { name: "Away + 1", odds: 3.1 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain - 1", odds: 1.5 },
-        { name: "X - 1 (Italy)", odds: 2.2 },
-        { name: "Italy + 1", odds: 3.3 },
+        { name: "Home - 1", odds: 1.5 },
+        { name: "X - 1 (Away)", odds: 2.2 },
+        { name: "Away + 1", odds: 3.3 },
       ],
     },
   ],
@@ -260,25 +263,25 @@ const handicapOneXTwoTwoData: IDrawerProps["boxes"] = {
     {
       key: "Full time",
       data: [
-        { name: "Spain + 1", odds: 1.5 },
-        { name: "X - 1 (Italy)", odds: 2.2 },
-        { name: "Italy - 1", odds: 3.3 },
+        { name: "Home + 1", odds: 1.5 },
+        { name: "X - 1 (Away)", odds: 2.2 },
+        { name: "Away - 1", odds: 3.3 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain + 1", odds: 1.9 },
-        { name: "X - 1 (Italy)", odds: 2.5 },
-        { name: "Italy - 1", odds: 3.1 },
+        { name: "Home + 1", odds: 1.9 },
+        { name: "X - 1 (Away)", odds: 2.5 },
+        { name: "Away - 1", odds: 3.1 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain + 1", odds: 1.5 },
-        { name: "X - 1 (Italy)", odds: 2.2 },
-        { name: "Italy - 1", odds: 3.3 },
+        { name: "Home + 1", odds: 1.5 },
+        { name: "X - 1 (Away)", odds: 2.2 },
+        { name: "Away - 1", odds: 3.3 },
       ],
     },
   ],
@@ -289,22 +292,22 @@ const handicapOneXTwoHalfData: IDrawerProps["boxes"] = {
     {
       key: "Full time",
       data: [
-        { name: "Spain - 0.5", odds: 1.5 },
-        { name: "Italy + 0.5", odds: 3.3 },
+        { name: "Home - 0.5", odds: 1.5 },
+        { name: "Away + 0.5", odds: 3.3 },
       ],
     },
     {
       key: "1st Half",
       data: [
-        { name: "Spain - 0.5", odds: 1.9 },
-        { name: "Italy + 0.5", odds: 3.1 },
+        { name: "Home - 0.5", odds: 1.9 },
+        { name: "Away + 0.5", odds: 3.1 },
       ],
     },
     {
       key: "2nd Half",
       data: [
-        { name: "Spain - 0.5", odds: 1.5 },
-        { name: "Italy + 0.5", odds: 3.3 },
+        { name: "Home - 0.5", odds: 1.5 },
+        { name: "Away + 0.5", odds: 3.3 },
       ],
     },
   ],
@@ -313,17 +316,17 @@ const handicapOneXTwoHalfData: IDrawerProps["boxes"] = {
 const handicapTotalData: IDrawerProps["boxes"] = {
   sections: [
     {
-      key: "Spain",
+      key: "Home",
       data: [
-        { name: "Spain + 1", odds: 1.5 },
-        { name: "Spain - 1", odds: 2.2 },
+        { name: "Home + 1", odds: 1.5 },
+        { name: "Home - 1", odds: 2.2 },
       ],
     },
     {
-      key: "Italy",
+      key: "Away",
       data: [
-        { name: "Italy + 1", odds: 1.9 },
-        { name: "Italy - 1", odds: 2.5 },
+        { name: "Away + 1", odds: 1.9 },
+        { name: "Away - 1", odds: 2.5 },
       ],
     },
   ],
@@ -407,7 +410,7 @@ const combinedCornersData: IDrawerProps["boxes"] = {
   ],
 };
 
-const throwsInSpainData: IDrawerProps["boxes"] = {
+const throwsInHomeData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -439,7 +442,7 @@ const throwsInSpainData: IDrawerProps["boxes"] = {
   ],
 };
 
-const throwsInItalyData: IDrawerProps["boxes"] = {
+const throwsInAwayData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -471,7 +474,7 @@ const throwsInItalyData: IDrawerProps["boxes"] = {
   ],
 };
 
-const goalKickSpainData: IDrawerProps["boxes"] = {
+const goalKickHomeData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -503,7 +506,7 @@ const goalKickSpainData: IDrawerProps["boxes"] = {
   ],
 };
 
-const goalKickItalyData: IDrawerProps["boxes"] = {
+const goalKickAwayData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -535,7 +538,7 @@ const goalKickItalyData: IDrawerProps["boxes"] = {
   ],
 };
 
-const headGoalsSpainData: IDrawerProps["boxes"] = {
+const headGoalsHomeData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -567,7 +570,7 @@ const headGoalsSpainData: IDrawerProps["boxes"] = {
   ],
 };
 
-const headGoalsItalyData: IDrawerProps["boxes"] = {
+const headGoalsAwayData: IDrawerProps["boxes"] = {
   sections: [
     {
       key: "Full time",
@@ -602,19 +605,19 @@ const headGoalsItalyData: IDrawerProps["boxes"] = {
 const assistsData: IDrawerProps["boxes"] = {
   sections: [
     {
-      key: "First Assist - Spain",
+      key: "First Assist - Home",
       data: [
-        { name: "A. Morata", odds: 1.5 },
-        { name: "P. Sarabia", odds: 2.2 },
-        { name: "D. Olmo", odds: 3.3 },
+        { name: faker.person.fullName(), odds: 1.5 },
+        { name: faker.person.fullName(), odds: 2.2 },
+        { name: faker.person.fullName(), odds: 3.3 },
       ],
     },
     {
-      key: "First Assist - Italy",
+      key: "First Assist - Away",
       data: [
-        { name: "L. Insigne", odds: 1.9 },
-        { name: "C. Immobile", odds: 2.5 },
-        { name: "F. Chiesa", odds: 3.1 },
+        { name: faker.person.fullName(), odds: 1.9 },
+        { name: faker.person.fullName(), odds: 2.5 },
+        { name: faker.person.fullName(), odds: 3.1 },
       ],
     },
   ],
@@ -651,49 +654,49 @@ const lead15Data: IDrawerProps["boxes"] = {
     {
       key: "15'",
       data: [
-        { name: "Spain", odds: 1.5 },
+        { name: "Home", odds: 1.5 },
         { name: "X", odds: 2.2 },
-        { name: "Italy", odds: 3.3 },
+        { name: "Away", odds: 3.3 },
       ],
     },
     {
       key: "30'",
       data: [
-        { name: "Spain", odds: 1.9 },
+        { name: "Home", odds: 1.9 },
         { name: "X", odds: 2.5 },
-        { name: "Italy", odds: 3.1 },
+        { name: "Away", odds: 3.1 },
       ],
     },
     {
       key: "45'",
       data: [
-        { name: "Spain", odds: 1.5 },
+        { name: "Home", odds: 1.5 },
         { name: "X", odds: 2.2 },
-        { name: "Italy", odds: 3.3 },
+        { name: "Away", odds: 3.3 },
       ],
     },
     {
       key: "60'",
       data: [
-        { name: "Spain", odds: 1.9 },
+        { name: "Home", odds: 1.9 },
         { name: "X", odds: 2.5 },
-        { name: "Italy", odds: 3.1 },
+        { name: "Away", odds: 3.1 },
       ],
     },
     {
       key: "75'",
       data: [
-        { name: "Spain", odds: 1.5 },
+        { name: "Home", odds: 1.5 },
         { name: "X", odds: 2.2 },
-        { name: "Italy", odds: 3.3 },
+        { name: "Away", odds: 3.3 },
       ],
     },
     {
       key: "90'",
       data: [
-        { name: "Spain", odds: 1.9 },
+        { name: "Home", odds: 1.9 },
         { name: "X", odds: 2.5 },
-        { name: "Italy", odds: 3.1 },
+        { name: "Away", odds: 3.1 },
       ],
     },
   ],
@@ -867,20 +870,20 @@ const goalsData: {
   data: IDrawerProps["boxes"];
 }[] = [
   {
-    key: "Spain goals - over",
-    data: spainGoalData,
+    key: "Home goals - over",
+    data: homeGoalData,
   },
   {
-    key: "Italy goals - over",
-    data: italyGoalData,
+    key: "Away goals - over",
+    data: awayGoalData,
   },
   {
-    key: "Spain goals - under",
-    data: spainGoalData,
+    key: "Home goals - under",
+    data: homeGoalData,
   },
   {
-    key: "Italy goals - under",
-    data: italyGoalData,
+    key: "Away goals - under",
+    data: awayGoalData,
   },
   {
     key: "Total goals",
@@ -931,28 +934,28 @@ const extraData: {
     data: combinedCornersData,
   },
   {
-    key: "Throws in - Spain",
-    data: throwsInSpainData,
+    key: "Throws in - Home",
+    data: throwsInHomeData,
   },
   {
-    key: "Throws in - Italy",
-    data: throwsInItalyData,
+    key: "Throws in - Away",
+    data: throwsInAwayData,
   },
   {
-    key: "Goal kick - Spain",
-    data: goalKickSpainData,
+    key: "Goal kick - Home",
+    data: goalKickHomeData,
   },
   {
-    key: "Goal kick - Italy",
-    data: goalKickItalyData,
+    key: "Goal kick - Away",
+    data: goalKickAwayData,
   },
   {
-    key: "Head goals - Spain",
-    data: headGoalsSpainData,
+    key: "Head goals - Home",
+    data: headGoalsHomeData,
   },
   {
-    key: "Head goals - Italy",
-    data: headGoalsItalyData,
+    key: "Head goals - Away",
+    data: headGoalsAwayData,
   },
   {
     key: "First Assist",
@@ -986,52 +989,39 @@ const fifteenMinutesData: {
   },
 ];
 
-const spainPlayers: IPlayerProps["players"] = [
-  { name: "U. Simón" },
-  { name: "C. Azpilicueta" },
-  { name: "A. Laporte" },
-  { name: "P. Torres" },
-  { name: "J. Alba" },
-  { name: "S. Busquets" },
-  { name: "K. Resurrección" },
-  { name: "P. González" },
-  { name: "F. Torres" },
-  { name: "Á. Morata" },
-  { name: "D. Olmo" },
-  { name: "D. de Gea" },
-  { name: "E. García" },
-  { name: "R. Hernández" },
-  { name: "M. Oyarzabal" },
-  { name: "P. Sarabia" },
+const homePlayers: IPlayerProps["players"] = [
+  { name: faker.person.fullName() },
+  ...Array.from(
+    { length: 11 },
+    () => ({
+      name: faker.person.fullName(),
+    }),
+  ),
 ];
 
-const italyPlayers: IPlayerProps["players"] = [
-  { name: "G. Donnarumma" },
-  { name: "G. Di Lorenzo" },
-  { name: "L. Bonucci" },
-  { name: "G. Chiellini" },
-  { name: "L. Spinazzola" },
-  { name: "N. Barella" },
-  { name: "J. Frello" },
-  { name: "M. Verratti" },
-  { name: "F. Chiesa" },
-  { name: "C. Immobile" },
-  { name: "L. Insigne" },
-  { name: "S. Sirigu" },
-  { name: "A. Florenzi" },
-  { name: "M. Locatelli" },
-  { name: "A. Belotti" },
-  { name: "D. Berardi" },
+const awayPlayers: IPlayerProps["players"] = [
+  { name: faker.person.fullName() },
+  ...Array.from(
+    { length: 11 },
+    () => ({
+      name: faker.person.fullName(),
+    }),
+  ),
 ];
 
-export default function Page(_params: { params: { id: string } }) {
+export default function Page({ params: { id } }: { params: { id: string } }) {
+  const left = available.find((event) => event.id === +id)!;
+  const right = available.find((event) =>
+    event.id > available.length ? 1 : event.id === +id + 1
+  )!;
+
   return (
     <main className="flex flex-col gap-2 text-xs">
       <Banner
-        home={{ name: "Spain", url: "/spain.png" }}
-        away={{ name: "Italy", url: "/italy.png" }}
-        date="20/06/2024"
-        time="21:00"
+        home={{ name: left.name, url: left.image }}
+        away={{ name: right.name, url: right.image }}
+        date={new Date().toLocaleDateString()}
+        time={new Date().toLocaleTimeString()}
       />
       <Menu />
       <div className="flex flex-col overflow-x-scroll gap-3 no-scrollbar">
@@ -1092,12 +1082,12 @@ export default function Page(_params: { params: { id: string } }) {
           </div>
         </Accordion>
         <Players
-          team="Spain"
-          players={spainPlayers}
+          team="Home"
+          players={homePlayers}
         />
         <Players
-          team="Italy"
-          players={italyPlayers}
+          team="Away"
+          players={awayPlayers}
         />
       </div>
       <Footer />
