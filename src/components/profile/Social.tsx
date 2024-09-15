@@ -18,7 +18,7 @@ function ShareURL() {
           type="text"
           id="share-url"
           className="w-full bg-gray-900 text-neutral-100 p-2 h-full rounded-md text-sm underline"
-          value={`blockbet-staging.vercel.app/?ref=${
+          value={`chipz-staging.vercel.app/?ref=${
             hashBet({
               date: new Date("2024-01-31"),
               title: "Bet Title",

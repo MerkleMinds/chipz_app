@@ -1,6 +1,5 @@
-
-Chipz is a crypto-native sports betting platform integrated with **Minipay**
-and **Opera Mini**. This project aims to provide a seamless betting experience
+Chipz is a crypto-native sports betting platform integrated with **Minipay** and
+**Opera Mini**. This project aims to provide a seamless betting experience
 leveraging the **Celo** blockchain for low fees, scalability, and stablecoin
 transactions.
 
@@ -8,7 +7,7 @@ transactions.
 
 > [!NOTE]\
 > Chipz is in development and is not yet ready for production use. Check the
-> staging environment [here](https://blockbet-staging.vercel.app/).
+> staging environment [here](https://chipz-staging.vercel.app/).
 
 1. Clone the repository.
 
