@@ -3,6 +3,7 @@ import MarketBox, { type MarketItem } from "@/components/components/Market";
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
 import OnBuyClickBox, { type MarketSelectionItem } from "@/components/components/OnBuyClick";
 import MarketTrendsBox, { type MarketTrendItem} from "@/components/components/MarketTrendchart";
+import OrderBookBox, {type OrderBookItem} from "@/components/components/OrderBook";
 
 export default function Page() {
   return (
@@ -14,6 +15,8 @@ export default function Page() {
       <OnBuyClickBox selections={data.onBuyClickSelections as MarketSelectionItem[]} />
       <div className="my-5"></div>
       <MarketTrendsBox trends={data.marketTrends as MarketTrendItem[]} />
+      <div className="my-5"></div>
+      <OrderBookBox markets={data.orderBook as OrderBookItem[]} />
     </div>
   );
 }
