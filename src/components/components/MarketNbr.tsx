@@ -28,8 +28,8 @@ const MarketPrices = ({ marketData }: { marketData: MarketNbrItem["options"] }) 
                     <p className="text-white">{option.name}</p>
                     <div className="flex items-center space-x-2">
                         <p className="text-white font-bold">{option.probability}%</p>
-                        <button className="bg-green-200 text-green-700 px-2 py-1 rounded">Yes</button>
-                        <button className="bg-red-200 text-red-700 px-2 py-1 rounded">No</button>
+                        <button className="bg-green-600 text-white px-2 py-1 rounded">Yes</button>
+                        <button className="bg-red-600 text-white px-2 py-1 rounded">No</button>
                     </div>
                 </div>
             ))}
