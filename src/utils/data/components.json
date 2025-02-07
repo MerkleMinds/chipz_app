@@ -1,0 +1,276 @@
+{
+    "markets": [
+        {
+            "id": "m1",
+            "title": "Will Argentina win the FIFA World Cup 2026?",
+            "probability": 55,
+            "totalVolume": "$10M",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg"
+        },
+        {
+            "id": "m2",
+            "title": "Will Bitcoin reach $100K by 2025?",
+            "probability": 42,
+            "totalVolume": "$500M",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"
+        },
+        {
+            "id": "m3",
+            "title": "Will a human land on Mars before 2035?",
+            "probability": 30,
+            "totalVolume": "$50M",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Mars_map.JPG"
+        }
+    ],
+    "marketMultiChoice": [
+        {
+            "id": "mc1",
+            "title": "Who will win the 2025 Copa Libertadores?",
+            "totalVolume": "$10M",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+            "options": [
+                {
+                    "name": "Boca Juniors",
+                    "probability": 40
+                },
+                {
+                    "name": "River Plate",
+                    "probability": 35
+                },
+                {
+                    "name": "Flamengo",
+                    "probability": 25
+                }
+            ]
+        },
+        {
+            "id": "mc2",
+            "title": "Who will win the Super Bowl 2025?",
+            "totalVolume": "$1B",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/en/a/a2/NFL_logo.svg",
+            "options": [
+                {
+                    "name": "Kansas City Chiefs",
+                    "probability": 53
+                },
+                {
+                    "name": "Philadelphia Eagles",
+                    "probability": 47
+                }
+            ]
+        },
+        {
+            "id": "mc3",
+            "title": "Who will be the next U.S. President?",
+            "totalVolume": "$5B",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
+            "options": [
+                {
+                    "name": "Candidate A",
+                    "probability": 48
+                },
+                {
+                    "name": "Candidate B",
+                    "probability": 45
+                },
+                {
+                    "name": "Others",
+                    "probability": 7
+                }
+            ]
+        }
+    ],
+    "onBuyClickSelections": [
+        {
+            "id": "b1",
+            "title": "Will China invade Taiwan in 2025?",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_China.svg",
+            "multiplier": 7.692,
+            "betType": "yes"
+        },
+        {
+            "id": "b2",
+            "title": "Will a recession hit the U.S. in 2024?",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
+            "multiplier": 2.5,
+            "betType": "no"
+        },
+        {
+            "id": "b3",
+            "title": "Will Ethereum surpass Bitcoin in market cap by 2030?",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
+            "multiplier": 12.0,
+            "betType": "yes"
+        }
+    ],
+    "marketTrends": [
+        {
+            "id": "m1",
+            "question": "Will Argentina win the FIFA World Cup 2026?",
+            "currentChance": 55,
+            "chanceChange": "+3.2%",
+            "historicalData": [
+                {
+                    "date": "2023-01-01",
+                    "chance": 40
+                },
+                {
+                    "date": "2023-02-15",
+                    "chance": 42
+                },
+                {
+                    "date": "2023-03-01",
+                    "chance": 45
+                },
+                {
+                    "date": "2023-04-10",
+                    "chance": 48
+                },
+                {
+                    "date": "2023-05-05",
+                    "chance": 50
+                },
+                {
+                    "date": "2023-06-20",
+                    "chance": 52
+                },
+                {
+                    "date": "2023-07-12",
+                    "chance": 51
+                },
+                {
+                    "date": "2023-08-28",
+                    "chance": 53
+                },
+                {
+                    "date": "2023-09-03",
+                    "chance": 54
+                },
+                {
+                    "date": "2023-10-19",
+                    "chance": 55
+                },
+                {
+                    "date": "2023-11-07",
+                    "chance": 52
+                },
+                {
+                    "date": "2023-12-22",
+                    "chance": 53
+                },
+                {
+                    "date": "2024-01-05",
+                    "chance": 54
+                },
+                {
+                    "date": "2024-02-01",
+                    "chance": 50
+                },
+                {
+                    "date": "2024-02-02",
+                    "chance": 52
+                },
+                {
+                    "date": "2024-02-03",
+                    "chance": 53
+                },
+                {
+                    "date": "2024-02-04",
+                    "chance": 55
+                },
+                {
+                    "date": "2024-02-05",
+                    "chance": 51
+                },
+                {
+                    "date": "2024-02-06",
+                    "chance": 45
+                },
+                {
+                    "date": "2024-02-07",
+                    "chance": 50
+                }
+            ]
+        },
+        {
+            "id": "m2",
+            "question": "Will Bitcoin reach $100K by 2025?",
+            "currentChance": 42,
+            "chanceChange": "-1.5%",
+            "historicalData": [
+                {
+                    "date": "2023-01-15",
+                    "chance": 30
+                },
+                {
+                    "date": "2023-02-28",
+                    "chance": 35
+                },
+                {
+                    "date": "2023-03-08",
+                    "chance": 40
+                },
+                {
+                    "date": "2023-04-21",
+                    "chance": 45
+                },
+                {
+                    "date": "2023-05-03",
+                    "chance": 48
+                },
+                {
+                    "date": "2023-06-17",
+                    "chance": 50
+                },
+                {
+                    "date": "2023-07-09",
+                    "chance": 47
+                },
+                {
+                    "date": "2023-08-25",
+                    "chance": 42
+                },
+                {
+                    "date": "2023-09-12",
+                    "chance": 38
+                },
+                {
+                    "date": "2023-10-29",
+                    "chance": 35
+                },
+                {
+                    "date": "2023-11-05",
+                    "chance": 32
+                },
+                {
+                    "date": "2023-12-18",
+                    "chance": 37
+                },
+                {
+                    "date": "2024-01-02",
+                    "chance": 41
+                },
+                {
+                    "date": "2024-02-01",
+                    "chance": 44
+                },
+                {
+                    "date": "2024-02-02",
+                    "chance": 43
+                },
+                {
+                    "date": "2024-02-03",
+                    "chance": 40
+                },
+                {
+                    "date": "2024-02-04",
+                    "chance": 25
+                },
+                {
+                    "date": "2024-02-05",
+                    "chance": 40
+                }
+            ]
+        }
+    ]
+}
