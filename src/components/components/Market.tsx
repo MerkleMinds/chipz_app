@@ -64,21 +64,23 @@ export default function MarketBox({ markets }: IBoxProps) {
     return (
         <div className="flex flex-col space-y-4">
             {markets.map((market) => (
-                <div key={market.id} className="bg-gray-900 p-3 rounded-lg w-full ring-2 ring-white">
-                    <div className="flex items-center space-x-3">
-                        <img src={market.imageUrl} alt="flag" className="w-8 h-8 square-full" />
-                        <p className="text-white font-bold">{market.title}</p>
-                        <HalfCircleProgress probability={market.probability} />
+                <div key={market.id} className="w-full h-[200px] bg-gray-900 p-5 rounded-lg ring-2 ring-white flex flex-col justify-between">
+                    <div>
+                        <div className="flex items-center space-x-3">
+                            <img src={market.imageUrl} alt="flag" className="w-8 h-8 rounded-full" />
+                            <p className="text-white font-bold">{market.title}</p>
+                            <HalfCircleProgress probability={market.probability} />
+                        </div>
+                        <div className="flex justify-between items-center mt-4">
+                            <button className="bg-[#6BD932] px-4 py-2 mr-[5px] text-white rounded-lg font-bold flex-1">Buy Yes ↑</button>
+                            <button className="bg-[#FE4E4F] px-4 py-2 ml-[5px] text-white rounded-lg font-bold flex-1">Buy No ↓</button>
+                        </div>
                     </div>
-                    <div className="flex justify-between items-center mt-4">
-                        <button className="bg-green-600 px-4 py-2 mr-2 text-white rounded-lg font-bold flex-1">Buy Yes ↑</button>
-                        <button className="bg-red-600 px-4 py-2 ml-2 text-white rounded-lg font-bold flex-1">Buy No ↓</button>
-                    </div>
-                    <div className="flex justify-between items-center mt-2">
-                    <p className="text-gray-400 text-sm">{market.totalVolume} Vol.</p>
-                    <IconContext.Provider value={{ className: "text-white text-xl font-bold" }} >
-                        <CiBookmark />
-                    </IconContext.Provider>
+                    <div className="flex justify-between items-end">
+                        <p className="text-gray-400 text-sm">{market.totalVolume} Vol.</p>
+                        <IconContext.Provider value={{ className: "text-white text-xl font-bold" }} >
+                            <CiBookmark />
+                        </IconContext.Provider>
                     </div>
                 </div>
             ))}

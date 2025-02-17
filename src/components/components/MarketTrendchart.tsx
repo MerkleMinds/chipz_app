@@ -34,7 +34,7 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
                     const market = trends.find((m) => m.id === e.target.value);
                     if (market) setSelectedMarket(market);
                 }}
-                className="bg-gray-800 text-white p-2 rounded-lg w-full"
+                className="bg-gray-800 text-white rounded-lg w-full py-3 px-[10px]"
             >
                 {trends.map((market) => (
                     <option key={market.id} value={market.id}>
@@ -43,7 +43,7 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
                 ))}
             </select>
 
-            <div className="flex justify-between items-center bg-gray-800 p-3 rounded-lg">
+            <div className="flex justify-between items-center bg-gray-800 rounded-lg py-5 px-[10px]">
                 <div>
                     <p className="text-sm text-gray-400">Current Chance</p>
                     <p className="text-xl font-bold">{selectedMarket.currentChance}%</p>

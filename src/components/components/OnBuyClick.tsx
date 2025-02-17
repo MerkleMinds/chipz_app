@@ -15,7 +15,6 @@ export type BuyBoxProps = {
     selections: MarketSelectionItem[];
 };
 
-// New component to handle amount state for each item
 function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
     const [amount, setAmount] = useState(10);
 
@@ -25,8 +24,7 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
 
     return (
         <div className="mt-4">
-            {/* Input & Controls */}
-            <div className="bg-gray-800 p-2 rounded-lg flex items-center justify-between">
+            <div className="bg-gray-800 rounded-lg flex items-center justify-between py-[7px] px-[10px]">
                 <span className="text-lg">$</span>
                 <input
                     type="number"
@@ -45,7 +43,6 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
                 </div>
             </div>
 
-            {/* Slider */}
             <input
                 type="range"
                 min="1"
@@ -55,7 +52,6 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
                 className="w-full mt-3 accent-purple-500"
             />
 
-            {/* Buy Button */}
             <button className={`${selection.betType === "yes" ? "bg-green-600" : "bg-red-600"} text-white w-full py-3 rounded-lg text-lg mt-4 font-bold`}>
                 Buy {selection.betType === "yes" ? "Yes" : "No"}
                 <p className="text-sm font-normal">
@@ -66,13 +62,11 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
     );
 }
 
-// Main component that maps through selections
 export default function OnBuyClickBox({ selections }: BuyBoxProps) {
     return (
-        <div className="flex flex-col justify-center space-y-4 my-6">
+        <div className="flex flex-col space-y-4 justify-center">
             {selections.map((selection) => (
-                <div key={selection.id} className="bg-gray-900 text-white p-4 rounded-lg shadow-lg ring-2 ring-white">
-                    {/* Header */}
+                <div key={selection.id} className="bg-gray-900 text-white p-5 rounded-lg shadow-lg ring-2 ring-white">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                             <img src={selection.imageUrl} alt="Event" className="w-6 h-6 rounded-full" />
@@ -83,7 +77,6 @@ export default function OnBuyClickBox({ selections }: BuyBoxProps) {
                         </button>
                     </div>
 
-                    {/* Pass selection to BuyAmountControl */}
                     <BuyAmountControl selection={selection} />
                 </div>
             ))}
