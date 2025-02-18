@@ -64,7 +64,7 @@ export default function MarketBox({ markets }: IBoxProps) {
     return (
         <div className="flex flex-col space-y-4">
             {markets.map((market) => (
-                <div key={market.id} className="w-full h-[200px] bg-gray-900 p-5 rounded-lg ring-2 ring-white flex flex-col justify-between">
+                <div key={market.id} className="w-full h-[200px] p-5 flex flex-col justify-between border border-neutral-700 rounded-xl bg-gray-800">
                     <div>
                         <div className="flex items-center space-x-3">
                             <img src={market.imageUrl} alt="flag" className="w-8 h-8 rounded-full" />

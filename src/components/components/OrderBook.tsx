@@ -34,7 +34,7 @@ function MarketOrderBook({ market }: { market: OrderBookItem }) {
   const [tradeType, setTradeType] = useState<"yes" | "no">("yes");
 
   return (
-    <div className="mb-6 p-4 border border-gray-700 rounded-lg">
+    <div className="mb-6 p-4 border border-neutral-700 rounded-xl bg-gray-800">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-semibold">Order Book</h3>
         <div className="flex space-x-2">
@@ -65,7 +65,7 @@ function MarketOrderBook({ market }: { market: OrderBookItem }) {
           <span className="text-right">Total</span>
         </div>
 
-        <div className="text-red-500">
+        <div className="text-[#FE4E4F]">
           {market.asks.map((ask, index) => (
             <div key={index} className="grid grid-cols-4 px-2 py-1">
               <span className="text-left">Asks</span>
@@ -81,7 +81,7 @@ function MarketOrderBook({ market }: { market: OrderBookItem }) {
           <span className="text-right">Spread: {market.spread}</span>
         </div>
 
-        <div className="text-green-500">
+        <div className="text-[#6BD932]">
           {market.bids.map((bid, index) => (
             <div key={index} className="grid grid-cols-4 px-2 py-1">
               <span className="text-left">Bids</span>

@@ -25,7 +25,7 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
     };
 
     return (
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg space-y-4">
+        <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
             <h2 className="text-lg font-bold">Market Trends</h2>
 
             <select
@@ -34,7 +34,7 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
                     const market = trends.find((m) => m.id === e.target.value);
                     if (market) setSelectedMarket(market);
                 }}
-                className="bg-gray-800 text-white rounded-lg w-full py-3 px-[10px]"
+                className="text-white w-full py-3 px-[10px] border border-neutral-700 rounded-xl bg-gray-800"
             >
                 {trends.map((market) => (
                     <option key={market.id} value={market.id}>
@@ -43,23 +43,23 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
                 ))}
             </select>
 
-            <div className="flex justify-between items-center bg-gray-800 rounded-lg py-5 px-[10px]">
+            <div className="flex justify-between items-center py-5 px-[10px] border border-neutral-700 rounded-xl bg-gray-800">
                 <div>
                     <p className="text-sm text-gray-400">Current Chance</p>
                     <p className="text-xl font-bold">{selectedMarket.currentChance}%</p>
                 </div>
-                <p className={`text-lg font-semibold ${selectedMarket.chanceChange.startsWith("+") ? "text-green-400" : "text-red-400"}`}>
+                <p className={`text-lg font-semibold ${selectedMarket.chanceChange.startsWith("+") ? "text-[#6BD932]" : "text-[#FE4E4F]"}`}>
                     {selectedMarket.chanceChange}
                 </p>
             </div>
 
-            <div className="w-full h-64 bg-gray-800 p-4 rounded-lg">
+            <div className="w-full h-64 p-4 border border-neutral-700 rounded-xl bg-gray-800">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={filterData()}>
                         <XAxis dataKey="date" stroke="#ccc" />
                         <YAxis stroke="#ccc" />
                         <Tooltip />
-                        <Line type="monotone" dataKey="chance" stroke="#22c55e" strokeWidth={2} />
+                        <Line type="monotone" dataKey="chance" stroke={selectedMarket.chanceChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>
@@ -69,7 +69,7 @@ export default function MarketTrendsBox({ trends }: MarketTrendProps) {
                     <button
                         key={frame}
                         onClick={() => setTimeFrame(frame)}
-                        className={`px-3 py-2 rounded-lg ${timeFrame === frame ? "bg-blue-500" : "bg-gray-700"}`}
+                        className={`px-3 py-2 rounded-lg border border-neutral-700 ${timeFrame === frame ? "bg-blue-500" : "bg-gray-800"}`}
                     >
                         {frame}
                     </button>

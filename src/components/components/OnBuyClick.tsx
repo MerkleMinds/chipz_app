@@ -52,7 +52,7 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
                 className="w-full mt-3 accent-purple-500"
             />
 
-            <button className={`${selection.betType === "yes" ? "bg-green-600" : "bg-red-600"} text-white w-full py-3 rounded-lg text-lg mt-4 font-bold`}>
+            <button className={`${selection.betType === "yes" ? "bg-[#6BD932]" : "bg-[#FE4E4F]"} text-white w-full py-3 rounded-lg text-lg mt-4 font-bold`}>
                 Buy {selection.betType === "yes" ? "Yes" : "No"}
                 <p className="text-sm font-normal">
                     To win ${(amount * selection.multiplier).toFixed(2)}
@@ -66,7 +66,7 @@ export default function OnBuyClickBox({ selections }: BuyBoxProps) {
     return (
         <div className="flex flex-col space-y-4 justify-center">
             {selections.map((selection) => (
-                <div key={selection.id} className="bg-gray-900 text-white p-5 rounded-lg shadow-lg ring-2 ring-white">
+                <div key={selection.id} className="text-white p-5 border border-neutral-700 rounded-xl bg-gray-800">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                             <img src={selection.imageUrl} alt="Event" className="w-6 h-6 rounded-full" />
@@ -76,7 +76,6 @@ export default function OnBuyClickBox({ selections }: BuyBoxProps) {
                             <IoClose size={18} />
                         </button>
                     </div>
-
                     <BuyAmountControl selection={selection} />
                 </div>
             ))}
