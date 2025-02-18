@@ -1,38 +1,34 @@
 "use client";
 
 import {
-  FaBaseballBatBall,
-  FaBitcoinSign,
   FaBolt,
-  FaCalendarDay,
+  FaLandmark,
   FaFootball,
-  FaFutbol,
-  FaGift,
-  FaGolfBallTee,
+  FaBitcoin,
+  FaAt,
   FaMagnifyingGlass,
-  FaTableTennisPaddleBall,
-  FaTrophy,
   FaUser,
+  FaGift,
 } from "react-icons/fa6";
 
+import { FaWallet } from "react-icons/fa";
+
+import { IoBriefcaseOutline } from "react-icons/io5";
+
+
 import Link from "next/link";
-import { MdOutlineOpenInNew } from "react-icons/md";
 import { useAppContext } from "@/components/Context";
 import { useEffect } from "react";
 import useGetAddress from "@/hooks/useGetAddress";
 import useGetBalance from "@/hooks/useGetBalance";
 
 const sports = [
-  { name: "Live", icon: FaBolt },
-  { name: "Today", icon: FaCalendarDay },
-  { name: "Lossless", icon: FaBitcoinSign },
-  { name: "Promo", icon: FaGift },
-  { name: "NFL", icon: FaFootball },
-  { name: "Soccer", icon: FaFutbol },
-  { name: "Baseball", icon: FaBaseballBatBall },
-  { name: "Tennis", icon: FaTableTennisPaddleBall },
-  { name: "Golf", icon: FaGolfBallTee },
-  { name: "Euros", icon: FaTrophy },
+  { name: "Live", icon: FaBolt }, // Could also use FaBroadcast
+  { name: "Politics", icon: FaLandmark }, // Or FaScaleBalanced
+  { name: "Sports", icon: FaFootball },
+  { name: "Crypto", icon: FaBitcoin },
+  { name: "Business", icon: IoBriefcaseOutline }, // Or FaBriefcase
+  { name: "Mentions", icon: FaAt },
   { name: "Search", icon: FaMagnifyingGlass },
 ];
 
@@ -50,7 +46,9 @@ const Icon = ({
 );
 
 export default function Header() {
-  const { amount: [amount, setAmount] } = useAppContext();
+  const {
+    amount: [amount, setAmount],
+  } = useAppContext();
   const address = useGetAddress();
   const [balance, getBalance] = useGetBalance();
 
@@ -71,31 +69,25 @@ export default function Header() {
           <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
         <div className="flex items-center gap-2">
-          {address
-            ? (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 flex-col">
-                  <FaUser className="h-4 text-neutral-400" />
-                  <span className="text-xs text-white font-semibold">
-                    {amount.toFixed(2)} $
-                  </span>
-                </div>
+          <div className="h-7">
+            <FaGift className="h-full w-6 flex-grow text-white" />
+          </div>
+          {address ? (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 flex-col">
+                <FaUser className="h-4 text-neutral-400" />
+                <span className="text-xs text-white font-semibold">
+                  {amount.toFixed(2)} $
+                </span>
               </div>
-            )
-            : (
-              <>
-                <div className="flex items-center gap-3">
-                  <Link
-                    href="https://www.opera.com/es/products/minipay"
-                    className="relative py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border-2 border-neutral-400 text-neutral-400"
-                  >
-                    MiniPay
-
-                    <MdOutlineOpenInNew className="h-4 text-neutral-400" />
-                  </Link>
-                </div>
-              </>
-            )}
+            </div>
+          ) : (
+            <>
+              <div className="flex items-end h-7">
+                <FaWallet className="h-6 w-6 text-white"/>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="flex overflow-x-auto no-scrollbar p-4">
