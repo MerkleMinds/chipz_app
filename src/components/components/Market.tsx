@@ -91,12 +91,12 @@ export default function MarketBox({ markets }: IBoxProps) {
                 Buy No ↓
               </button>
             </div>
-            <div className="flex flex-row justify-between pt-2">
-              <p className="text-gray-400 text-xs">{market.totalVolume} Vol.</p>
+            <div className="flex flex-row justify-between mt-3">
+              <p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
               <IconContext.Provider
                 value={{ className: "text-white text-xl font-bold" }}
               >
-                <CiBookmark className="text-[16px]" />
+                <CiBookmark className="text-[14px]" />
               </IconContext.Provider>
             </div>
           </div>
