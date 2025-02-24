@@ -1,12 +1,13 @@
 import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 
-import { FaLandmark, FaFootball, FaPiggyBank } from "react-icons/fa6";
-import { CiSquareMore } from "react-icons/ci";
+import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
 
 import data from "@/utils/data/home.json" with { type: "json" };
+import MarketTrend from "@/components/components/MarketTrend";
+import MarketNbrBox, { MarketNbrItem } from "@/components/components/MarketNbr";
 
 interface PageProps {
     icon: JSX.Element;
@@ -14,18 +15,21 @@ interface PageProps {
     MarketComponent: JSX.Element;
 }
 
+
+
 const CompItem = ({ icon, logo, MarketComponent }: PageProps) => {
     return (
-        <div className="flex flex-col mx-3 mt-3 gap-3 text-xs">
+        <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-1 items-center">
                     {icon}
-                    <h1 className="text-white font-bold mx-1 font-just text-sm">
+                    <h1 className="text-white font-bold font-just text-sm">
                         {logo}
                     </h1>
                 </div>
-                <div className="flex items-center">
-                    <CiSquareMore className="text-white" />
+                <div className="flex flex-row gap-1 items-center text-xs text-bb-accent">
+                    <a href="#">See more</a>
+                    <FaAnglesRight />
                 </div>
             </div>
             {MarketComponent}
@@ -39,32 +43,22 @@ export default function Page() {
             <CompItem
                 icon={<FaLandmark className="text-bb-accent inline-block" />}
                 logo={<h1 className="text-white font-bold mx-1 font-just text-sm">Politics</h1>}
-                MarketComponent={<MarketBox markets={data.politics as MarketItem[]} />}
+                MarketComponent={<MarketTrend markets={data.politics} />}
             />
+
             <CompItem
                 icon={<FaFootball className="text-bb-accent inline-block" />}
                 logo={<h1 className="text-white font-bold mx-1 font-just text-sm">Sports</h1>}
                 MarketComponent={
-                    <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-                        {data.sports.map((item, index) => (
-                            <div key={item.id || index} className="flex flex-auto flex-grow-0 flex-shrink-0 w-[75%]">
-                                <MarketBox key={index} markets={[item] as MarketItem[]} />
-                            </div>
-                        ))}
-                    </div>
+                    <MarketNbrBox markets={data.sports as MarketNbrItem[]} />
                 }
             />
             <CompItem
                 icon={<FaPiggyBank className="text-bb-accent inline-block" />}
                 logo={<h1 className="text-white font-bold mx-1 font-just text-sm">Economy</h1>}
                 MarketComponent={
-                    <div className="flex overflow-x-scroll gap-3 no-scrollbar">
-                        {data.economy.map((item, index) => (
-                            <div key={item.id || index} className="flex flex-auto flex-grow-0 flex-shrink-0 w-[75%]">
-                                <MarketBox key={index} markets={[item] as MarketItem[]} />
-                            </div>
-                        ))}
-                    </div>
+                    <MarketNbrBox markets={data.economy as MarketNbrItem[]} />
+
                 }
             />
             <div className="flex flex-col mx-3 gap-3 text-xs">

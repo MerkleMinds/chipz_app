@@ -113,7 +113,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 			id: market.id,
 			title: market.title,
 			imageUrl: market.imageUrl,
-			multiplier: 2, // You can adjust this based on actual data
+			multiplier: 2,
 			betType
 		});
 	};
@@ -151,7 +151,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 					<div className="flex justify-between items-end mt-3">
 						<p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
 						<IconContext.Provider value={{ className: "text-white text-xl font-bold" }}>
-							<CiBookmark className="text-[14px]" />
+							<CiBookmark className="text-[12px]" />
 						</IconContext.Provider>
 					</div>
 				</div>

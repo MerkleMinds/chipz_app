@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { HalfCircleProgress } from '../HalfCircleProgress';
+
 export type PredictionPreviewItem = {
     id: string;
     title: string;
@@ -18,10 +20,10 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
             {predictions.map((prediction) => (
                 <div
                     key={prediction.id}
-                    className="w-full h-20 p-2 flex items-center justify-between border border-neutral-700 rounded-xl bg-gray-800"
+                    className="w-full h-20 p-5 flex items-center justify-between border border-neutral-700 rounded-xl bg-gray-800"
                 >
-                    <div className="flex items-center space-x-2">
-                        <div className="w-6 h-6 border border-neutral-600 rounded">
+                    <div className="flex items-center space-x-3">
+                        <div className="">
                             <img
                                 src={prediction.imageUrl}
                                 alt="flag"
@@ -32,8 +34,8 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
                             <h3 className="text-sm font-semibold text-white">{prediction.title}</h3>
                         </div>
                     </div>
-                    <div className="text-white">
-                        {prediction.probability}%
+                    <div className="">
+                        <HalfCircleProgress probability={prediction.probability} />
                     </div>
                 </div>
             ))}

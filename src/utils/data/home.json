@@ -1,57 +1,109 @@
 {
     "politics": [
         {
-            "id": "m1",
+            "id": "trump_tariff_canada",
             "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
-            "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+            "probability": 63,
+            "probabilityChange": "+5",
+            "image": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
+            "history": [
+                {
+                    "date": "2024-01-01",
+                    "probability": 50
+                },
+                {
+                    "date": "2024-01-05",
+                    "probability": 52
+                },
+                {
+                    "date": "2024-01-10",
+                    "probability": 51
+                },
+                {
+                    "date": "2024-01-15",
+                    "probability": 53
+                },
+                {
+                    "date": "2024-01-20",
+                    "probability": 55
+                },
+                {
+                    "date": "2024-01-25",
+                    "probability": 54
+                },
+                {
+                    "date": "2024-01-30",
+                    "probability": 56
+                },
+                {
+                    "date": "2024-02-05",
+                    "probability": 57
+                },
+                {
+                    "date": "2024-02-10",
+                    "probability": 59
+                },
+                {
+                    "date": "2024-02-15",
+                    "probability": 60
+                },
+                {
+                    "date": "2024-02-20",
+                    "probability": 61
+                },
+                {
+                    "date": "2024-02-22",
+                    "probability": 62
+                },
+                {
+                    "date": "2024-02-23",
+                    "probability": 63
+                }
+            ]
         }
     ],
     "sports": [
         {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
+            "id": "mc1",
+            "title": "Who will win the 2025 Copa Libertadores?",
             "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
-        },
-        {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
-            "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
-        },
-        {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
-            "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+            "options": [
+                {
+                    "name": "Boca Juniors",
+                    "probability": 40
+                },
+                {
+                    "name": "River Plate",
+                    "probability": 35
+                },
+                {
+                    "name": "Flamengo",
+                    "probability": 25
+                }
+            ]
         }
     ],
     "economy": [
         {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
+            "id": "mc1",
+            "title": "Who will win the 2025 Copa Libertadores?",
             "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
-        },
-        {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
-            "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
-        },
-        {
-            "id": "m1",
-            "title": "Will Trump remove tariff on Canada before May?",
-            "probability": 62,
-            "totalVolume": "$10M",
-            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+            "options": [
+                {
+                    "name": "Boca Juniors",
+                    "probability": 40
+                },
+                {
+                    "name": "River Plate",
+                    "probability": 35
+                },
+                {
+                    "name": "Flamengo",
+                    "probability": 25
+                }
+            ]
         }
     ],
     "economypreview": [

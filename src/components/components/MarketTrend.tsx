@@ -1,0 +1,78 @@
+"use client";
+
+import { useState } from "react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
+export type MarketTrendData = {
+    id: string;
+    title: string;
+    probability: number;
+    probabilityChange: string;
+    history: { date: string; probability: number }[];
+    image: string;
+};
+
+export type MarketTrendsProps = {
+    markets: MarketTrendData[];
+};
+
+export default function MarketTrend({ markets }: MarketTrendsProps) {
+    const selectedMarket = markets.length === 1 ? markets[0] : null;
+    const [timeRange, setTimeRange] = useState("1W");
+
+    const getFilteredHistory = (market: MarketTrendData) => {
+        const daysToShow = timeRange === "1D" ? 1 : timeRange === "1W" ? 7 : 30;
+        return market.history.slice(-daysToShow);
+    };
+
+    return (
+        <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
+            <h2 className="text-lg font-bold">Market Trends</h2>
+
+            {selectedMarket && (
+                <>
+                    <div>
+                        <div className="flex items-center space-x-3">
+                            <img
+                                src={selectedMarket.image}
+                                alt="flag"
+                                className="w-8 h-8 rounded-full"
+                            />
+                            <div className="flex justify-between grow">
+                                <div className="flex w-[60%] mr-auto items-center">
+                                    <p className="text-white font-bold text-xs">{selectedMarket.title}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex justify-between items-center pt-2 px-[10px]">
+                        <p className={`text-lg font-semibold  ${selectedMarket.probability > 45 ? "text-[#6BD932]" : "text-[#FE4E4F]"}`}>{selectedMarket.probability}%</p>
+                    </div>
+
+                    <div className="w-full h-64 p-4 border border-neutral-700 rounded-xl bg-gray-800">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={getFilteredHistory(selectedMarket)}>
+                                <XAxis dataKey="date" stroke="#ccc" />
+                                <YAxis stroke="#ccc" />
+                                <Tooltip />
+                                <Line type="monotone" dataKey="probability" stroke={selectedMarket.probabilityChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                </>
+            )}
+
+            <div className="flex justify-center space-x-3">
+                {["1D", "1W", "1M"].map((range) => (
+                    <button
+                        key={range}
+                        onClick={() => setTimeRange(range)}
+                        className={`px-3 py-2 rounded-lg border border-neutral-700 ${timeRange === range ? "bg-blue-500" : "bg-gray-800"}`}
+                    >
+                        {range}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+}
