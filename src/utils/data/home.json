@@ -1,0 +1,73 @@
+{
+    "politics": [
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        }
+    ],
+    "sports": [
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        },
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        },
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        }
+    ],
+    "economy": [
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        },
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        },
+        {
+            "id": "m1",
+            "title": "Will Trump remove tariff on Canada before May?",
+            "probability": 62,
+            "totalVolume": "$10M",
+            "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg"
+        }
+    ],
+    "economypreview": [
+        {
+            "id": "1",
+            "title": "US recession in 2025?",
+            "probability": 70.5,
+            "totalVolume": "$1,500,000",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png"
+        },
+        {
+            "id": "2",
+            "title": "AI will pass a Turing test by 2030?",
+            "probability": 85.2,
+            "totalVolume": "$800,000",
+            "imageUrl": "https://compote.slate.com/images/784c95e0-1b24-42d6-81ce-e74080897aa1.jpg"
+        }
+    ]
+}
