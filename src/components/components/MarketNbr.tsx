@@ -39,9 +39,9 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 }
 
 export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
-	if (!Array.isArray(markets)) return null;
-	
 	const { bets: [, setBets], show: [, setShow] } = useAppContext();
+	
+	if (!Array.isArray(markets)) return null;
 
 	const handleSelect = (market: MarketNbrItem, betType: "yes" | "no", probability: number) => {
 		if (!market?.id || !market?.title) return;

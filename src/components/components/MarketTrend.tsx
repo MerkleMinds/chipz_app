@@ -18,10 +18,11 @@ export type MarketTrendsProps = {
 };
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
+    const [timeRange, setTimeRange] = useState("1W");
+    
     if (!Array.isArray(markets)) return null;
     
     const selectedMarket = markets.length === 1 ? markets[0] : null;
-    const [timeRange, setTimeRange] = useState("1W");
 
     const getFilteredHistory = (market: MarketTrendData) => {
         if (!market?.history || !Array.isArray(market.history)) return [];
