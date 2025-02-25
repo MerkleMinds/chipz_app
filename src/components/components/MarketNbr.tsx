@@ -30,13 +30,15 @@ export type BuyBoxProps = {
 };
 
 function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["options"], onSelect: (betType: "yes" | "no") => void }) {
+	if (!Array.isArray(marketData)) return null;
+	
 	return (
 		<div className="flex flex-col w-full">
 			{marketData.map((option, index) => (
 				<div key={index} className="flex justify-between items-center my-1">
-					<p className="text-white text-xs">{option.name}</p>
+					<p className="text-white text-xs">{option?.name || 'Unknown'}</p>
 					<div className="flex items-center">
-						<p className="text-white font-bold text-xs">{option.probability}%</p>
+						<p className="text-white font-bold text-xs">{option?.probability ?? 0}%</p>
 						<div className="flex gap-x-2 ml-3">
 							<button onClick={() => onSelect("yes")} className="bg-[#6BD932] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
 							<button onClick={() => onSelect("no")} className="bg-[#FE4E4F] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
@@ -106,9 +108,13 @@ function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
 }
 
 export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
+	if (!Array.isArray(markets)) return null;
+	
 	const [selectedMarket, setSelectedMarket] = useState<MarketSelectionItem | null>(null);
 
 	const handleSelect = (market: MarketNbrItem, betType: "yes" | "no") => {
+		if (!market?.id || !market?.title || !market?.imageUrl) return;
+		
 		setSelectedMarket({
 			id: market.id,
 			title: market.title,

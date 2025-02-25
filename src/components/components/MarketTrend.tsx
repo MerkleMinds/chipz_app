@@ -18,50 +18,52 @@ export type MarketTrendsProps = {
 };
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
+    if (!Array.isArray(markets)) return null;
+    
     const selectedMarket = markets.length === 1 ? markets[0] : null;
     const [timeRange, setTimeRange] = useState("1W");
 
     const getFilteredHistory = (market: MarketTrendData) => {
+        if (!market?.history || !Array.isArray(market.history)) return [];
+        
         const daysToShow = timeRange === "1D" ? 1 : timeRange === "1W" ? 7 : 30;
         return market.history.slice(-daysToShow);
     };
 
+    if (!selectedMarket) return null;
+
     return (
         <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
-            {selectedMarket && (
-                <>
-                    <div>
-                        <div className="flex items-center space-x-3">
-                            <img
-                                src={selectedMarket.image}
-                                alt="flag"
-                                className="w-8 h-8 rounded-full"
-                            />
-                            <div className="flex justify-between grow">
-                                <div className="flex w-full mr-auto items-center">
-                                    <p className="text-white font-bold text-xs">{selectedMarket.title}</p>
-                                </div>
-                            </div>
-                            <div className="">
-                                <HalfCircleProgress probability={selectedMarket.probability} />
-                            </div>
+            <div>
+                <div className="flex items-center space-x-3">
+                    <img
+                        src={selectedMarket.image || ''}
+                        alt="flag"
+                        className="w-8 h-8 rounded-full"
+                    />
+                    <div className="flex justify-between grow">
+                        <div className="flex w-full mr-auto items-center">
+                            <p className="text-white font-bold text-xs">{selectedMarket.title}</p>
                         </div>
                     </div>
-                    <div className="w-full h-64 flex items-center justify-center">
-                        <ResponsiveContainer width="95%" height="100%">
-                            <LineChart 
-                                data={getFilteredHistory(selectedMarket)}
-                                margin={{ left: 0, right: 20, top: 10, bottom: 10 }}
-                            >
-                                <XAxis dataKey="date" stroke="#ccc" />
-                                <YAxis stroke="#ccc" />
-                                <Tooltip />
-                                <Line type="monotone" dataKey="probability" stroke={selectedMarket.probabilityChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                    <div className="">
+                        <HalfCircleProgress probability={selectedMarket.probability} />
                     </div>
-                </>
-            )}
+                </div>
+            </div>
+            <div className="w-full h-64 flex items-center justify-center">
+                <ResponsiveContainer width="95%" height="100%">
+                    <LineChart 
+                        data={getFilteredHistory(selectedMarket)}
+                        margin={{ left: 0, right: 20, top: 10, bottom: 10 }}
+                    >
+                        <XAxis dataKey="date" stroke="#ccc" />
+                        <YAxis stroke="#ccc" />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="probability" stroke={selectedMarket.probabilityChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
 
             <div className="flex justify-center space-x-3">
                 {["1D", "1W", "1M"].map((range) => (
