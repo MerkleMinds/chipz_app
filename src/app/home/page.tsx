@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 
 import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
-import MarketBox, { type MarketItem } from "@/components/components/Market";
+// import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
 
 import data from "@/utils/data/home.json" with { type: "json" };

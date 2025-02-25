@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { HalfCircleProgress } from "../HalfCircleProgress";
 
 export type MarketTrendData = {
     id: string;
@@ -27,8 +28,6 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
 
     return (
         <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
-            <h2 className="text-lg font-bold">Market Trends</h2>
-
             {selectedMarket && (
                 <>
                     <div>
@@ -39,17 +38,16 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
                                 className="w-8 h-8 rounded-full"
                             />
                             <div className="flex justify-between grow">
-                                <div className="flex w-[60%] mr-auto items-center">
+                                <div className="flex w-full mr-auto items-center">
                                     <p className="text-white font-bold text-xs">{selectedMarket.title}</p>
                                 </div>
                             </div>
+                            <div className="">
+                                <HalfCircleProgress probability={selectedMarket.probability} />
+                            </div>
                         </div>
                     </div>
-                    <div className="flex justify-between items-center pt-2 px-[10px]">
-                        <p className={`text-lg font-semibold  ${selectedMarket.probability > 45 ? "text-[#6BD932]" : "text-[#FE4E4F]"}`}>{selectedMarket.probability}%</p>
-                    </div>
-
-                    <div className="w-full h-64 p-4 border border-neutral-700 rounded-xl bg-gray-800">
+                    <div className="w-full h-64">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={getFilteredHistory(selectedMarket)}>
                                 <XAxis dataKey="date" stroke="#ccc" />
