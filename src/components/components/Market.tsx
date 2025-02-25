@@ -53,7 +53,7 @@ export default function MarketBox({ markets }: IBoxProps) {
             <div className="flex flex-row justify-between mt-3">
               <p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
               <IconContext.Provider
-                value={{ className: "text-white text-xl font-bold" }}
+                value={{ className: "text-white text-[12px] font-bold" }}
               >
                 <CiBookmark className="text-[12px]" />
               </IconContext.Provider>

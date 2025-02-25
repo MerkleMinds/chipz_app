@@ -1,8 +1,8 @@
 export const HalfCircleProgress = ({ probability }: { probability: number }) => {
     const radius = 30;
     const circumference = Math.PI * radius;
-    const progress = (probability / 100) * circumference;
-    const color = probability > 45 ? "green" : "red";
+    const progress = ((probability || 0) / 100) * circumference;
+    const color = (probability || 0) > 45 ? "green" : "red";
   
     return (
       <div className="relative w-[64px] h-[48px]">
@@ -25,13 +25,13 @@ export const HalfCircleProgress = ({ probability }: { probability: number }) => 
             stroke={color}
             strokeWidth="5"
             strokeDasharray={circumference * 0.8}
-            strokeDashoffset={circumference - progress * 0.8}
+            strokeDashoffset={`${circumference - progress * 0.8}`}
             strokeLinecap="round"
             transform="rotate(180, 32, 32)"
           />
         </svg>
         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white text-[10px] font-bold">
-          {probability}%
+          {probability || 0}%
         </div>
         <div className="absolute top-[65%] left-[50%] translate-x-[-50%] text-[8px] text-gray-300">
           chance

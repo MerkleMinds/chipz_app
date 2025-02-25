@@ -47,9 +47,12 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={getFilteredHistory(selectedMarket)}>
+                    <div className="w-full h-64 flex items-center justify-center">
+                        <ResponsiveContainer width="95%" height="100%">
+                            <LineChart 
+                                data={getFilteredHistory(selectedMarket)}
+                                margin={{ left: 0, right: 20, top: 10, bottom: 10 }}
+                            >
                                 <XAxis dataKey="date" stroke="#ccc" />
                                 <YAxis stroke="#ccc" />
                                 <Tooltip />
