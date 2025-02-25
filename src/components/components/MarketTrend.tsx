@@ -31,12 +31,17 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
         return market.history.slice(-daysToShow);
     };
 
+    const formatXAxis = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return `${date.getMonth() + 1}-${date.getDate()}`;
+    };
+
     if (!selectedMarket) return null;
 
     return (
-        <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
-            <div>
-                <div className="flex items-center space-x-3">
+        <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800">
+            <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-2">
                     <img
                         src={selectedMarket.image || ''}
                         alt="flag"
@@ -52,26 +57,26 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-64 flex items-center justify-center">
-                <ResponsiveContainer width="95%" height="100%">
+            <div className="w-full h-40 flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
                     <LineChart 
                         data={getFilteredHistory(selectedMarket)}
-                        margin={{ left: 0, right: 20, top: 10, bottom: 10 }}
+                        margin={{ left: -20, right: 20, top: 5, bottom: -5 }}
                     >
-                        <XAxis dataKey="date" stroke="#ccc" />
-                        <YAxis stroke="#ccc" />
+                        <XAxis dataKey="date" stroke="#ccc" tick={{ fontSize: 9 }} tickFormatter={formatXAxis} />
+                        <YAxis stroke="#ccc" tick={{ fontSize: 9 }} />
                         <Tooltip />
                         <Line type="monotone" dataKey="probability" stroke={selectedMarket.probabilityChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>
 
-            <div className="flex justify-center space-x-3">
+            <div className="flex justify-center space-x-1">
                 {["1D", "1W", "1M"].map((range) => (
                     <button
                         key={range}
                         onClick={() => setTimeRange(range)}
-                        className={`px-3 py-2 rounded-lg border border-neutral-700 ${timeRange === range ? "bg-blue-500" : "bg-gray-800"}`}
+                        className={`px-3 py-1 text-xs rounded border border-neutral-700 ${timeRange === range ? "bg-blue-600 text-white" : "bg-gray-800 text-gray-400"}`}
                     >
                         {range}
                     </button>

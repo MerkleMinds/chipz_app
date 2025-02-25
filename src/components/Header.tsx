@@ -40,7 +40,7 @@ const Icon = ({
   icon: React.ComponentType<{ size: number }>;
 }) => (
   <div className="flex items-center justify-center gap-1 flex-col min-w-10 max-w-10 text-neutral-400 hover:text-white transition-colors duration-300">
-    <IconComponent size={24} />
+    <IconComponent size={24} />               
     <span className="text-xs">{name}</span>
   </div>
 );
@@ -51,6 +51,10 @@ export default function Header() {
   } = useAppContext();
   const address = useGetAddress();
   const [balance, getBalance] = useGetBalance();
+  
+  // Ejemplo, hardcodeado
+  const giftNotifications = 1;
+  const walletNotifications = 3;
 
   useEffect(() => {
     if (address) {
@@ -64,29 +68,37 @@ export default function Header() {
 
   return (
     <header className="w-full bg-gray-900 shadow-lg">
-      <div className="flex justify-between items-center px-4 py-2 pt-4 md:px-4">
+      <div className="flex justify-between items-center px-4 py-3 md:px-6">
         <Link href="/" className="flex items-center">
           <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
-        <div className="flex items-center gap-2">
-          <div className="h-7">
-            <FaGift className="h-full w-6 flex-grow text-white" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded relative">
+            <FaGift className="text-bb-accent text-lg" />
+            {giftNotifications > 0 && (
+              <div className="absolute -top-1 -right-1 bg-bb-accent text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {giftNotifications}
+              </div>
+            )}
           </div>
           {address ? (
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 flex-col">
-                <FaUser className="h-4 text-neutral-400" />
-                <span className="text-xs text-white font-semibold">
-                  {amount.toFixed(2)} $
-                </span>
+              <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded-full">
+                <FaUser className="text-white text-lg" />
               </div>
+              <span className="text-sm text-white font-semibold">
+                {amount.toFixed(2)} $
+              </span>
             </div>
           ) : (
-            <>
-              <div className="flex items-end h-7">
-                <FaWallet className="h-6 w-6 text-white"/>
-              </div>
-            </>
+            <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded relative">
+              <FaWallet className="text-white text-lg" />
+              {walletNotifications > 0 && (
+                <div className="absolute -top-1 -right-1 bg-bb-accent text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                  {walletNotifications}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
