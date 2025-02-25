@@ -1,7 +1,7 @@
 import data from "@/utils/data/components.json" with { type: "json" };
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
-import MarketTrendsBox, { type MarketTrendItem} from "@/components/components/MarketTrendchart";
+import MarketTrendsBox, { type MarketTrendItem} from "@/components/components/MarketTrendschart";
 import OrderBookBox, {type OrderBookItem} from "@/components/components/OrderBook";
 
 export default function Page() {

@@ -2,8 +2,8 @@
 
 import { CiBookmark } from "react-icons/ci";
 import { IconContext } from "react-icons";
-import { useState } from "react";
-import { IoClose } from "react-icons/io5";
+import { useAppContext } from "@/components/Context";
+import { hashBet } from "@/components/bets/Betv2";
 
 export type MarketNbrItem = {
 	id: string;
@@ -17,29 +17,19 @@ export type MarketNbrBoxProps = {
 	markets: MarketNbrItem[];
 };
 
-export type MarketSelectionItem = {
-	id: string;
-	title: string;
-	imageUrl: string;
-	multiplier: number;
-	betType: "yes" | "no";
-};
-
-export type BuyBoxProps = {
-	selections: MarketSelectionItem[];
-};
-
-function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["options"], onSelect: (betType: "yes" | "no") => void }) {
+function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["options"], onSelect: (betType: "yes" | "no", probability: number) => void }) {
+	if (!Array.isArray(marketData)) return null;
+	
 	return (
 		<div className="flex flex-col w-full">
 			{marketData.map((option, index) => (
 				<div key={index} className="flex justify-between items-center my-1">
-					<p className="text-white text-xs">{option.name}</p>
+					<p className="text-white text-xs">{option?.name || 'Unknown'}</p>
 					<div className="flex items-center">
-						<p className="text-white font-bold text-xs">{option.probability}%</p>
+						<p className="text-white font-bold text-xs">{option?.probability ?? 0}%</p>
 						<div className="flex gap-x-2 ml-3">
-							<button onClick={() => onSelect("yes")} className="bg-[#6BD932] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
-							<button onClick={() => onSelect("no")} className="bg-[#FE4E4F] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
+							<button onClick={() => onSelect("yes", option.probability)} className="bg-[#6BD932] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
+							<button onClick={() => onSelect("no", option.probability)} className="bg-[#FE4E4F] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
 						</div>
 					</div>
 				</div>
@@ -48,74 +38,30 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 	);
 }
 
-function BuyAmountControl({ selection }: { selection: MarketSelectionItem }) {
-	const [amount, setAmount] = useState(10);
-
-	const handleAmountChange = (value: number) => {
-		if (value >= 1) setAmount(value);
-	};
-
-	return (
-		<div className="mt-4 text-white">
-			<div className="flex flex-row gap-x-4">
-				<div className="flex flex-1 flex-row items-center border border-neutral-300 rounded-lg px-3 py-2 w-40 text-white">
-					<div>
-						<span className="text-white">$</span>
-						<input
-							type="number"
-							value={amount}
-							min="1"
-							onChange={(e) => handleAmountChange(Number(e.target.value))}
-							className="bg-transparent w-[35%] text-center focus:outline-none"
-						/>
-					</div>
-					<div className="space-x-1 flex flex-row">
-						<button
-							onClick={() => handleAmountChange(amount + 1)}
-							className="bg-gray-600 px-2 py-1 rounded text-sm"
-						>
-							+1
-						</button>
-						<button
-							onClick={() => handleAmountChange(amount + 10)}
-							className="bg-gray-600 px-2 py-1 rounded text-sm"
-						>
-							+10
-						</button>
-					</div>
-				</div>
-				<div className=" flex flex-1 items-center">
-					<input
-						type="range"
-						min="1"
-						max="100"
-						value={amount}
-						onChange={(e) => handleAmountChange(Number(e.target.value))}
-						className="w-full accent-purple-500"
-					/>
-				</div>
-			</div>
-			<button className={`${selection.betType === "yes" ? "bg-[#6BD932]" : "bg-[#FE4E4F]"} text-white w-full py-3 rounded-lg text-lg mt-4 font-bold`}>
-				Buy {selection.betType === "yes" ? "Yes" : "No"}
-				<p className="text-sm font-normal">
-					To win ${(amount * selection.multiplier).toFixed(2)}
-				</p>
-			</button>
-		</div>
-	);
-}
-
 export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
-	const [selectedMarket, setSelectedMarket] = useState<MarketSelectionItem | null>(null);
+	if (!Array.isArray(markets)) return null;
+	
+	const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
-	const handleSelect = (market: MarketNbrItem, betType: "yes" | "no") => {
-		setSelectedMarket({
-			id: market.id,
-			title: market.title,
-			imageUrl: market.imageUrl,
-			multiplier: 2, // You can adjust this based on actual data
-			betType
-		});
+	const handleSelect = (market: MarketNbrItem, betType: "yes" | "no", probability: number) => {
+		if (!market?.id || !market?.title) return;
+		
+		const selectedOption = market.options.find(opt => opt.probability === probability);
+		if (!selectedOption) return;
+
+		const bet = {
+			id: hashBet({
+				date: new Date(),
+				title: market.title,
+			}),
+			chosen: selectedOption.name,
+			bet: betType,
+			match: market.title,
+			odds: probability,
+		};
+
+		setBets((bets) => [bet, ...bets]);
+		setShow(true);
 	};
 
 	return (
@@ -127,31 +73,21 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 							<img
 								src={market.imageUrl}
 								alt="flag"
-								className={`rounded-full transition-all duration-300 ${selectedMarket === null ? "w-8 h-8" : "w-6 h-6"
-									}`}
+								className="w-8 h-8 rounded-full"
 							/>
 							<p className="text-white font-bold text-xs">{market.title}</p>
-							{selectedMarket?.id === market.id && (
-								<div className="flex grow justify-end">
-									<button className="text-gray-400 hover:text-white" onClick={() => setSelectedMarket(null)}>
-										<IoClose size={18} />
-									</button>
-								</div>
-							)}
 						</div>
 						<div className="mt-4">
-							{selectedMarket?.id === market.id ? (
-								<BuyAmountControl selection={selectedMarket} />
-
-							) : (
-								<MarketPrices marketData={market.options} onSelect={(betType) => handleSelect(market, betType)} />
-							)}
+							<MarketPrices 
+								marketData={market.options} 
+								onSelect={(betType, probability) => handleSelect(market, betType, probability)} 
+							/>
 						</div>
 					</div>
 					<div className="flex justify-between items-end mt-3">
 						<p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
-						<IconContext.Provider value={{ className: "text-white text-xl font-bold" }}>
-							<CiBookmark className="text-[14px]" />
+						<IconContext.Provider value={{ className: "text-white text-[12px] font-bold" }}>
+							<CiBookmark className="text-[12px]" />
 						</IconContext.Provider>
 					</div>
 				</div>

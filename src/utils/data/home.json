@@ -1,0 +1,123 @@
+{
+    "categories": [
+        {
+            "title": "Politics",
+            "data": [
+                {
+                    "type": "trend",
+                    "id": "trump_tariff_canada",
+                    "title": "Will Trump remove tariff on Canada before May?",
+                    "probability": 63,
+                    "probabilityChange": "+5",
+                    "image": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
+                    "history": [
+                        {
+                            "date": "2023-12-01",
+                            "probability": 45
+                        },
+                        {
+                            "date": "2023-12-15",
+                            "probability": 48
+                        },
+                        {
+                            "date": "2024-01-01",
+                            "probability": 50
+                        },
+                        {
+                            "date": "2024-01-15",
+                            "probability": 55
+                        },
+                        {
+                            "date": "2024-02-01",
+                            "probability": 58
+                        },
+                        {
+                            "date": "2024-02-15",
+                            "probability": 60
+                        },
+                        {
+                            "date": "2024-02-23",
+                            "probability": 63
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Sports",
+            "data": [
+                {
+                    "type": "number",
+                    "id": "mc1",
+                    "title": "Who will win the 2025 Copa Libertadores?",
+                    "totalVolume": "$10M",
+                    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+                    "options": [
+                        {
+                            "name": "Palmeiras",
+                            "probability": 30
+                        },
+                        {
+                            "name": "Flamengo",
+                            "probability": 28
+                        },
+                        {
+                            "name": "River Plate",
+                            "probability": 25
+                        },
+                        {
+                            "name": "Boca Juniors",
+                            "probability": 17
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Economy",
+            "data": [
+                {
+                    "type": "number",
+                    "id": "fed_rates",
+                    "title": "Fed interest rate by end of 2024?",
+                    "totalVolume": "$15M",
+                    "imageUrl": "https://gdb.voanews.com/05d4e627-a082-4695-a8f4-7cdd90ce29f1_w408_r1_s.jpg",
+                    "options": [
+                        {
+                            "name": "Above 5.5%",
+                            "probability": 15
+                        },
+                        {
+                            "name": "4.5% - 5.5%",
+                            "probability": 35
+                        },
+                        {
+                            "name": "3.5% - 4.5%",
+                            "probability": 40
+                        },
+                        {
+                            "name": "Below 3.5%",
+                            "probability": 10
+                        }
+                    ]
+                },
+                {
+                    "type": "preview",
+                    "id": "1",
+                    "title": "US recession in 2025?",
+                    "probability": 70.5,
+                    "totalVolume": "$1,500,000",
+                    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png"
+                },
+                {
+                    "type": "preview",
+                    "id": "2",
+                    "title": "AI will pass a Turing test by 2030?",
+                    "probability": 85.2,
+                    "totalVolume": "$800,000",
+                    "imageUrl": "https://compote.slate.com/images/784c95e0-1b24-42d6-81ce-e74080897aa1.jpg"
+                }
+            ]
+        }
+    ]
+}
