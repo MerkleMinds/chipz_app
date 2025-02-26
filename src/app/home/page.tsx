@@ -13,43 +13,93 @@ interface HomeData {
 
 const data = rawData as HomeData;
 
-type CategoryItemUnion = (MarketTrendData & { type: 'trend' }) | 
-                        (MarketNbrItem & { type: 'number' }) | 
-                        (MarketItem & { type: 'market' }) |
-                        (PredictionPreviewItem & { type: 'preview' });
-
 interface CategoryData {
     title: string;
-    data: CategoryItemUnion[];
+    items: {
+        trends?: MarketTrendData[];
+        multiChoice?: MarketNbrItem[];
+        previews?: {
+            displayMode?: 'slider' | 'grid';
+            data: PredictionPreviewItem[];
+        };
+        market?: MarketItem[];
+    };
 }
 
-interface PageProps {
-    icon: JSX.Element;
-    title: string;
-    data: CategoryItemUnion[];
-}
+const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
+    if (!items) return null;
 
-const HandleWhichComponent = ({ data }: { data: CategoryItemUnion[] }) => {
-    if (!data || data.length === 0) return null;
+    const renderSlider = (components: JSX.Element[]) => (
+        components.length > 1 ? (
+            <div className="overflow-x-auto flex gap-4 pb-2">
+                {components}
+            </div>
+        ) : components[0]
+    );
+
+    const renderGrid = (components: JSX.Element[]) => (
+        <>
+            {components}
+        </>
+    );
 
     return (
         <>
-            {data.filter(item => item.type === 'trend').length > 0 && 
-                <MarketTrend markets={data.filter(item => item.type === 'trend') as MarketTrendData[]} />}
+            {items.trends && items.trends.length > 0 && 
+                renderSlider(
+                    items.trends.map((item, index) => (
+                        <div key={index} className="flex grow">
+                            <MarketTrend markets={[item]} />
+                        </div>
+                    ))
+                )}
             
-            {data.filter(item => item.type === 'number').length > 0 && 
-                <MarketNbrBox markets={data.filter(item => item.type === 'number') as MarketNbrItem[]} />}
+            {items.multiChoice && items.multiChoice.length > 0 && 
+                renderSlider(
+                    items.multiChoice.map((item, index) => (
+                        <div key={index} className="flex grow">
+                            <MarketNbrBox markets={[item]} />
+                        </div>
+                    ))
+                )}
             
-            {data.filter(item => item.type === 'market').length > 0 && 
-                <MarketBox markets={data.filter(item => item.type === 'market') as MarketItem[]} />}
+            {items.market && items.market.length > 0 && 
+                renderSlider(
+                    items.market.map((item, index) => (
+                        <div key={index} className="flex grow">
+                            <MarketBox markets={[item]} />
+                        </div>
+                    ))
+                )}
             
-            {data.filter(item => item.type === 'preview').length > 0 && 
-                <PredictionPreviewList predictions={data.filter(item => item.type === 'preview') as PredictionPreviewItem[]} />}
+            {items.previews && items.previews.data.length > 0 && (
+                items.previews.displayMode === 'grid' ? 
+                    renderGrid(
+                        items.previews.data.map((item, index) => (
+                            <div key={index} className="flex grow">
+                                <PredictionPreviewList predictions={[item]} />
+                            </div>
+                        ))
+                    ) :
+                    renderSlider(
+                        items.previews.data.map((item, index) => (
+                            <div key={index} className="flex grow min-w-[300px]">
+                                <PredictionPreviewList predictions={[item]} />
+                            </div>
+                        ))
+                    )
+            )}
         </>
     );
 };
 
-const CompItem = ({ icon, title, data }: PageProps) => {
+interface PageProps {
+    icon: JSX.Element;
+    title: string;
+    items: CategoryData['items'];
+}
+
+const CompItem = ({ icon, title, items }: PageProps) => {
     return (
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
@@ -64,7 +114,7 @@ const CompItem = ({ icon, title, data }: PageProps) => {
                     <FaAnglesRight />
                 </div>
             </div>
-            <HandleWhichComponent data={data} />
+            <HandleWhichComponent items={items} />
         </div>
     );
 };
@@ -90,7 +140,7 @@ export default function Page() {
                     key={index}
                     icon={getCategoryIcon(category.title)}
                     title={category.title}
-                    data={category.data}
+                    items={category.items}
                 />
             ))}
             <Partners />

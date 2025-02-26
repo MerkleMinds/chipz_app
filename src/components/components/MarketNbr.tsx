@@ -65,7 +65,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 	};
 
 	return (
-		<div className="flex flex-col space-y-4 justify-center">
+		<div className="flex grow flex-col space-y-4 justify-center min-w-[300px]">
 			{markets.map((market) => (
 				<div key={market.id} className="p-5 w-full border border-neutral-700 rounded-xl bg-gray-800">
 					<div>
