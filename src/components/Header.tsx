@@ -26,8 +26,8 @@ const sports = [
   { name: "Live", icon: FaBolt }, // Could also use FaBroadcast
   { name: "Politics", icon: FaLandmark }, // Or FaScaleBalanced
   { name: "Sports", icon: FaFootball },
+  { name: "Economy", icon: IoBriefcaseOutline }, // Or FaBriefcase
   { name: "Crypto", icon: FaBitcoin },
-  { name: "Business", icon: IoBriefcaseOutline }, // Or FaBriefcase
   { name: "Mentions", icon: FaAt },
   { name: "Search", icon: FaMagnifyingGlass },
 ];

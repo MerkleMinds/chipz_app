@@ -229,6 +229,140 @@
                     ]
                 }
             }
+        },
+        {
+            "title": "Crypto",
+            "items": {
+                "multiChoice": [
+                    {
+                        "type": "number",
+                        "id": "btc_price",
+                        "title": "Bitcoin price by end of 2024",
+                        "totalVolume": "$45M",
+                        "imageUrl": "https://bitcoin.org/img/icons/opengraph.png",
+                        "options": [
+                            {"name": "Above $100k", "probability": 30},
+                            {"name": "$80k-$100k", "probability": 35},
+                            {"name": "$60k-$80k", "probability": 25},
+                            {"name": "Below $60k", "probability": 10}
+                        ]
+                    },
+                    {
+                        "type": "number",
+                        "id": "eth_price",
+                        "title": "Ethereum price by end of 2024",
+                        "totalVolume": "$30M",
+                        "imageUrl": "https://ethereum.org/static/6b935ac0e6194247347855dc3d328e83/13c43/eth-diamond-black.png",
+                        "options": [
+                            {"name": "Above $6k", "probability": 25},
+                            {"name": "$5k-$6k", "probability": 35},
+                            {"name": "$4k-$5k", "probability": 30},
+                            {"name": "Below $4k", "probability": 10}
+                        ]
+                    },
+                    {
+                        "type": "number",
+                        "id": "sol_price",
+                        "title": "Solana price by end of 2024",
+                        "totalVolume": "$25M",
+                        "imageUrl": "https://solana.com/_next/static/media/logotype.e4df684f.svg",
+                        "options": [
+                            {"name": "Above $200", "probability": 28},
+                            {"name": "$150-$200", "probability": 32},
+                            {"name": "$100-$150", "probability": 25},
+                            {"name": "Below $100", "probability": 15}
+                        ]
+                    }
+                ],
+                "previews": {
+                    "displayMode": "grid",
+                    "data": [
+                        {
+                            "type": "preview",
+                            "id": "spot_etf",
+                            "title": "New Spot ETF approval in 2024?",
+                            "probability": 78.5,
+                            "totalVolume": "$3,200,000",
+                            "imageUrl": "https://www.investopedia.com/thmb/N6j5M54-_DNmRxBvxXVqiXgLROA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1304366084-03d7ca957c304ee3a4d3835008f820d7.jpg"
+                        },
+                        {
+                            "type": "preview",
+                            "id": "crypto_regulation",
+                            "title": "US to pass comprehensive crypto regulation?",
+                            "probability": 62.3,
+                            "totalVolume": "$2,800,000",
+                            "imageUrl": "https://www.forbes.com/advisor/wp-content/uploads/2022/06/crypto-regulations.jpeg"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "title": "Mentions",
+            "items": {
+                "multiChoice": [
+                    {
+                        "type": "number",
+                        "id": "swift_grammys",
+                        "title": "Taylor Swift Grammy wins 2024",
+                        "totalVolume": "$15M",
+                        "imageUrl": "https://media.glamour.com/photos/65a6ac798e36f3aa1cdc7744/master/w_2560%2Cc_limit/GettyImages-1919675861.jpg",
+                        "options": [
+                            {"name": "3 or more", "probability": 35},
+                            {"name": "2 wins", "probability": 40},
+                            {"name": "1 win", "probability": 20},
+                            {"name": "No wins", "probability": 5}
+                        ]
+                    },
+                    {
+                        "type": "number",
+                        "id": "messi_goals",
+                        "title": "Messi total goals in 2024",
+                        "totalVolume": "$18M",
+                        "imageUrl": "https://library.sportingnews.com/styles/crop_style_16_9_mobile_2x/s3/2023-12/Lionel%20Messi%20Inter%20Miami%202023.jpg",
+                        "options": [
+                            {"name": "Over 30", "probability": 25},
+                            {"name": "21-30", "probability": 35},
+                            {"name": "11-20", "probability": 30},
+                            {"name": "Under 10", "probability": 10}
+                        ]
+                    },
+                    {
+                        "type": "number",
+                        "id": "marvel_box_office",
+                        "title": "Deadpool 3 opening weekend",
+                        "totalVolume": "$20M",
+                        "imageUrl": "https://cdn.marvel.com/content/1x/deadpool_lob_crd_01.jpg",
+                        "options": [
+                            {"name": "Over $200M", "probability": 30},
+                            {"name": "$150M-$200M", "probability": 40},
+                            {"name": "$100M-$150M", "probability": 20},
+                            {"name": "Under $100M", "probability": 10}
+                        ]
+                    }
+                ],
+                "previews": {
+                    "displayMode": "grid",
+                    "data": [
+                        {
+                            "type": "preview",
+                            "id": "elon_x",
+                            "title": "Elon Musk to step down as X CEO?",
+                            "probability": 45.5,
+                            "totalVolume": "$2,500,000",
+                            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Elon_Musk_Royal_Society_%28crop2%29.jpg/1200px-Elon_Musk_Royal_Society_%28crop2%29.jpg"
+                        },
+                        {
+                            "type": "preview",
+                            "id": "apple_india",
+                            "title": "Apple to move 25% production to India?",
+                            "probability": 68.7,
+                            "totalVolume": "$1,800,000",
+                            "imageUrl": "https://photos5.appleinsider.com/gallery/52635-104588-iPhone-15-India-xl.jpg"
+                        }
+                    ]
+                }
+            }
         }
     ]
 }
