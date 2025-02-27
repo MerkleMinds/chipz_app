@@ -28,8 +28,8 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 					<div className="flex items-center">
 						<p className="text-white font-bold text-xs">{option?.probability ?? 0}%</p>
 						<div className="flex gap-x-2 ml-3">
-							<button onClick={() => onSelect("yes", option.probability)} className="bg-[#6BD932] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
-							<button onClick={() => onSelect("no", option.probability)} className="bg-[#FE4E4F] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
+							<button onClick={() => onSelect("yes", option.probability)} className="bg-bb-success text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
+							<button onClick={() => onSelect("no", option.probability)} className="bg-bb-error text-white text-xs w-[35px] py-2 rounded text-center">No</button>
 						</div>
 					</div>
 				</div>

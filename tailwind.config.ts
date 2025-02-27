@@ -12,8 +12,8 @@ const config: Config = {
       colors: {
         "bb-accent": "#ff5f1f",
         "bb-action": "#ff0",
-        "bb-success": "#22c55e",
-        "bb-error": "#ff0000",
+        "bb-success": "#23C45E",
+        "bb-error": "#EF4444",
       },
       fontFamily: {
         just: ["JustSans", "sans-serif"],
