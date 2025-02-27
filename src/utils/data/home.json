@@ -13,32 +13,128 @@
                         "image": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
                         "history": [
                             {
-                                "date": "2023-12-01",
+                                "date": "2023-12-01T09:00:00Z",
                                 "probability": 45
                             },
                             {
-                                "date": "2023-12-15",
+                                "date": "2023-12-01T14:30:00Z",
+                                "probability": 46.5
+                            },
+                            {
+                                "date": "2023-12-01T20:00:00Z",
+                                "probability": 45.8
+                            },
+                            {
+                                "date": "2023-12-15T10:00:00Z",
                                 "probability": 48
                             },
                             {
-                                "date": "2024-01-01",
+                                "date": "2023-12-15T16:00:00Z",
+                                "probability": 47.2
+                            },
+                            {
+                                "date": "2023-12-15T22:00:00Z",
+                                "probability": 48.5
+                            },
+                            {
+                                "date": "2024-01-01T08:00:00Z",
                                 "probability": 50
                             },
                             {
-                                "date": "2024-01-15",
+                                "date": "2024-01-01T15:00:00Z",
+                                "probability": 51.2
+                            },
+                            {
+                                "date": "2024-01-01T21:00:00Z",
+                                "probability": 50.8
+                            },
+                            {
+                                "date": "2024-01-15T09:30:00Z",
                                 "probability": 55
                             },
                             {
-                                "date": "2024-02-01",
+                                "date": "2024-01-15T14:00:00Z",
+                                "probability": 54.3
+                            },
+                            {
+                                "date": "2024-01-15T19:30:00Z",
+                                "probability": 55.5
+                            },
+                            {
+                                "date": "2024-02-01T08:30:00Z",
                                 "probability": 58
                             },
                             {
-                                "date": "2024-02-15",
+                                "date": "2024-02-01T13:00:00Z",
+                                "probability": 57.5
+                            },
+                            {
+                                "date": "2024-02-01T18:30:00Z",
+                                "probability": 58.2
+                            },
+                            {
+                                "date": "2024-02-15T10:00:00Z",
                                 "probability": 60
                             },
                             {
-                                "date": "2024-02-23",
-                                "probability": 63
+                                "date": "2024-02-15T15:30:00Z",
+                                "probability": 61.2
+                            },
+                            {
+                                "date": "2024-02-15T21:00:00Z",
+                                "probability": 60.8
+                            },
+                            {
+                                "date": "2024-02-23T09:00:00Z",
+                                "probability": 63.0
+                            },
+                            {
+                                "date": "2024-02-23T10:15:00Z",
+                                "probability": 42.8
+                            },
+                            {
+                                "date": "2024-02-23T11:30:00Z",
+                                "probability": 66.5
+                            },
+                            {
+                                "date": "2024-02-23T12:45:00Z",
+                                "probability": 47.2
+                            },
+                            {
+                                "date": "2024-02-23T14:00:00Z",
+                                "probability": 66.5
+                            },
+                            {
+                                "date": "2024-02-23T15:15:00Z",
+                                "probability": 62.9
+                            },
+                            {
+                                "date": "2024-02-23T16:30:00Z",
+                                "probability": 43.4
+                            },
+                            {
+                                "date": "2024-02-23T17:45:00Z",
+                                "probability": 63.8
+                            },
+                            {
+                                "date": "2024-02-23T19:00:00Z",
+                                "probability": 73.6
+                            },
+                            {
+                                "date": "2024-02-23T20:00:00Z",
+                                "probability": 78.2
+                            },
+                            {
+                                "date": "2024-02-23T21:15:00Z",
+                                "probability": 65.5
+                            },
+                            {
+                                "date": "2024-02-23T22:30:00Z",
+                                "probability": 53.7
+                            },
+                            {
+                                "date": "2024-02-23T23:45:00Z",
+                                "probability": 63.4
                             }
                         ]
                     }
