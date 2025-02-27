@@ -31,7 +31,7 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
 
     const renderSlider = (components: JSX.Element[]) => (
         components.length > 1 ? (
-            <div className="overflow-x-auto flex gap-4 pb-2">
+            <div className="overflow-x-auto flex gap-4 pb-2 container-snap">
                 {components}
             </div>
         ) : components[0]
