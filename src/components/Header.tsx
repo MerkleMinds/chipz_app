@@ -11,7 +11,8 @@ import {
   FaGift,
 } from "react-icons/fa6";
 
-import { FaWallet } from "react-icons/fa";
+import { CiWallet } from "react-icons/ci";
+
 
 import { IoBriefcaseOutline } from "react-icons/io5";
 
@@ -51,10 +52,6 @@ export default function Header() {
   } = useAppContext();
   const address = useGetAddress();
   const [balance, getBalance] = useGetBalance();
-  
-  // Ejemplo, hardcodeado
-  const giftNotifications = 1;
-  const walletNotifications = 0;
 
   useEffect(() => {
     if (address) {
@@ -72,9 +69,9 @@ export default function Header() {
         <Link href="/" className="flex items-center">
           <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 relative">
-            <FaGift className={`text-lg ${giftNotifications > 0 ? 'text-bb-accent' : 'text-white'}`} />
+            <FaGift className={`text-lg text-bb-accent w-7 h-7`} />
             {/* {giftNotifications > 0 && (
               <div className="absolute -top-1 -right-1 bg-bb-accent text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
                 {giftNotifications}
@@ -84,7 +81,7 @@ export default function Header() {
           {address ? (
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded-full">
-                <FaUser className="text-white text-lg" />
+                <FaUser className="text-white text-lg " />
               </div>
               <span className="text-sm text-white font-semibold">
                 {amount.toFixed(2)} $
@@ -92,7 +89,7 @@ export default function Header() {
             </div>
           ) : (
             <div className="flex items-center justify-center w-10 h-10 relative">
-              <FaWallet className="text-white text-lg" />
+              <CiWallet className={`text-lg text-white w-9 h-9 mt-1`} />
               {/* {walletNotifications > 0 && (
                 <div className="absolute -top-1 -right-1 bg-bb-accent text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
                   {walletNotifications}
