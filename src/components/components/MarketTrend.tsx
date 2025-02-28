@@ -1,82 +1,191 @@
 "use client";
 
 import { useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { HalfCircleProgress } from "../HalfCircleProgress";
-
+import {
+  LineChart,
+  Line,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+import { useAppContext } from "@/components/Context";
+import { hashBet } from "@/components/bets/Betv2";
 export type MarketTrendData = {
-    id: string;
-    title: string;
-    probability: number;
-    probabilityChange: string;
-    history: { date: string; probability: number }[];
-    image: string;
+  id: string;
+  title: string;
+  probability: number;
+  probabilityChange: string;
+  history: { date: string; probability: number }[];
+  image: string;
 };
 
 export type MarketTrendsProps = {
-    markets: MarketTrendData[];
+  markets: MarketTrendData[];
 };
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
-    const [timeRange, setTimeRange] = useState("1W");
-    
-    if (!Array.isArray(markets)) return null;
-    
-    const selectedMarket = markets.length === 1 ? markets[0] : null;
+  const [timeRange, setTimeRange] = useState("1W");
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
-    const getFilteredHistory = (market: MarketTrendData) => {
-        if (!market?.history || !Array.isArray(market.history)) return [];
-        
-        const daysToShow = timeRange === "1D" ? 1 : timeRange === "1W" ? 7 : 30;
-        return market.history.slice(-daysToShow);
+  if (!Array.isArray(markets)) return null;
+
+  const selectedMarket = markets.length === 1 ? markets[0] : null;
+
+  const getFilteredHistory = (market: MarketTrendData) => {
+    if (!market?.history || !Array.isArray(market.history)) return [];
+
+    const now = new Date();
+
+    if (timeRange === "1D") {
+      const oneDayAgo = new Date();
+      oneDayAgo.setHours(now.getHours() - 24);
+
+      const filteredPoints = market.history
+        .filter((point) => new Date(point.date) >= oneDayAgo)
+        .sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+      return filteredPoints.length < 2
+        ? market.history.slice(-2)
+        : filteredPoints;
+    }
+
+    const daysToShow = timeRange === "1W" ? 7 : 30;
+    return market.history.slice(-daysToShow);
+  };
+
+  const handleBet = (betType: "yes" | "no") => {
+    if (!selectedMarket?.id || !selectedMarket?.title) return;
+
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: selectedMarket.title,
+      }),
+      chosen: betType === "yes" ? "Yes" : "No",
+      bet: betType,
+      match: selectedMarket.title,
+      odds: selectedMarket.probability,
     };
 
-    if (!selectedMarket) return null;
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+  };
 
-    return (
-        <div className="text-white p-6 space-y-4 border border-neutral-700 rounded-xl bg-gray-800">
-            <div>
-                <div className="flex items-center space-x-3">
-                    <img
-                        src={selectedMarket.image || ''}
-                        alt="flag"
-                        className="w-8 h-8 rounded-full"
-                    />
-                    <div className="flex justify-between grow">
-                        <div className="flex w-full mr-auto items-center">
-                            <p className="text-white font-bold text-xs">{selectedMarket.title}</p>
-                        </div>
-                    </div>
-                    <div className="">
-                        <HalfCircleProgress probability={selectedMarket.probability} />
-                    </div>
-                </div>
-            </div>
-            <div className="w-full h-64 flex items-center justify-center">
-                <ResponsiveContainer width="95%" height="100%">
-                    <LineChart 
-                        data={getFilteredHistory(selectedMarket)}
-                        margin={{ left: 0, right: 20, top: 10, bottom: 10 }}
-                    >
-                        <XAxis dataKey="date" stroke="#ccc" />
-                        <YAxis stroke="#ccc" />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="probability" stroke={selectedMarket.probabilityChange.startsWith("+") ? "#6BD932" : "#FE4E4F"} strokeWidth={2} />
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
+  if (!selectedMarket) return null;
 
-            <div className="flex justify-center space-x-3">
-                {["1D", "1W", "1M"].map((range) => (
-                    <button
-                        key={range}
-                        onClick={() => setTimeRange(range)}
-                        className={`px-3 py-2 rounded-lg border border-neutral-700 ${timeRange === range ? "bg-blue-500" : "bg-gray-800"}`}
-                    >
-                        {range}
-                    </button>
-                ))}
+  return (
+    <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col ">
+          <div className="flex items-center space-x-2">
+            <img
+              src={selectedMarket.image || ""}
+              alt="flag"
+              className="w-8 h-8 rounded-full"
+            />
+            <div className="flex justify-between grow">
+              <div className="flex w-3/4 mr-auto items-center">
+                <p className="text-white font-bold text-sm ">
+                  {selectedMarket.title}
+                </p>
+              </div>
             </div>
+          </div>
+          <div className="mt-2">
+            <p className="text-white text-sm font-bold">
+              {selectedMarket.probability}% chance
+            </p>
+          </div>
         </div>
-    );
+      </div>
+      <div className="w-full h-40 flex items-center justify-center m-0">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={getFilteredHistory(selectedMarket)}
+            margin={{ left: 0, right: 0, top: 5, bottom: 10 }}
+          >
+            <YAxis
+              stroke="transparent"
+              tick={{ fontSize: 9, fill: "#ccc" }}
+              orientation="right"
+              width={30}
+              tickFormatter={(value) => `${value}%`}
+            />
+            <CartesianGrid
+              horizontal={true}
+              vertical={false}
+              stroke="#444"
+              fill="#1f2937"
+            />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="probability"
+              stroke={
+                selectedMarket.probabilityChange.startsWith("+")
+                  ? "#6BD932"
+                  : "#FE4E4F"
+              }
+              strokeWidth={2}
+              dot={(props) => {
+                const isLastPoint =
+                  props.index === getFilteredHistory(selectedMarket).length - 1;
+                return isLastPoint ? (
+                  <circle
+                    cx={props.cx}
+                    cy={props.cy}
+                    r={4}
+                    fill={
+                      selectedMarket.probabilityChange.startsWith("+")
+                        ? "#6BD932"
+                        : "#FE4E4F"
+                    }
+                  />
+                ) : (
+                  <circle r={0} cx={props.cx} cy={props.cy} />
+                );
+              }}
+              activeDot={{ r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="flex mb-2">
+        {["1D", "1W", "1M"].map((range) => (
+          <button
+            key={range}
+            onClick={() => setTimeRange(range)}
+            className={`text-xs rounded-xl border-xl w-[27px] h-[17px] ${
+              timeRange === range
+                ? "bg-white text-bb-black"
+                : "bg-gray-800 text-gray-400"
+            }`}
+          >
+            {range}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex w-11/12 mx-auto">
+        <div className="flex justify-between gap-2 my-3 w-full">
+          <button 
+            onClick={() => handleBet("yes")}
+            className="bg-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
+          >
+            Buy Yes {selectedMarket.probability}$
+          </button>
+          <button 
+            onClick={() => handleBet("no")}
+            className="bg-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
+          >
+            Buy No {selectedMarket.probability}$
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

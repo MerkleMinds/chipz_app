@@ -28,8 +28,8 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 					<div className="flex items-center">
 						<p className="text-white font-bold text-xs">{option?.probability ?? 0}%</p>
 						<div className="flex gap-x-2 ml-3">
-							<button onClick={() => onSelect("yes", option.probability)} className="bg-[#6BD932] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
-							<button onClick={() => onSelect("no", option.probability)} className="bg-[#FE4E4F] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
+							<button onClick={() => onSelect("yes", option.probability)} className="bg-bb-success text-bb-black text-xs w-[35px] py-2 rounded text-center">Yes</button>
+							<button onClick={() => onSelect("no", option.probability)} className="bg-bb-error text-bb-black text-xs w-[35px] py-2 rounded text-center">No</button>
 						</div>
 					</div>
 				</div>
@@ -65,7 +65,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 	};
 
 	return (
-		<div className="flex flex-col space-y-4 justify-center">
+		<div className="flex grow flex-col space-y-4 justify-center min-w-[300px]">
 			{markets.map((market) => (
 				<div key={market.id} className="p-5 w-full border border-neutral-700 rounded-xl bg-gray-800">
 					<div>
@@ -75,7 +75,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 								alt="flag"
 								className="w-8 h-8 rounded-full"
 							/>
-							<p className="text-white font-bold text-xs">{market.title}</p>
+							<p className="text-white font-bold text-sm">{market.title}</p>
 						</div>
 						<div className="mt-4">
 							<MarketPrices 

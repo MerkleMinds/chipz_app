@@ -7,14 +7,12 @@ import {
   FaBitcoin,
   FaAt,
   FaMagnifyingGlass,
-  FaUser,
   FaGift,
 } from "react-icons/fa6";
 
-import { FaWallet } from "react-icons/fa";
+import { CiWallet } from "react-icons/ci";
 
 import { IoBriefcaseOutline } from "react-icons/io5";
-
 
 import Link from "next/link";
 import { useAppContext } from "@/components/Context";
@@ -26,8 +24,8 @@ const sports = [
   { name: "Live", icon: FaBolt }, // Could also use FaBroadcast
   { name: "Politics", icon: FaLandmark }, // Or FaScaleBalanced
   { name: "Sports", icon: FaFootball },
+  { name: "Economy", icon: IoBriefcaseOutline }, // Or FaBriefcase
   { name: "Crypto", icon: FaBitcoin },
-  { name: "Business", icon: IoBriefcaseOutline }, // Or FaBriefcase
   { name: "Mentions", icon: FaAt },
   { name: "Search", icon: FaMagnifyingGlass },
 ];
@@ -64,30 +62,27 @@ export default function Header() {
 
   return (
     <header className="w-full bg-gray-900 shadow-lg">
-      <div className="flex justify-between items-center px-4 py-2 pt-4 md:px-4">
+      <div className="flex justify-between items-center px-4 py-3 md:px-6">
         <Link href="/" className="flex items-center">
           <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
-        <div className="flex items-center gap-2">
-          <div className="h-7">
-            <FaGift className="h-full w-6 flex-grow text-white" />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center w-10 h-10 relative">
+            <FaGift className={`text-lg text-bb-accent w-5 h-5`} />
           </div>
-          {address ? (
+          {/* TODO: Add wallet connection 
+          {address ? ( */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 flex-col">
-                <FaUser className="h-4 text-neutral-400" />
-                <span className="text-xs text-white font-semibold">
+              <div className="w-[74px] h-[34px] rounded border border-white flex flex-row items-center justify-center">
+                <CiWallet className={`text-lg text-white w-4 h-4`} />
+                <span className="text-xs text-white font-semibold ml-2">
                   {amount.toFixed(2)} $
                 </span>
               </div>
             </div>
-          ) : (
-            <>
-              <div className="flex items-end h-7">
-                <FaWallet className="h-6 w-6 text-white"/>
-              </div>
-            </>
-          )}
+          {/* ) : (
+            <>Not Connected</>
+          )} */}
         </div>
       </div>
       <div className="flex overflow-x-auto no-scrollbar p-4">

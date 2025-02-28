@@ -18,7 +18,7 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
     if (!Array.isArray(predictions)) return null;
 
     return (
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col w-full space-y-4">
             {predictions.map((prediction) => {
                 if (!prediction?.id || !prediction?.title) return null;
                 
