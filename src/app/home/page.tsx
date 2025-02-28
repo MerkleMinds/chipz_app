@@ -103,7 +103,7 @@ const CompItem = ({ icon, title, items }: PageProps) => {
     return (
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row gap-3 items-center">
+                <div className="flex flex-row gap-1 items-center">
                     {icon}
                     <h1 className="text-white font-bold font-just text-sm">
                         {title}

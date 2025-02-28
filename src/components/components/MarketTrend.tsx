@@ -9,7 +9,8 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-
+import { useAppContext } from "@/components/Context";
+import { hashBet } from "@/components/bets/Betv2";
 export type MarketTrendData = {
   id: string;
   title: string;
@@ -25,6 +26,7 @@ export type MarketTrendsProps = {
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
   const [timeRange, setTimeRange] = useState("1W");
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
   if (!Array.isArray(markets)) return null;
 
@@ -54,6 +56,24 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
     return market.history.slice(-daysToShow);
   };
 
+  const handleBet = (betType: "yes" | "no") => {
+    if (!selectedMarket?.id || !selectedMarket?.title) return;
+
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: selectedMarket.title,
+      }),
+      chosen: betType === "yes" ? "Yes" : "No",
+      bet: betType,
+      match: selectedMarket.title,
+      odds: selectedMarket.probability,
+    };
+
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+  };
+
   if (!selectedMarket) return null;
 
   return (
@@ -67,15 +87,15 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
               className="w-8 h-8 rounded-full"
             />
             <div className="flex justify-between grow">
-              <div className="flex w-full mr-auto items-center">
-                <p className="text-white font-bold text-xs">
+              <div className="flex w-3/4 mr-auto items-center">
+                <p className="text-white font-bold text-sm ">
                   {selectedMarket.title}
                 </p>
               </div>
             </div>
           </div>
           <div className="mt-2">
-            <p className="text-white text-lg font-bold">
+            <p className="text-white text-sm font-bold">
               {selectedMarket.probability}% chance
             </p>
           </div>
@@ -92,6 +112,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
               tick={{ fontSize: 9, fill: "#ccc" }}
               orientation="right"
               width={30}
+              tickFormatter={(value) => `${value}%`}
             />
             <CartesianGrid
               horizontal={true}
@@ -138,9 +159,9 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
           <button
             key={range}
             onClick={() => setTimeRange(range)}
-            className={`px-3 py-1 text-xs rounded-xl border-xl ${
+            className={`text-xs rounded-xl border-xl w-[27px] h-[17px] ${
               timeRange === range
-                ? "bg-white text-black"
+                ? "bg-white text-bb-black"
                 : "bg-gray-800 text-gray-400"
             }`}
           >
@@ -151,10 +172,16 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
 
       <div className="flex w-11/12 mx-auto">
         <div className="flex justify-between gap-2 my-3 w-full">
-          <button className="bg-green-500 text-white py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]">
+          <button 
+            onClick={() => handleBet("yes")}
+            className="bg-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
+          >
             Buy Yes {selectedMarket.probability}$
           </button>
-          <button className="bg-red-500 text-white py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]">
+          <button 
+            onClick={() => handleBet("no")}
+            className="bg-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
+          >
             Buy No {selectedMarket.probability}$
           </button>
         </div>

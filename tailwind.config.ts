@@ -14,6 +14,7 @@ const config: Config = {
         "bb-action": "#ff0",
         "bb-success": "#23C45E",
         "bb-error": "#EF4444",
+        "bb-black": "#111827",
       },
       fontFamily: {
         just: ["JustSans", "sans-serif"],
