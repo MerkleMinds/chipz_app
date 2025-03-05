@@ -1,82 +1,108 @@
-import { useState } from 'react';
-
-interface MarketSelectionItem {
-	title: string;
-	imageUrl: string;
-	multiplier: number;
-	betType: string;
-}
-
-interface IBetSlipBet {
-	id: string;
-	chosen: string;
-	bet: string;
-	match: string;
-	odds: number;
-	betType?: string;
-	multiplier?: number;
-}
+import { Range, getTrackBackground } from "react-range";
+import { useState, useEffect } from "react";
 
 interface StakeControlProps {
-	selection: MarketSelectionItem | IBetSlipBet;
+  onChange: (value: number) => void;
+  defaultValue?: number;
 }
 
-export const StakeControl = ({ selection }: StakeControlProps) => {
-	const [amount, setAmount] = useState(10);
+export const StakeControl = ({
+  onChange,
+  defaultValue = 10,
+}: StakeControlProps) => {
+  const [amount, setAmount] = useState([defaultValue]);
 
-	const handleAmountChange = (value: number) => {
-		if (value >= 1) setAmount(value);
-	};
+  useEffect(() => {
+    setAmount([defaultValue]);
+  }, [defaultValue]);
 
-	const betType = 'betType' in selection ? selection.betType : selection.bet;
-	const multiplier = 'multiplier' in selection ? selection.multiplier : selection.odds;
+  const handleAmountChange = (values: number[]) => {
+    if (values[0] >= 0.2) {
+      setAmount(values);
+      onChange(values[0]);
+    }
+  };
 
-	return (
-		<div className="mt-4 text-white">
-			<div className="flex flex-row gap-x-4">
-				<div className="flex flex-1 flex-row items-center border border-gray-400 rounded-xl px-3 py-2 w-40 text-white">
-					<div>
-						<input
-							type="number"
-							value={amount}
-							min="1"
-							onChange={(e) => handleAmountChange(Number(e.target.value))}
-							className="bg-transparent w-[35%] text-center focus:outline-none"
-						/>
-						<span className="text-white">$</span>
-					</div>
-					<div className="space-x-1 flex flex-row">
-						<button
-							onClick={() => handleAmountChange(amount + 1)}
-							className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
-						>
-							25%
-						</button>
-						<button
-							onClick={() => handleAmountChange(amount + 10)}
-							className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
-						>
-							50%
-						</button>
-						<button
-							onClick={() => handleAmountChange(amount + 10)}
-							className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
-						>
-							Max
-						</button>
-					</div>
-				</div>
-				<div className=" flex flex-1 items-center">
-					<input
-						type="range"
-						min="1"
-						max="100"
-						value={amount}
-						onChange={(e) => handleAmountChange(Number(e.target.value))}
-						className="w-full accent-purple-500"
-					/>
-				</div>
-			</div>
-		</div>
-	);
-}; 
+  return (
+    <div className="mt-4 text-gray-400">
+      <div className="flex flex-row gap-x-4">
+        <div className="flex flex-1 flex-row items-center border border-gray-400 rounded-xl px-3 py-2 w-40 text-white">
+          <div className="flex flex-row items-center max-w-full">
+            <span className="text-white">
+			$
+              <input
+                type="number"
+                value={amount[0].toFixed(1)}
+                min="0.2"
+                step="0.2"
+                onChange={(e) => handleAmountChange([Number(e.target.value)])}
+                className="bg-transparent w-[65%] text-center focus:outline-none"
+              />
+            </span>
+          </div>
+          <div className="space-x-1 flex flex-row">
+            <button
+              onClick={() => handleAmountChange([amount[0] * 1.25])}
+              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+            >
+              25%
+            </button>
+            <button
+              onClick={() => handleAmountChange([amount[0] * 1.5])}
+              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+            >
+              50%
+            </button>
+            <button
+              onClick={() => handleAmountChange([100])}
+              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+            >
+              Max
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-1 items-center px-2">
+          <Range
+            values={amount}
+            step={0.2}
+            min={0.0}
+            max={100}
+            onChange={handleAmountChange}
+            renderTrack={({ props, children }) => (
+              <div
+                {...props}
+                style={{
+                  ...props.style,
+                  height: "8px",
+                  width: "100%",
+                  borderRadius: "4px",
+                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  background: getTrackBackground({
+                    values: amount,
+                    colors: ["#ff5f1f", "transparent"],
+                    min: 0.0,
+                    max: 100,
+                  }),
+                }}
+              >
+                {children}
+              </div>
+            )}
+            renderThumb={({ props }) => (
+              <div
+                {...props}
+                style={{
+                  ...props.style,
+                  height: "12px",
+                  width: "12px",
+                  borderRadius: "50%",
+                  backgroundColor: "#FFFFFF",
+                }}
+              />
+            )}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};

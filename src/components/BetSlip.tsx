@@ -160,23 +160,16 @@ export default function Betslip() {
                   ))}
                 </div>
                 <div className="mt-4 flex flex-col gap-3">
-                  <StakeControl selection={bets[0]} />
-                  <div className="flex flex-row justify-between items-center">
-                    <p className="text-neutral-400">Stake</p>
-                    <input
-                      onChange={(e) => setQuantity(Number(e.target.value))}
-                      type="number"
-                      placeholder="5.00"
-                      min="0.2"
-                      className="bg-gray-700 text-white px-4 py-2 rounded-md w-24"
-                    />
-                  </div>
+                  <StakeControl 
+                    onChange={setQuantity} 
+                    defaultValue={quantity} 
+                  />
                   <div className="flex flex-row justify-between items-center">
                     <p className="text-neutral-400">Possible winnings</p>
-                    <p className="text-white font-bold">
+                    <p className="text-bb-success font-bold">
                       {(
                         quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
-                      ).toFixed(2)} $
+                      ).toFixed(1)} $
                     </p>
                   </div>
                   {errorMessage && (
