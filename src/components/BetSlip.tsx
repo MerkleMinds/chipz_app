@@ -3,7 +3,6 @@
 import { FaChevronDown, FaChevronUp, FaSpinner } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 
-import { FaTimes } from "react-icons/fa";
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
 import useGetAddress from "@/hooks/useGetAddress";
@@ -20,8 +19,6 @@ export interface IBetSlipBet {
 }
 
 function Bet(bet: IBetSlipBet) {
-  const { bets: [, setBets] } = useAppContext();
-
   return (
     <div className="flex items-center justify-between border-b border-gray-700 py-2">
       <div className="flex-1 pr-4">
@@ -31,13 +28,13 @@ function Bet(bet: IBetSlipBet) {
         <p className="text-sm text-gray-400">{bet.match}</p>
       </div>
       <div className="flex items-center justify-center flex-row">
-        <p className="text-white text-md pr-2">{bet.odds}</p>
+        {/* <p className="text-white text-md pr-2">{bet.odds}</p>
         <FaTimes
           onClick={() => {
             setBets((bets) => bets.filter((b) => b.id !== bet.id));
           }}
           className="text-gray-400"
-        />
+        /> */}
       </div>
     </div>
   );
@@ -45,7 +42,7 @@ function Bet(bet: IBetSlipBet) {
 
 export default function Betslip() {
   const [expand, setExpand] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(10);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const {
     bets: [bets, setBets],
@@ -88,20 +85,19 @@ export default function Betslip() {
   }, [error, setBets, setShow, success, getBalance, address, placedBet]);
 
   const handleClose = () => {
-    if (bets.length === 0) {
-      setShow(false);
-      setExpand(false);
-    } else {
-      setExpand(false);
-      setErrorMessage("");
-      setQuantity(0);
-    }
+    setExpand(false);
+    setBets([]);
+    setShow(false);
+    setQuantity(10);
   };
 
   useEffect(() => {
     if (bets.length === 0) {
       setShow(false);
       setExpand(false);
+    } else {
+      setShow(true);
+      setExpand(true);
     }
   }, [bets, setShow]);
 
@@ -127,7 +123,7 @@ export default function Betslip() {
                   {bets.length} {bets.length === 1 ? "bet" : "bets"}
                 </p>
                 <button
-                  onClick={() => setExpand(!expand)}
+                  onClick={handleClose}
                   className="text-bb-accent hover:text-gray-400"
                 >
                   {expand ? <FaChevronDown /> : <FaChevronUp />}
