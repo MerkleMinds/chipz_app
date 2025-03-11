@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react"; 
 import { FaArrowLeft, FaArrowRight, FaGear } from "react-icons/fa6";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
-
 import { hashBet } from "@/components/bets/Betv2";
 
 interface IHistoryEntry {
@@ -46,11 +46,22 @@ function createHistoryEntries(count: number): IHistoryEntry[] {
   );
 }
 
-const history: IHistoryEntry[] = createHistoryEntries(20);
 
 export default function History() {
+  const [history, setHistory] = useState<IHistoryEntry[]>([]);
+
+  useEffect(() => {
+    setHistory(createHistoryEntries(5));
+  }, []);
+
   return (
     <div className="mb-6">
+      <h3 className="text-lg mb-4">PnL Graph</h3>
+      <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2 mb-4 h-20">
+        <div className="w-full flex justify-between items-center">
+          
+        </div>
+      </div>
       <h3 className="text-lg mb-4">Transaction History</h3>
       <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2 mb-4">
         <div className="w-full flex justify-between items-center">

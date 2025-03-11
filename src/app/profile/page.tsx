@@ -2,7 +2,7 @@
 
 import Banner from "@/components/profile/Banner";
 import History from "@/components/profile/History";
-import Minipay from "@/components/profile/Minipay";
+// import Minipay from "@/components/profile/Minipay";
 import Settings from "@/components/profile/Settings";
 import Social from "@/components/profile/Social";
 import { useAppContext } from "@/components/Context";
@@ -10,14 +10,14 @@ import useGetAddress from "@/hooks/useGetAddress";
 import { useState } from "react";
 
 const sections = {
-  minipay: Minipay,
+//  minipay: Minipay,
   history: History,
   social: Social,
   settings: Settings,
 };
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<keyof typeof sections>("minipay");
+  const [activeTab, setActiveTab] = useState<keyof typeof sections>("history");
   const ActiveSection = sections[activeTab];
   const { points: [points] } = useAppContext();
   const address = useGetAddress();
