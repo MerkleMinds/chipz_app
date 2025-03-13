@@ -25,22 +25,22 @@ export const StakeControl = ({
 
   return (
     <div className="mt-4 text-gray-400">
-      <div className="flex flex-row gap-x-4">
-        <div className="flex flex-1 flex-row items-center border border-gray-400 rounded-xl px-3 py-2 w-40 text-white">
-          <div className="flex flex-row items-center max-w-full">
-            <span className="text-white">
-			$
+      <div className="flex flex-1 flex-col gap-y-4">
+        <div className="flex flex-1 flex-row items-center border border-gray-400 rounded-xl px-3 py-2 text-white ">
+          <div className="flex flex-row items-center max-w-1/2 justify-start">
               <input
                 type="number"
                 value={amount[0].toFixed(1)}
                 min="0.2"
                 step="0.2"
                 onChange={(e) => handleAmountChange([Number(e.target.value)])}
-                className="bg-transparent w-[65%] text-center focus:outline-none"
+                className="bg-transparent text-center focus:outline-none w-auto"
+                style={{ width: `${amount[0].toFixed(1).length}ch` }}
               />
+            <span className="text-white"> $
             </span>
           </div>
-          <div className="space-x-1 flex flex-row">
+          <div className="space-x-1 flex flex-1 flex-row min-w-1/2 justify-end">
             <button
               onClick={() => handleAmountChange([amount[0] * 1.25])}
               className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
@@ -61,7 +61,7 @@ export const StakeControl = ({
             </button>
           </div>
         </div>
-        <div className="flex flex-1 items-center px-2">
+        <div className="flex flex-1 items-center">
           <Range
             values={amount}
             step={0.2}
