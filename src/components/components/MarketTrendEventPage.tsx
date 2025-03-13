@@ -48,9 +48,9 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
   };
 
   return (
-    <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800">
-      <div className="w-full h-40 flex items-center justify-center m-0">
-        <ResponsiveContainer width="100%" height="100%">
+    <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800 min-h-[250px]">
+      <div className="w-full flex items-center justify-center m-0 min-h-[250px]">
+        <ResponsiveContainer width="100%" height="100%" className="min-h-[250px]">
           <LineChart
             data={getFilteredHistory(market)}
             margin={{ left: 0, right: 0, top: 5, bottom: 10 }}

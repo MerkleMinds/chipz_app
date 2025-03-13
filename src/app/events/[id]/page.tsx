@@ -6,6 +6,7 @@ import { FaChevronDown } from "react-icons/fa6";
 import OrderBookBox from "@/components/components/OrderBook";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import data from "@/utils/data/events.json" with { type: "json" };
+import { CiBookmark } from "react-icons/ci";
 
 interface PageProps {
   params: {
@@ -96,7 +97,7 @@ const OrderBookPart = () => {
 
 const MarketTrendPart = () => {
   return (
-    <div className="w-full border border-[#A3A3A3] rounded-lg">
+    <div className="w-full border border-[#A3A3A3] rounded-lg min-h-[250px]">
       <MarketTrendEventPage 
         market={{
           id: "1",
@@ -119,15 +120,18 @@ const MarketTrendPart = () => {
 
 const MainPage = ({ data }: MainPageProps) => {
   return (
-    <div className="flex flex-col mx-3 mt-2 gap-3 text-xs text-white">
+    <div className="flex flex-col mx-3 mt-2 gap-3 text-white">
+      <div className="flex flex-row justify-between">
       <img
         src={data.imageUrl}
         alt="event-banner"
         className="w-[45px] h-[45px] object-cover"
-      />
+        />
+        <CiBookmark className="text-12" />
+        </div>
       <h2 className="text-white text-lg font-bold">{data.title}</h2>
 	  <div className="flex flex-col">
-		<div className="flex">
+		<div className="flex text-xs">
       {data.conditional === "yes" ? <p>Yes</p> : <p>No</p>}
 		</div>
 		<h2 className="text-white text-lg font-bold">{data.probability}% chance</h2>
