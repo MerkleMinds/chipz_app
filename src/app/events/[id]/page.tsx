@@ -39,7 +39,7 @@ interface BuyButtonsProps {
   noPrice: number;
 }
 
-export const BuyButtons = ({ yesPrice, noPrice }: BuyButtonsProps) => {
+const BuyButtons = ({ yesPrice, noPrice }: BuyButtonsProps) => {
   return (
     <div className="fixed bottom-[64px] left-0 right-0 p-4 bg-gray-900 border border-[#A3A3A3] z-10">
       <div className="flex gap-4 max-w-lg mx-auto">
