@@ -1,7 +1,7 @@
-import { FaArrowLeft, FaArrowRight, FaGear } from "react-icons/fa6";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
-
+import { useState, useEffect } from "react";
 import { hashBet } from "@/components/bets/Betv2";
+import BetDetails, { BetBasev2 } from "./BetDetails";
+import BalanceOverview from "./BalanceOverview";
 
 interface IHistoryEntry {
   id: string;
@@ -42,122 +42,76 @@ function createHistoryEntries(count: number): IHistoryEntry[] {
   };
 
   return Array.from({ length: count }, generateEntry).sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-const history: IHistoryEntry[] = createHistoryEntries(20);
+const betData: BetBasev2[] = [
+  {
+    title: "Romania Election",
+    bet: "Elena Lasconi",
+    competition: "Politics",
+    date: new Date(),
+    stake: 100,
+    odds: 2.5,
+    potential: 250,
+    result: "win",
+    status: "settled",
+  },
+  {
+    title: "Romania Election",
+    bet: "Elena Lasconi",
+    competition: "Politics",
+    date: new Date(),
+    stake: 100,
+    odds: 2.5,
+    potential: 250,
+    result: "lose",
+    status: "settled",
+  },
+];
 
 export default function History() {
+  const [history, setHistory] = useState<IHistoryEntry[]>([]);
+  const totalBalance =
+    history
+      .filter((h) => h.type === "deposit")
+      .reduce((acc, h) => acc + h.amount, 0) -
+    history
+      .filter((h) => h.type === "withdraw")
+      .reduce((acc, h) => acc + h.amount, 0);
+
+  useEffect(() => {
+    setHistory(createHistoryEntries(5));
+  }, []);
+
   return (
     <div className="mb-6">
-      <h3 className="text-lg mb-4">Transaction History</h3>
-      <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2 mb-4">
-        <div className="w-full flex justify-between items-center">
-          <p className="text-sm">Last 30 days</p>
-          <FaGear className="text-neutral-400" />
-        </div>
-        <div className="w-full flex justify-between items-center">
-          <div className="flex flex-row gap-2 items-center">
-            <div className="bg-gray-900 p-1 rounded-md">
-              <FaArrowRight className="text-neutral-400" />
-            </div>
-            <p className="text-neutral-400 text-sm">Total Deposits</p>
-          </div>
-          <p>
-            {history
-              .filter((h) => h.type === "deposit")
-              .reduce((acc, h) => acc + h.amount, 0)} $
-          </p>
-        </div>
-        <div className="w-full flex justify-between items-center">
-          <div className="flex flex-row gap-2 items-center">
-            <div className="bg-gray-900 p-1 rounded-md">
-              <FaArrowLeft className="text-green-500" />
-            </div>
-            <p className="text-neutral-400 text-sm">Total Withdrawals</p>
-          </div>
-          <p>
-            {history
-              .filter((h) => h.type === "withdraw")
-              .reduce((acc, h) => acc + h.amount, 0)} $
-          </p>
-        </div>
-        <div className="w-full flex justify-between items-center">
-          <div className="flex flex-row gap-2 items-center">
-            <p className="text-neutral-400 text-sm">Total Net Deposits</p>
-          </div>
+      <div className="flex flex-1 justify-between flex-row gap-2 mb-4">
+        <h3 className="text-lg">Total Net Balance</h3>
+        <div className="border w-[42.5%] rounded-xl h-min p-1 flex justify-end">
           <div className="flex flex-row gap-2">
-            {history
-                .filter((h) => h.type === "deposit")
-                .reduce((acc, h) => acc + h.amount, 0) >
-                history
-                  .filter((h) => h.type === "withdraw")
-                  .reduce((acc, h) => acc + h.amount, 0)
-              ? (
-                <div className="bg-gray-900 p-1 rounded-md">
-                  <GoTriangleDown className="text-red-500" />
-                </div>
-              )
-              : (
-                <div className="bg-gray-900 p-1 rounded-md">
-                  <GoTriangleUp className="text-green-500" />
-                </div>
-              )}
-            <p>
-              {history
-                .filter((h) => h.type === "withdraw")
-                .reduce((acc, h) => acc + h.amount, 0) -
-                history
-                  .filter((h) => h.type === "deposit")
-                  .reduce((acc, h) => acc + h.amount, 0)} $
+            <p
+              className={`text-sm ${
+                totalBalance >= 0 ? "text-[#23C45E]" : "text-[#EF4444]"
+              }`}
+            >
+              {totalBalance} $
             </p>
           </div>
         </div>
       </div>
+      <h3 className="text-lg mb-4">PnL Graph</h3>
+      <div className="w-full h-40 bg-gray-800 rounded-md mb-4">
+        
+      </div>
+      <h3 className="text-lg mb-4">Transaction History</h3>
+      <BalanceOverview history={history} />
       <h3 className="text-lg mb-4">Detailed Overview</h3>
-      <div className="mb-16 flex flex-col gap-2">
-        {history.sort((a, b) => b.state.charCodeAt(1) - a.state.charCodeAt(1))
-          .map((entry) => (
-            <div
-              className="w-full bg-gray-800 rounded-md p-2 flex items-center justify-between"
-              key={entry.id}
-            >
-              <div className="flex flex-row items-center gap-2">
-                <div className="bg-gray-900 p-1 rounded-md">
-                  {entry.type === "deposit"
-                    ? <FaArrowRight className="text-neutral-400" />
-                    : <FaArrowLeft className="text-green-500" />}
-                </div>
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm text-neutral-400">
-                    <span className="font-mono">{entry.time}</span> |{" "}
-                    {entry.type}
-                  </p>
-                  <p className="text-sm text-neutral-400">
-                    {entry.method
-                      .split("_")
-                      .map((m) => m.charAt(0).toUpperCase() + m.slice(1))
-                      .join(" ")}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-row gap-2 items-center mx-2">
-                <div className="flex flex-col gap-2 items-end">
-                  <p
-                    className={`text-sm ${
-                      entry.state === "processed"
-                        ? "text-green-500"
-                        : "text-neutral-400"
-                    }`}
-                  >
-                    {entry.state}
-                  </p>
-                  <p className="text-sm">{entry.amount} $</p>
-                </div>
-              </div>
-            </div>
-          ))}
+      <div className="space-y-4">
+        {betData.map((bet, index) => (
+          <BetDetails key={index} {...bet} />
+        ))}
       </div>
     </div>
   );
