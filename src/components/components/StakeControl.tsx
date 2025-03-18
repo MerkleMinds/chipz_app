@@ -34,10 +34,10 @@ export const StakeControl = ({
                 min="0.2"
                 step="0.2"
                 onChange={(e) => handleAmountChange([Number(e.target.value)])}
-                className="bg-transparent text-center focus:outline-none w-auto"
+                className="bg-transparent text-center focus:outline-none w-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 style={{ width: `${amount[0].toFixed(1).length}ch` }}
               />
-            <span className="text-white"> $
+            <span className="text-white p-0 m-0"> $
             </span>
           </div>
           <div className="space-x-1 flex flex-1 flex-row min-w-1/2 justify-end">
