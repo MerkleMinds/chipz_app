@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Trump ends Ukraine war in first 90 days?",
+    "conditional": "yes",
+    "probability": 62,
+    "totalVolume": "50,000",
+    "imageUrl": "https://s.france24.com/media/display/d82c9712-f247-11e8-8631-005056a964fe/w:1280/p:16x9/trump_putin_vietnam_conversaciones.jpg",
+    "orderBook": [
+      {
+        "id": 1,
+        "title": "Yes",
+        "probability": 75
+      },
+      {
+        "id": 2,
+        "title": "No",
+        "probability": 25
+      }
+    ]
+  }
+]

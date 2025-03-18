@@ -22,7 +22,7 @@ export type OrderBookProps = {
 
 export default function OrderBookBox({ markets }: OrderBookProps) {
   return (
-    <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg">
+    <div className="bg-gray-800/50 text-white p-4 rounded-lg shadow-lg">
       {markets.map((market) => (
         <MarketOrderBook key={market.id} market={market} />
       ))}
@@ -34,9 +34,8 @@ function MarketOrderBook({ market }: { market: OrderBookItem }) {
   const [tradeType, setTradeType] = useState<"yes" | "no">("yes");
 
   return (
-    <div className="mb-6 p-4 border border-neutral-700 rounded-xl bg-gray-800">
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-semibold">Order Book</h3>
+    <>
+      <div className="flex justify-end items-center mb-2 ">
         <div className="flex space-x-2">
           <button
             onClick={() => setTradeType("yes")}
@@ -92,6 +91,6 @@ function MarketOrderBook({ market }: { market: OrderBookItem }) {
           ))}
         </div>
       </div>
-    </div>
+  </>
   );
 }
