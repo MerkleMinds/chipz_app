@@ -174,13 +174,13 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
         <div className="flex justify-between gap-2 my-3 w-full">
           <button 
             onClick={() => handleBet("yes")}
-            className="bg-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
+            className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
           >
             Buy Yes {selectedMarket.probability}$
           </button>
           <button 
             onClick={() => handleBet("no")}
-            className="bg-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
+            className="bg-[#111827] text-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
           >
             Buy No {selectedMarket.probability}$
           </button>
