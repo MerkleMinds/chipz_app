@@ -20,21 +20,9 @@ export interface IBetSlipBet {
 
 function Bet(bet: IBetSlipBet) {
   return (
-    <div className="flex items-center justify-between border-b border-gray-700 py-2">
+    <div className="flex items-center justify-between my-2">
       <div className="flex-1 pr-4">
-        <p className="text-gray-200">
-          <span className="font-bold">{bet.chosen}</span> - {bet.bet}
-        </p>
-        <p className="text-sm text-gray-400">{bet.match}</p>
-      </div>
-      <div className="flex items-center justify-center flex-row">
-        {/* <p className="text-white text-md pr-2">{bet.odds}</p>
-        <FaTimes
-          onClick={() => {
-            setBets((bets) => bets.filter((b) => b.id !== bet.id));
-          }}
-          className="text-gray-400"
-        /> */}
+        <p className="text-base text-white">{bet.match} - {bet.chosen}</p>
       </div>
     </div>
   );
@@ -150,18 +138,18 @@ export default function Betslip() {
                     <FaChevronDown />
                   </button>
                 </div>
-                <div className="max-h-[400px] overflow-y-auto">
+                <div>
                   {bets.map((bet, index) => (
                     <Bet {...bet} key={`betslip-${index}`} />
                   ))}
                 </div>
-                <div className="mt-4 flex flex-col gap-3">
+                <div className="flex flex-col gap-3">
                   <StakeControl 
                     onChange={setQuantity} 
                     defaultValue={quantity} 
                   />
                   <div className="flex flex-row justify-between items-center">
-                    <p className="text-neutral-400">Possible winnings</p>
+                    <p className="text-white">Possible winnings</p>
                     <p className="text-bb-success font-bold">
                       {(
                         quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
