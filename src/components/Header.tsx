@@ -1,44 +1,24 @@
 "use client";
 
-import {
-  FaBolt,
-  FaLandmark,
-  FaFootball,
-  FaBitcoin,
-  FaAt,
-  FaMagnifyingGlass,
-  FaGift,
-} from "react-icons/fa6";
-
+import React from 'react';
+import { FaGift } from "react-icons/fa6";
 import { CiWallet } from "react-icons/ci";
-
-import { IoBriefcaseOutline } from "react-icons/io5";
-
 import Link from "next/link";
 import { useAppContext } from "@/components/Context";
 import { useEffect } from "react";
 import useGetAddress from "@/hooks/useGetAddress";
 import useGetBalance from "@/hooks/useGetBalance";
-
-const sports = [
-  { name: "Live", icon: FaBolt }, // Could also use FaBroadcast
-  { name: "Politics", icon: FaLandmark }, // Or FaScaleBalanced
-  { name: "Sports", icon: FaFootball },
-  { name: "Economy", icon: IoBriefcaseOutline }, // Or FaBriefcase
-  { name: "Crypto", icon: FaBitcoin },
-  { name: "Mentions", icon: FaAt },
-  { name: "Search", icon: FaMagnifyingGlass },
-];
+import sections from "@/utils/data/sections";
 
 const Icon = ({
   name,
-  icon: IconComponent,
+  icon,
 }: {
   name: string;
-  icon: React.ComponentType<{ size: number }>;
+  icon: React.ReactElement;
 }) => (
   <div className="flex items-center justify-center gap-1 flex-col min-w-10 max-w-10 text-neutral-400 hover:text-white transition-colors duration-300">
-    <IconComponent size={24} />
+    {React.cloneElement(icon, { size: 24 })}
     <span className="text-xs">{name}</span>
   </div>
 );
@@ -86,13 +66,13 @@ export default function Header() {
         </div>
       </div>
       <div className="flex overflow-x-auto no-scrollbar p-4">
-        {sports.map((sport) => (
+        {sections.map((section) => (
           <Link
-            key={sport.name}
-            href={`/${sport.name.toLowerCase()}`}
+            key={section.name}
+            href={section.path}
             className="mr-5"
           >
-            <Icon {...sport} />
+            <Icon name={section.name} icon={section.icon} />
           </Link>
         ))}
       </div>

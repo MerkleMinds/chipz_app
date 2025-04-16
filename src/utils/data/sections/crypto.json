@@ -1,0 +1,64 @@
+{
+  "categories": [
+    {
+      "id": "bitcoin",
+      "title": "Bitcoin",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "c1",
+            "title": "Bitcoin Price",
+            "probability": 62,
+            "probabilityChange": "+7",
+            "image": "https://m.media-amazon.com/images/I/61RYLhpmPsL.jpg",
+            "history": [
+              {
+                "date": "2023-12-01T09:00:00Z",
+                "probability": 45
+              },
+              {
+                "date": "2023-12-15T10:00:00Z",
+                "probability": 48
+              },
+              {
+                "date": "2024-01-01T08:00:00Z",
+                "probability": 52
+              },
+              {
+                "date": "2024-01-15T12:00:00Z",
+                "probability": 55
+              },
+              {
+                "date": "2024-02-01T10:00:00Z",
+                "probability": 58
+              },
+              {
+                "date": "2024-02-15T14:00:00Z",
+                "probability": 62
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ethereum",
+      "title": "Ethereum",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "c2",
+            "title": "ETH/BTC Ratio",
+            "description": "Will ETH outperform BTC this quarter?",
+            "options": [
+              { "name": "Yes", "value": 48 },
+              { "name": "No", "value": 52 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

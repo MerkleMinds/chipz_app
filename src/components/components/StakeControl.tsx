@@ -10,6 +10,7 @@ export const StakeControl = ({
   onChange,
   defaultValue = 10,
 }: StakeControlProps) => {
+  const MAX_ACCOUNT_AMOUNT = 150;
   const [amount, setAmount] = useState([defaultValue]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export const StakeControl = ({
   return (
     <div className="mt-4 text-gray-400">
       <div className="flex flex-1 flex-col gap-y-4">
-        <div className="flex flex-1 flex-row items-center border border-gray-400 rounded-xl px-3 py-2 text-white ">
+        <div className="flex flex-1 flex-row items-center border-[0.125px] border-[rgba(163,163,163,0.5)] rounded-xl px-3 py-2 text-white ">
           <div className="flex flex-row items-center max-w-1/2 justify-start">
               <input
                 type="number"
@@ -34,7 +35,7 @@ export const StakeControl = ({
                 min="0.2"
                 step="0.2"
                 onChange={(e) => handleAmountChange([Number(e.target.value)])}
-                className="bg-transparent text-center focus:outline-none w-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="bg-transparent text-center focus:outline-none w-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[15px]"
                 style={{ width: `${amount[0].toFixed(1).length}ch` }}
               />
             <span className="text-white p-0 m-0"> $
@@ -42,20 +43,20 @@ export const StakeControl = ({
           </div>
           <div className="space-x-1 flex flex-1 flex-row min-w-1/2 justify-end">
             <button
-              onClick={() => handleAmountChange([amount[0] * 1.25])}
-              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+              onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT * 0.25])}
+              className="text-[10px] text-gray-400 border-[0.5px] border-[rgba(163,163,163,0.5)] rounded-sm px-[2.5px] py-[2.5px]"
             >
               25%
             </button>
             <button
-              onClick={() => handleAmountChange([amount[0] * 1.5])}
-              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+              onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT * 0.5])}
+              className="text-[10px] text-gray-400 border-[0.5px] border-[rgba(163,163,163,0.5)] rounded-sm px-[2.5px] py-[2.5px]"
             >
               50%
             </button>
             <button
-              onClick={() => handleAmountChange([100])}
-              className="text-[8px] text-gray-400 border border-gray-400 rounded-md px-1 py-1"
+              onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT])}
+              className="text-[10px] text-gray-400 border-[0.5px] border-[rgba(163,163,163,0.5)] rounded-sm px-[2.5px] py-[2.5px]"
             >
               Max
             </button>
@@ -76,7 +77,7 @@ export const StakeControl = ({
                   height: "8px",
                   width: "100%",
                   borderRadius: "4px",
-                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  border: "1px solid rgba(163,163,163,0.5)",
                   background: getTrackBackground({
                     values: amount,
                     colors: ["#ff5f1f", "transparent"],

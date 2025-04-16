@@ -4,6 +4,8 @@ import { CiBookmark } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
+import { useRouter } from "next/navigation";
+
 
 export type MarketNbrItem = {
 	id: string;
@@ -28,8 +30,16 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 					<div className="flex items-center">
 						<p className="text-white font-bold text-xs">{option?.probability ?? 0}%</p>
 						<div className="flex gap-x-2 ml-3">
-							<button onClick={() => onSelect("yes", option.probability)} className="bg-[#111827] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
-							<button onClick={() => onSelect("no", option.probability)} className="bg-[#111827] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
+							<button onClick={(e) => {
+									e.stopPropagation();	
+									onSelect("yes", option.probability)
+								}}
+								className="bg-[#111827] text-white text-xs w-[35px] py-2 rounded text-center">Yes</button>
+							<button onClick={(e) => {
+									e.stopPropagation();	
+									onSelect("no", option.probability)
+								}}
+								className="bg-[#111827] text-white text-xs w-[35px] py-2 rounded text-center">No</button>
 						</div>
 					</div>
 				</div>
@@ -39,6 +49,7 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 }
 
 export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
+	const router = useRouter();
 	const { bets: [, setBets], show: [, setShow] } = useAppContext();
 	
 	if (!Array.isArray(markets)) return null;
@@ -64,12 +75,16 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 		setShow(true);
 	};
 
+	const handleLinkClick = (id: string) => {
+		router.push(`/events/${id}`);
+	};
+
 	return (
 		<div className="flex grow flex-col space-y-4 justify-center min-w-[300px]">
 			{markets.map((market) => (
-				<div key={market.id} className="p-5 w-full border border-neutral-700 rounded-xl bg-gray-800">
+				<div key={market.id} className="p-5 w-full border border-neutral-700 rounded-xl bg-gray-800" onClick={() => handleLinkClick(market.id)}>
 					<div>
-						<div className="flex items-center space-x-3">
+						<div className="flex items-center space-x-3 cursor-pointer">
 							<img
 								src={market.imageUrl}
 								alt="flag"

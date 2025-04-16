@@ -1,19 +1,12 @@
-import Footer from "@/components/Footer";
-import Partners from "@/components/Partners";
 import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
-import rawData from "@/utils/data/home.json" with { type: "json" };
 import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
+import Partners from "@/components/Partners";
+import Footer from "@/components/Footer";
 
-interface HomeData {
-    categories: CategoryData[];
-}
-
-const data = rawData as HomeData;
-
-interface CategoryData {
+export interface CategoryData {
     title: string;
     items: {
         trends?: MarketTrendData[];
@@ -24,6 +17,10 @@ interface CategoryData {
         };
         market?: MarketItem[];
     };
+}
+
+export interface SectionData {
+    categories: CategoryData[];
 }
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
@@ -93,13 +90,13 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     );
 };
 
-interface PageProps {
+interface CompItemProps {
     icon: JSX.Element;
     title: string;
     items: CategoryData['items'];
 }
 
-const CompItem = ({ icon, title, items }: PageProps) => {
+const CompItem = ({ icon, title, items }: CompItemProps) => {
     return (
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
@@ -119,7 +116,7 @@ const CompItem = ({ icon, title, items }: PageProps) => {
     );
 };
 
-const getCategoryIcon = (title: string) => {
+export const getCategoryIcon = (title: string) => {
     switch (title.toLowerCase()) {
         case 'sports':
             return <FaFootball className="text-bb-accent inline-block" />;
@@ -132,9 +129,9 @@ const getCategoryIcon = (title: string) => {
     }
 };
 
-export default function Page() {
+export default function SectionContent({ data }: { data: SectionData }) {
     return (
-        <main className="flex flex-col gap-5">
+        <main className="flex flex-col gap-y-5">
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}

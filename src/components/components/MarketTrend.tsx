@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   LineChart,
   Line,
@@ -11,6 +12,7 @@ import {
 } from "recharts";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
+
 export type MarketTrendData = {
   id: string;
   title: string;
@@ -25,6 +27,7 @@ export type MarketTrendsProps = {
 };
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
+  const router = useRouter();
   const [timeRange, setTimeRange] = useState("1W");
   const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
@@ -76,11 +79,15 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
 
   if (!selectedMarket) return null;
 
+  const handleLinkClick = () => {
+    router.push(`/events/${selectedMarket.id}`);
+  };
+
   return (
-    <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800">
+    <div className="flex-grow text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800" onClick={handleLinkClick}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 cursor-pointer">
             <img
               src={selectedMarket.image || ""}
               alt="flag"
@@ -158,7 +165,10 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
         {["1D", "1W", "1M"].map((range) => (
           <button
             key={range}
-            onClick={() => setTimeRange(range)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setTimeRange(range);
+            }}
             className={`text-xs rounded-xl border-xl w-[27px] h-[17px] ${
               timeRange === range
                 ? "bg-white text-bb-black"
@@ -173,13 +183,18 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
       <div className="flex w-11/12 mx-auto">
         <div className="flex justify-between gap-2 my-3 w-full">
           <button 
-            onClick={() => handleBet("yes")}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBet("yes");}}
             className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
           >
             Buy Yes {selectedMarket.probability}$
           </button>
           <button 
-            onClick={() => handleBet("no")}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBet("no")
+            }}
             className="bg-[#111827] text-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
           >
             Buy No {selectedMarket.probability}$

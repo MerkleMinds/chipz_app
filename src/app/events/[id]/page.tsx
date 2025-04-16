@@ -14,19 +14,35 @@ interface PageProps {
 }
 
 interface OrderBook {
-  id: number;
+  yes: {
+    lastPrice: string;
+    spread: string;
+    asks: { price: string; shares: number; total: string; volume: number }[];
+    bids: { price: string; shares: number; total: string; volume: number }[];
+  };
+  no: {
+    lastPrice: string;
+    spread: string;
+    asks: { price: string; shares: number; total: string; volume: number }[];
+    bids: { price: string; shares: number; total: string; volume: number }[];
+  };
+}
+
+interface OptionsBook {
   title: string;
   probability: number;
+  orderBook: OrderBook[];
 }
 
 interface Event {
-  id: number;
+  id: string;
   title: string;
+  conditional: string;
   probability: number;
   totalVolume: string;
   imageUrl: string;
-  orderBook: OrderBook[];
-  conditional: string;
+  orderBook?: OrderBook[];
+  options?: OptionsBook[];
 }
 
 interface MainPageProps {
@@ -91,7 +107,6 @@ const OrderBookPart = () => {
 
   const sampleMarkets = {
     yes: {
-      id: "1",
       lastPrice: "0.50",
       spread: "0.02",
       asks: [
@@ -106,7 +121,6 @@ const OrderBookPart = () => {
       ]
     },
     no: {
-      id: "2",
       lastPrice: "0.45",
       spread: "0.03",
       asks: [

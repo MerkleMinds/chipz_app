@@ -1,0 +1,26 @@
+{
+  "categories": [
+    {
+      "id": "searchResults",
+      "title": "Search Results",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "search1",
+            "title": "Search Results",
+            "probability": 50,
+            "probabilityChange": "0",
+            "image": "https://cdn-icons-png.flaticon.com/512/149/149852.png",
+            "history": [
+              {
+                "date": "2024-04-16T09:00:00Z",
+                "probability": 50
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

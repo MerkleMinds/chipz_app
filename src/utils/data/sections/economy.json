@@ -1,0 +1,64 @@
+{
+  "categories": [
+    {
+      "id": "markets",
+      "title": "Markets",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "e1",
+            "title": "S&P 500 Year-End",
+            "probability": 58,
+            "probabilityChange": "+6",
+            "image": "https://m.media-amazon.com/images/I/81XyYD40pGL.jpg",
+            "history": [
+              {
+                "date": "2023-12-01T09:00:00Z",
+                "probability": 42
+              },
+              {
+                "date": "2023-12-15T10:00:00Z",
+                "probability": 45
+              },
+              {
+                "date": "2024-01-01T08:00:00Z",
+                "probability": 48
+              },
+              {
+                "date": "2024-01-15T12:00:00Z",
+                "probability": 52
+              },
+              {
+                "date": "2024-02-01T10:00:00Z",
+                "probability": 55
+              },
+              {
+                "date": "2024-02-15T14:00:00Z",
+                "probability": 58
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "interestRates",
+      "title": "Interest Rates",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "e2",
+            "title": "Fed Rate Cut",
+            "description": "Will the Fed cut rates in the next meeting?",
+            "options": [
+              { "name": "Yes", "value": 45 },
+              { "name": "No", "value": 55 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
