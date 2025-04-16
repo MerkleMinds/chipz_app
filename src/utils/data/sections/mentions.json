@@ -1,0 +1,47 @@
+{
+  "categories": [
+    {
+      "id": "celebrities",
+      "title": "Celebrities",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "m1",
+            "title": "Celebrity News",
+            "probability": 50,
+            "probabilityChange": "0",
+            "image": "https://cdn-icons-png.flaticon.com/512/3658/3658773.png",
+            "history": [
+              {
+                "date": "2024-04-16T09:00:00Z",
+                "probability": 50
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "trending",
+      "title": "Trending Topics",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "m2",
+            "title": "Social Media Trends",
+            "totalVolume": "$10M",
+            "imageUrl": "https://cdn-icons-png.flaticon.com/512/2065/2065157.png",
+            "options": [
+              { "name": "Topic A", "probability": 40 },
+              { "name": "Topic B", "probability": 30 },
+              { "name": "Topic C", "probability": 20 },
+              { "name": "Topic D", "probability": 10 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

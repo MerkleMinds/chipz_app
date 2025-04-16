@@ -5,7 +5,6 @@ import MarketTrend, { type MarketTrendData } from "@/components/components/Marke
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
-import { SectionInfo } from "@/utils/data/sections";
 
 export interface CategoryData {
     title: string;
@@ -130,7 +129,7 @@ export const getCategoryIcon = (title: string) => {
     }
 };
 
-export default function SectionContent({ data }: { data: SectionData; section?: SectionInfo }) {
+export default function SectionContent({ data }: { data: SectionData }) {
     return (
         <main className="flex flex-col gap-y-5">
             {data.categories.map((category, index) => (

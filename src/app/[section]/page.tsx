@@ -19,34 +19,39 @@ export default async function SectionPage({ params }: SectionPageProps) {
     return notFound();
   }
 
-  // Fetch data from the API endpoint
+  // Fetch data from the API endpoint or use direct import
   let data: SectionData;
   try {
+    // Check if API fetching is explicitly enabled
+    const useApi = process.env.NEXT_PUBLIC_USE_API_FETCH === 'true';
     
-    // Use proper absolute URL for server components
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const host = process.env.VERCEL_URL || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
-    
-    // First try the API endpoint
-    try {
-      const response = await fetch(`${baseUrl}/api/${section}`, {
-        // Don't use both no-store and revalidate together
-        cache: 'no-store'
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API returned status: ${response.status}`);
+    if (useApi) {
+      try {
+        // Use proper absolute URL for server components
+        const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+        const host = process.env.VERCEL_URL || 'localhost:3000';
+        const baseUrl = `${protocol}://${host}`;
+        
+        // First try the API endpoint
+        const response = await fetch(`${baseUrl}/api/${section}`, {
+          next: { revalidate: 3600 }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API returned status: ${response.status}`);
+        }
+        
+        data = await response.json();
+      } catch (apiError) {
+        console.error(`API fetch failed for section: ${section}`, apiError);
+        
+        // Fallback to direct import if API fails
+        data = require(`@/utils/data/sections/${section}.json`);
+        console.log(`Page: Successfully loaded data via direct import for: ${section}`);
       }
-      
-      data = await response.json();
-    } catch (apiError) {
-      console.error(`Page: API fetch failed for section: ${section}`, apiError);
-      
-      // Fallback to direct import if API fails
-      console.log(`Page: Falling back to direct import for: ${section}`);
+    } else {
+      // Default: use static import directly
       data = require(`@/utils/data/sections/${section}.json`);
-      console.log(`Page: Successfully loaded data via direct import for: ${section}`);
     }
   } catch (error) {
     console.error(`Page: Error loading data for section: ${section}`, error);
@@ -55,7 +60,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
 
   return (
     <div className="mx-3 mt-2">
-      <SectionContent data={data} section={sectionMeta} />
+      <SectionContent data={data} />
     </div>
   );
 }

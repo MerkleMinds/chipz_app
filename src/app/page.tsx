@@ -5,18 +5,21 @@ import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
 import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
+// Import data directly - this is the default approach for static builds
+import homeData from "@/utils/data/sections/home.json";
 
 interface HomeData {
     categories: CategoryData[];
 }
 
 interface CategoryData {
+    id?: string;
     title: string;
     items: {
         trends?: MarketTrendData[];
         multiChoice?: MarketNbrItem[];
         previews?: {
-            displayMode?: 'slider' | 'grid';
+            displayMode?: 'slider' | 'grid' | string;
             data: PredictionPreviewItem[];
         };
         market?: MarketItem[];
@@ -129,27 +132,41 @@ const getCategoryIcon = (title: string) => {
     }
 };
 
-// In App Router, we use async Server Components for data fetching
+// Only fetch from API if specifically enabled
 async function getHomeData(): Promise<HomeData> {
-    // For server components, we need an absolute URL
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const host = process.env.VERCEL_URL || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
+    // Check if API fetching is explicitly enabled
+    const useApi = process.env.NEXT_PUBLIC_USE_API_FETCH === 'true';
     
-    const res = await fetch(`${baseUrl}/api/home`, { 
-        next: { revalidate: 3600 } // Revalidate every hour
-    });
-    
-    if (!res.ok) {
-        throw new Error('Failed to fetch home data');
+    if (useApi) {
+        try {
+            // For server components, we need an absolute URL
+            const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+            const host = process.env.VERCEL_URL || 'localhost:3000';
+            const baseUrl = `${protocol}://${host}`;
+            
+            const res = await fetch(`${baseUrl}/api/home`, { 
+                next: { revalidate: 3600 } // Revalidate every hour
+            });
+            
+            if (!res.ok) {
+                throw new Error('Failed to fetch home data');
+            }
+            
+            return res.json();
+        } catch (error) {
+            console.error('API fetch failed, using static import:', error);
+            // Fall back to static import if API fetch fails
+            return homeData;
+        }
     }
     
-    return res.json();
+    // Default: use static import
+    return homeData;
 }
 
 // Page is now an async component
 export default async function Page() {
-    // Fetch data directly in the component
+    // Get data either from API (if enabled) or static import
     const data = await getHomeData();
     
     return (
