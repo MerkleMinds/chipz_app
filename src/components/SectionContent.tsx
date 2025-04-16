@@ -1,16 +1,13 @@
-import Footer from "@/components/Footer";
-import Partners from "@/components/Partners";
 import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
 import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
 import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
+import Partners from "@/components/Partners";
+import Footer from "@/components/Footer";
+import { SectionInfo } from "@/utils/data/sections";
 
-interface HomeData {
-    categories: CategoryData[];
-}
-
-interface CategoryData {
+export interface CategoryData {
     title: string;
     items: {
         trends?: MarketTrendData[];
@@ -21,6 +18,10 @@ interface CategoryData {
         };
         market?: MarketItem[];
     };
+}
+
+export interface SectionData {
+    categories: CategoryData[];
 }
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
@@ -90,13 +91,13 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     );
 };
 
-interface PageProps {
+interface CompItemProps {
     icon: JSX.Element;
     title: string;
     items: CategoryData['items'];
 }
 
-const CompItem = ({ icon, title, items }: PageProps) => {
+const CompItem = ({ icon, title, items }: CompItemProps) => {
     return (
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
@@ -116,7 +117,7 @@ const CompItem = ({ icon, title, items }: PageProps) => {
     );
 };
 
-const getCategoryIcon = (title: string) => {
+export const getCategoryIcon = (title: string) => {
     switch (title.toLowerCase()) {
         case 'sports':
             return <FaFootball className="text-bb-accent inline-block" />;
@@ -129,29 +130,7 @@ const getCategoryIcon = (title: string) => {
     }
 };
 
-// In App Router, we use async Server Components for data fetching
-async function getHomeData(): Promise<HomeData> {
-    // For server components, we need an absolute URL
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const host = process.env.VERCEL_URL || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
-    
-    const res = await fetch(`${baseUrl}/api/home`, { 
-        next: { revalidate: 3600 } // Revalidate every hour
-    });
-    
-    if (!res.ok) {
-        throw new Error('Failed to fetch home data');
-    }
-    
-    return res.json();
-}
-
-// Page is now an async component
-export default async function Page() {
-    // Fetch data directly in the component
-    const data = await getHomeData();
-    
+export default function SectionContent({ data }: { data: SectionData; section?: SectionInfo }) {
     return (
         <main className="flex flex-col gap-y-5">
             {data.categories.map((category, index) => (

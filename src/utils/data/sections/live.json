@@ -1,0 +1,64 @@
+{
+  "categories": [
+    {
+      "id": "liveEvents",
+      "title": "Live Events",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "l1",
+            "title": "Current Match Winner",
+            "probability": 55,
+            "probabilityChange": "+5",
+            "image": "https://m.media-amazon.com/images/I/71jvBziy63L.jpg",
+            "history": [
+              {
+                "date": "2024-04-16T09:00:00Z",
+                "probability": 45
+              },
+              {
+                "date": "2024-04-16T09:15:00Z",
+                "probability": 47
+              },
+              {
+                "date": "2024-04-16T09:30:00Z",
+                "probability": 48
+              },
+              {
+                "date": "2024-04-16T09:45:00Z",
+                "probability": 50
+              },
+              {
+                "date": "2024-04-16T10:00:00Z",
+                "probability": 52
+              },
+              {
+                "date": "2024-04-16T10:15:00Z",
+                "probability": 55
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ongoingDebates",
+      "title": "Ongoing Debates",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "l2",
+            "title": "Debate Winner",
+            "description": "Who will win the ongoing debate?",
+            "options": [
+              { "name": "Candidate X", "value": 60 },
+              { "name": "Candidate Y", "value": 40 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

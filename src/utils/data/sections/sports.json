@@ -1,0 +1,87 @@
+{
+  "categories": [
+    {
+      "id": "football",
+      "title": "Football",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "s1",
+            "title": "Super Bowl Winner",
+            "probability": 65,
+            "probabilityChange": "+5",
+            "image": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
+            "history": [
+              {
+                "date": "2023-12-01T09:00:00Z",
+                "probability": 45
+              },
+              {
+                "date": "2023-12-15T10:00:00Z",
+                "probability": 48
+              },
+              {
+                "date": "2024-01-01T08:00:00Z",
+                "probability": 50
+              },
+              {
+                "date": "2024-01-15T12:00:00Z",
+                "probability": 55
+              },
+              {
+                "date": "2024-02-01T10:00:00Z",
+                "probability": 60
+              },
+              {
+                "date": "2024-02-15T14:00:00Z",
+                "probability": 65
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "basketball",
+      "title": "Basketball",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "s2",
+            "title": "NBA Finals",
+            "description": "Which team will win the NBA Finals?",
+            "options": [
+              { "name": "Celtics", "value": 40 },
+              { "name": "Lakers", "value": 35 },
+              { "name": "Bucks", "value": 25 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "tennis",
+      "title": "Tennis",
+      "items": {
+        "previews": {
+          "displayMode": "slider",
+          "data": [
+            {
+              "id": "s3",
+              "title": "Wimbledon Men's Singles",
+              "description": "Who will win Wimbledon?",
+              "image": "/images/tennis.jpg",
+              "options": [
+                { "name": "Djokovic", "value": 45 },
+                { "name": "Alcaraz", "value": 40 },
+                { "name": "Nadal", "value": 15 }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

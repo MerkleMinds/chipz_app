@@ -84,7 +84,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
   };
 
   return (
-    <div className="text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800" onClick={handleLinkClick}>
+    <div className="flex-grow text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800" onClick={handleLinkClick}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <div className="flex items-center space-x-2 cursor-pointer">

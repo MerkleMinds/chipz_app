@@ -1,0 +1,86 @@
+{
+  "categories": [
+    {
+      "id": "elections",
+      "title": "Elections",
+      "items": {
+        "trends": [
+          {
+            "type": "trend",
+            "id": "p1",
+            "title": "Presidential Election",
+            "probability": 52,
+            "probabilityChange": "+4",
+            "image": "https://m.media-amazon.com/images/I/71+mDoHG4mL.jpg",
+            "history": [
+              {
+                "date": "2023-12-01T09:00:00Z",
+                "probability": 40
+              },
+              {
+                "date": "2023-12-15T10:00:00Z",
+                "probability": 42
+              },
+              {
+                "date": "2024-01-01T08:00:00Z",
+                "probability": 45
+              },
+              {
+                "date": "2024-01-15T12:00:00Z",
+                "probability": 48
+              },
+              {
+                "date": "2024-02-01T10:00:00Z",
+                "probability": 50
+              },
+              {
+                "date": "2024-02-15T14:00:00Z",
+                "probability": 52
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "legislation",
+      "title": "Legislation",
+      "items": {
+        "multiChoice": [
+          {
+            "type": "multiChoice",
+            "id": "p2",
+            "title": "New Tax Bill",
+            "description": "Will the new tax bill pass?",
+            "options": [
+              { "name": "Yes", "value": 65 },
+              { "name": "No", "value": 35 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "international",
+      "title": "International",
+      "items": {
+        "previews": {
+          "displayMode": "grid",
+          "data": [
+            {
+              "type": "preview",
+              "id": "p3",
+              "title": "UN Resolution",
+              "description": "Will the UN resolution pass?",
+              "image": "/images/un.jpg",
+              "options": [
+                { "name": "Pass", "value": 70 },
+                { "name": "Fail", "value": 30 }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
