@@ -1,12 +1,13 @@
-import React from 'react';
+"use client";
 
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { HalfCircleProgress } from '../HalfCircleProgress';
 
 export type PredictionPreviewItem = {
     id: string;
     title: string;
     probability: number;
-    totalVolume: string;
     imageUrl: string;
 };
 
@@ -15,6 +16,7 @@ interface PredictionPreviewListProps {
 }
 
 export default function PredictionPreviewList({ predictions }: PredictionPreviewListProps) {
+    const router = useRouter();
     if (!Array.isArray(predictions)) return null;
 
     return (
@@ -25,7 +27,8 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
                 return (
                     <div
                         key={prediction.id}
-                        className="w-full h-20 p-5 flex items-center justify-between border border-neutral-700 rounded-xl bg-gray-800"
+                        onClick={() => router.push(`/events/${prediction.id}`)}
+                        className="w-full h-20 p-5 flex items-center justify-between border border-neutral-700 rounded-xl bg-gray-800 cursor-pointer"
                     >
                         <div className="flex items-center space-x-3">
                             <div className="">
