@@ -79,32 +79,32 @@ function Friend({ name, points, joinedAt }: IFriendProps) {
 
 const friends: IFriendProps[] = [
   {
-    name: "0xA1B2...C3D4",
+    name: "+1 (123) 456-7890",
     points: 100,
     joinedAt: new Date(),
   },
   {
-    name: "0xE5F6...G7H8",
+    name: "+1 (901) 234-5678",
     points: 200,
     joinedAt: new Date(),
   },
   {
-    name: "0xI9J0...K1L2",
+    name: "+1 (111) 222-3333",
     points: 300,
     joinedAt: new Date(),
   },
   {
-    name: "0xM3N4...O5P6",
+    name: "+1 (444) 555-6666",
     points: 400,
     joinedAt: new Date(),
   },
   {
-    name: "0xQ7R8...S9T0",
+    name: "+1 (777) 888-9999",
     points: 500,
     joinedAt: new Date(),
   },
   {
-    name: "0xU1V2...W3X4",
+    name: "+1 (555) 123-4567",
     points: 600,
     joinedAt: new Date(),
   },

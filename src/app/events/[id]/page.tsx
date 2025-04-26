@@ -5,7 +5,6 @@ import Partners from "@/components/Partners";
 import { FaChevronDown } from "react-icons/fa6";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import data from "@/utils/data/events.json" with { type: "json" };
-import { CiBookmark } from "react-icons/ci";
 
 interface PageProps {
   params: {
@@ -235,7 +234,6 @@ const MainPage = ({ data }: MainPageProps) => {
         alt="event-banner"
         className="w-[45px] h-[45px] object-cover"
         />
-        <CiBookmark className="text-12" />
         </div>
       <h2 className="text-white text-lg font-bold">{data.title}</h2>
 	  <div className="flex flex-col">

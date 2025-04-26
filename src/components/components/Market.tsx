@@ -2,8 +2,6 @@
 
 // import { redirect, useRouter } from "next/navigation";}
 
-import { CiBookmark } from "react-icons/ci";
-import { IconContext } from "react-icons";
 import { HalfCircleProgress } from "../HalfCircleProgress";
 
 export type MarketItem = {
@@ -57,11 +55,6 @@ export default function MarketBox({ markets }: IBoxProps) {
               </div>
               <div className="flex flex-row justify-between mt-3">
                 <p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
-                <IconContext.Provider
-                  value={{ className: "text-white text-[12px] font-bold" }}
-                >
-                  <CiBookmark className="text-[12px]" />
-                </IconContext.Provider>
               </div>
             </div>
           </div>

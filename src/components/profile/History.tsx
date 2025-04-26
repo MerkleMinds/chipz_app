@@ -87,21 +87,18 @@ export default function History() {
 
   return (
     <div className="mb-6">
-      <div className="flex flex-1 justify-between flex-row gap-2 mb-4">
-        <h3 className="text-lg">Total Net Balance</h3>
-        <div className="border w-[42.5%] rounded-xl h-min p-1 flex justify-end">
-          <div className="flex flex-row gap-2">
-            <p
-              className={`text-sm ${
-                totalBalance >= 0 ? "text-[#23C45E]" : "text-[#EF4444]"
-              }`}
+      <div className="flex flex-1 justify-between flex-row gap-2 mb-4 items-center">
+        <h3 className="text-lg mb-4">PnL Graph</h3>
+        <div className="flex flex-row gap-2 items-center">
+          <h3
+            className={`text-sm ${
+              totalBalance >= 0 ? "text-[#23C45E]" : "text-[#EF4444]"
+            }`}
             >
               {totalBalance} $
-            </p>
+            </h3>
           </div>
-        </div>
       </div>
-      <h3 className="text-lg mb-4">PnL Graph</h3>
       <div className="w-full h-40 bg-gray-800 rounded-md mb-4">
         
       </div>

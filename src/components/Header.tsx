@@ -53,7 +53,7 @@ export default function Header() {
           {/* TODO: Add wallet connection 
           {address ? ( */}
             <div className="flex items-center gap-3">
-              <div className="w-[74px] h-[34px] rounded border border-white flex flex-row items-center justify-center">
+              <div className="w-[74px] h-[34px] rounded border-chipz-custom bg-gray-800 flex flex-row items-center justify-center">
                 <CiWallet className={`text-lg text-white w-4 h-4`} />
                 <span className="text-xs text-white font-semibold ml-2">
                   {amount.toFixed(2)} $
