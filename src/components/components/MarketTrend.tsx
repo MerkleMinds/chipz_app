@@ -102,7 +102,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
             </div>
           </div>
           <div className="mt-2">
-            <p className="text-white text-sm font-bold">
+            <p className="text-chipz-gray-light text-sm font-bold">
               {selectedMarket.probability}% chance
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
               dataKey="probability"
               stroke={
                 selectedMarket.probabilityChange.startsWith("+")
-                  ? "#6BD932"
+                  ? "#23C45E"
                   : "#FE4E4F"
               }
               strokeWidth={2}
@@ -147,8 +147,8 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
                     r={4}
                     fill={
                       selectedMarket.probabilityChange.startsWith("+")
-                        ? "#6BD932"
-                        : "#FE4E4F"
+                        ? "#23C45E"
+                        : "#111827"
                     }
                   />
                 ) : (
@@ -171,7 +171,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
             }}
             className={`text-xs rounded-xl border-xl w-[27px] h-[17px] ${
               timeRange === range
-                ? "bg-white text-bb-black"
+                ? "bg-chipz-gray-light text-bb-black"
                 : "bg-gray-800 text-gray-400"
             }`}
           >
@@ -186,7 +186,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
             onClick={(e) => {
               e.stopPropagation();
               handleBet("yes");}}
-            className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-600 w-[142px] h-[28px]"
+            className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-500 w-[142px] h-[28px]"
           >
             Buy Yes {selectedMarket.probability}$
           </button>

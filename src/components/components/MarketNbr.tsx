@@ -1,7 +1,5 @@
 "use client";
 
-import { CiBookmark } from "react-icons/ci";
-import { IconContext } from "react-icons";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
 import { useRouter } from "next/navigation";
@@ -101,9 +99,6 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 					</div>
 					<div className="flex justify-between items-end mt-3">
 						<p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
-						<IconContext.Provider value={{ className: "text-white text-[12px] font-bold" }}>
-							<CiBookmark className="text-[12px]" />
-						</IconContext.Provider>
 					</div>
 				</div>
 			))}

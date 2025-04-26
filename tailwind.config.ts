@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss/plugin'; // Import the plugin function
 
 const config: Config = {
   content: [
@@ -15,6 +16,7 @@ const config: Config = {
         "bb-success": "#23C45E",
         "bb-error": "#EF4444",
         "bb-black": "#111827",
+        "chipz-gray-light": "#A3A3A3",
       },
       fontFamily: {
         just: ["JustSans", "sans-serif"],
@@ -24,6 +26,14 @@ const config: Config = {
   },
   plugins: [
     require("preline/plugin"),
+    plugin(function({ addUtilities }) {
+      addUtilities({
+        '.border-chipz-custom': {
+          borderWidth: '0.125px',
+          borderColor: 'rgba(163, 163, 163, 0.5)',
+        }
+      })
+    })
   ],
 };
 export default config;
