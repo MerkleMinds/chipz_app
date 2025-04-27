@@ -59,7 +59,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
   }
 
   return (
-    <div className="mx-3 mt-2">
+    <div>
       <SectionContent data={data} />
     </div>
   );
