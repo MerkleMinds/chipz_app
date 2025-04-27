@@ -6,9 +6,9 @@ import {
   LineChart,
   Line,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
   CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
@@ -24,6 +24,21 @@ export type MarketTrendData = {
 
 export type MarketTrendsProps = {
   markets: MarketTrendData[];
+};
+
+const CustomTooltip = ({ active, payload, coordinate }: any) => {
+  if (active && payload && payload.length) {
+    const x = coordinate?.x;
+    const y = coordinate?.y - 10;
+
+    return (
+      <text x={x} y={y} dy={-4} fill="#ccc" fontSize={12} textAnchor="middle">
+        {`${payload[0].value}%`}
+      </text>
+    );
+  }
+
+  return null;
 };
 
 export default function MarketTrend({ markets }: MarketTrendsProps) {
@@ -127,7 +142,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
               stroke="#444"
               fill="#1f2937"
             />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} cursor={false} />
             <Line
               type="monotone"
               dataKey="probability"
