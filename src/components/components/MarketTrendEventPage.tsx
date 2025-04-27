@@ -5,9 +5,9 @@ import {
   LineChart,
   Line,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid,
 } from "recharts";
 
 export type MarketTrendData = {
@@ -18,6 +18,21 @@ export type MarketTrendData = {
 
 export type MarketTrendEventPageProps = {
   market: MarketTrendData;
+};
+
+const CustomTooltip = ({ active, payload, coordinate }: any) => {
+  if (active && payload && payload.length) {
+    const x = coordinate?.x;
+    const y = coordinate?.y - 10; // Position above the point
+
+    return (
+      <text x={x} y={y} dy={-4} fill="#ccc" fontSize={12} textAnchor="middle">
+        {`${payload[0].value}%`}
+      </text>
+    );
+  }
+
+  return null;
 };
 
 export default function MarketTrendEventPage({ market }: MarketTrendEventPageProps) {
@@ -68,7 +83,7 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
               stroke="#444"
               fill="#1f2937"
             />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} cursor={false} />
             <Line
               type="monotone"
               dataKey="probability"
