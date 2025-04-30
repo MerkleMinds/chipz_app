@@ -1,0 +1,289 @@
+[
+  {
+    "id": "team_0",
+    "name": "Athletic Bilbao",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223989_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_1",
+    "name": "Atletico Madrid",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_212592_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_2",
+    "name": "CA Osasuna",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222204_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_3",
+    "name": "CD Leganes",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_226066_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_4",
+    "name": "Deportivo Alaves",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222835_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_5",
+    "name": "Espanyol",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222310_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_6",
+    "name": "FC Barcelona",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223259_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_7",
+    "name": "Getafe CF",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222122_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_8",
+    "name": "Gerona FC",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_229253_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_9",
+    "name": "Rayo Vallecano",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223569_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_10",
+    "name": "Celta de Vigo",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223051_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_11",
+    "name": "Villareal CF",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223671_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_12",
+    "name": "RCD Mallorca",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222423_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_13",
+    "name": "Real Betis",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222527_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_14",
+    "name": "Real Madrid",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_212591_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_15",
+    "name": "Real Sociedad",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223351_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_16",
+    "name": "Real Valladolid",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_225446_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_17",
+    "name": "Sevilla FC",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_223471_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_18",
+    "name": "UD Las Palmas",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_229894_1.png",
+    "source": "team"
+  },
+  {
+    "id": "team_19",
+    "name": "Valencia CF",
+    "kind": "Soccer",
+    "image": "https://media.itsfogo.com/media/upload/live/participants/4/2_222023_1.png",
+    "source": "team"
+  },
+  {
+    "id": "market_m1",
+    "name": "Will Argentina win the FIFA World Cup 2026?",
+    "kind": "Sports",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+    "source": "market"
+  },
+  {
+    "id": "market_m2",
+    "name": "Will Bitcoin reach $100K by 2025?",
+    "kind": "Crypto",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg",
+    "source": "market"
+  },
+  {
+    "id": "market_m3",
+    "name": "Will a human land on Mars before 2035?",
+    "kind": "Science",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Mars_map.JPG",
+    "source": "market"
+  },
+  {
+    "id": "market_mc1",
+    "name": "Who will win the 2025 Copa Libertadores?",
+    "kind": "Soccer",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+    "source": "market"
+  },
+  {
+    "id": "market_mc2",
+    "name": "Who will win the Super Bowl 2025?",
+    "kind": "Football",
+    "image": "https://upload.wikimedia.org/wikipedia/en/a/a2/NFL_logo.svg",
+    "source": "market"
+  },
+  {
+    "id": "market_mc3",
+    "name": "Who will be the next U.S. President?",
+    "kind": "Politics",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
+    "source": "market"
+  },
+  {
+    "id": "comp_1",
+    "name": "La Liga",
+    "kind": "Competition",
+    "image": "https://assets.laliga.com/assets/logos/LL_RGB_h_color/LL_RGB_h_color.png",
+    "source": "competition"
+  },
+  {
+    "id": "comp_2",
+    "name": "Euro 2024",
+    "kind": "Competition",
+    "image": "/euro2024_dark.png",
+    "source": "competition"
+  },
+  {
+    "id": "comp_3",
+    "name": "Premier League",
+    "kind": "Competition",
+    "image": "https://seeklogo.com/images/P/premier-league-new-logo-D22A0CE87E-seeklogo.com.png",
+    "source": "competition"
+  },
+  {
+    "id": "event_1",
+    "name": "Utah Jazz vs GS Warriors",
+    "kind": "Basketball",
+    "image": "/warriors.png",
+    "source": "event"
+  },
+  {
+    "id": "event_2",
+    "name": "NFL 2024",
+    "kind": "Football",
+    "image": null,
+    "source": "event"
+  },
+  {
+    "id": "bet_p1",
+    "name": "Will Trump remove tariff on Canada before May?",
+    "kind": "Politics",
+    "image": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_s2",
+    "name": "NBA Champion 2024",
+    "kind": "Basketball",
+    "image": "https://cdn.nba.com/logos/nba/nba-logo.png",
+    "source": "bet"
+  },
+  {
+    "id": "bet_s3",
+    "name": "FIFA World Cup 2026 Winner",
+    "kind": "Soccer",
+    "image": "https://digitalhub.fifa.com/transform/aa9f03ad-8240-4d94-b627-fb071c890095/FWC-2026-LOGO",
+    "source": "bet"
+  },
+  {
+    "id": "bet_e1",
+    "name": "Fed interest rate by end of 2024?",
+    "kind": "Economy",
+    "image": "https://gdb.voanews.com/05d4e627-a082-4695-a8f4-7cdd90ce29f1_w408_r1_s.jpg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_c2",
+    "name": "Ethereum price by end of 2024",
+    "kind": "Crypto",
+    "image": "https://ethereum.org/static/6b935ac0e6194247347855dc3d328e83/13c43/eth-diamond-black.png",
+    "source": "bet"
+  },
+  {
+    "id": "bet_c3",
+    "name": "Solana price by end of 2024",
+    "kind": "Crypto",
+    "image": "https://solana.com/_next/static/media/logotype.e4df684f.svg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_c4",
+    "name": "New Spot ETF approval in 2024?",
+    "kind": "Crypto",
+    "image": "https://www.investopedia.com/thmb/N6j5M54-_DNmRxBvxXVqiXgLROA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1304366084-03d7ca957c304ee3a4d3835008f820d7.jpg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_c5",
+    "name": "US to pass comprehensive crypto regulation?",
+    "kind": "Crypto",
+    "image": "https://www.forbes.com/advisor/wp-content/uploads/2022/06/crypto-regulations.jpeg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_m1",
+    "name": "Taylor Swift Grammy wins 2024",
+    "kind": "Entertainment",
+    "image": "https://media.glamour.com/photos/65a6ac798e36f3aa1cdc7744/master/w_2560%2Cc_limit/GettyImages-1919675861.jpg",
+    "source": "bet"
+  },
+  {
+    "id": "bet_m2",
+    "name": "Messi total goals in 2024",
+    "kind": "Soccer",
+    "image": "https://library.sportingnews.com/styles/crop_style_16_9_mobile_2x/s3/2023-12/Lionel%20Messi%20Inter%20Miami%202023.jpg",
+    "source": "bet"
+  }
+]
