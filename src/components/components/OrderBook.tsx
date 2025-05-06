@@ -105,7 +105,7 @@ export const OrderBookPart: React.FC<OrderBookPartProps> = ({ orderBookData = sa
   }
 
   return (
-    <div className="w-full border border-chipz-gray-light rounded-lg bg-gray-800/50">
+    <div className="w-full border border-opacity-50 border-chipz-gray-light rounded-lg">
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="w-full py-4 px-6 flex flex-row justify-between items-center cursor-pointer"
