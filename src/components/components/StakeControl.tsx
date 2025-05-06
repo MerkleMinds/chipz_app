@@ -27,7 +27,7 @@ export const StakeControl = ({
   return (
     <div className="mt-4 text-gray-400">
       <div className="flex flex-1 flex-col gap-y-4">
-        <div className="flex flex-1 flex-row items-center border-chipz-custom rounded-xl px-3 py-2 text-white ">
+        <div className="flex flex-1 flex-row items-center border-chipz-custom rounded-xl px-3 py-1 text-white ">
           <div className="flex flex-row items-center max-w-1/2 justify-start">
               <input
                 type="number"
@@ -44,19 +44,19 @@ export const StakeControl = ({
           <div className="space-x-1 flex flex-1 flex-row min-w-1/2 justify-end">
             <button
               onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT * 0.25])}
-              className="text-[10px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
+              className="text-[12px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
             >
               25%
             </button>
             <button
               onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT * 0.5])}
-              className="text-[10px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
+              className="text-[12px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
             >
               50%
             </button>
             <button
               onClick={() => handleAmountChange([MAX_ACCOUNT_AMOUNT])}
-              className="text-[10px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
+              className="text-[12px] text-gray-400 border-chipz-custom rounded-sm px-[5px] py-[5px]"
             >
               Max
             </button>

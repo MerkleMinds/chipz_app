@@ -31,14 +31,16 @@ interface BuyButtonsProps {
 
 const BuyButtons = ({ yesPrice, noPrice }: BuyButtonsProps) => {
   return (
-    <div className="fixed bottom-[64px] left-0 right-0 p-4 bg-gray-900 border border-[#A3A3A3] z-10">
-      <div className="flex gap-4 max-w-lg mx-auto">
-        <button className="flex-1 py-3 px-4 rounded-lg border border-green-500 text-green-500 hover:bg-green-500/10">
-          Buy Yes {yesPrice}$
-        </button>
-        <button className="flex-1 py-3 px-4 rounded-lg border border-red-500 text-red-500 hover:bg-red-500/10">
-          Buy No {noPrice}$
-        </button>
+    <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
+      <div className="w-full max-w-sm mx-auto">
+        <div className="flex gap-4">
+          <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10">
+            Buy Yes {yesPrice}$
+          </button>
+          <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10">
+            Buy No {noPrice}$
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -100,7 +102,6 @@ export default function Page({ params }: PageProps) {
     <main className="flex flex-col gap-5 pb-20">
       <MainPage data={event} />
       <Partners />
-
       <Footer />
       <BuyButtons yesPrice={50} noPrice={53} />
     </main>

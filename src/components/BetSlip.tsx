@@ -149,7 +149,7 @@ export default function Betslip() {
                     defaultValue={quantity} 
                   />
                   <div className="flex flex-row justify-between items-center">
-                    <p className="text-white">Possible winnings</p>
+                    <p className="text-white">Potential Profit</p>
                     <p className="text-bb-success font-bold">
                       {(
                         quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
@@ -187,6 +187,7 @@ export default function Betslip() {
           )}
         </>
       )}
+      
       {showPopup && <Popup fn={() => setShowPopup(false)} />}
     </>
   );
