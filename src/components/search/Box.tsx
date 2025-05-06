@@ -11,6 +11,7 @@ import {
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 // Unified search item interface
 export interface SearchItem {
@@ -73,6 +74,11 @@ export default function Box({ items }: IBoxProps) {
     }
   };
 
+  // Helper function to determine if an image is external or local
+  const isExternalImage = (src: string) => {
+    return src.startsWith('http') || src.startsWith('https');
+  };
+
   return (
     <div className="w-full max-w-md flex flex-col">
       <div className="relative w-full">
@@ -93,13 +99,26 @@ export default function Box({ items }: IBoxProps) {
             onClick={() => handleItemClick(item)}
             className="flex items-center p-3 border border-gray-700 rounded-md bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors"
           >
-            <div className="flex-shrink-0 w-10 h-10 mr-3">
+            <div className="flex-shrink-0 w-10 h-10 mr-3 relative">
               {item.image ? (
-                <img 
-                  src={item.image} 
-                  alt={item.name} 
-                  className="w-full h-full object-contain"
-                />
+                isExternalImage(item.image) ? (
+                  <Image 
+                    src={item.image}
+                    alt={item.name}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                    unoptimized={true}
+                  />
+                ) : (
+                  <Image 
+                    src={item.image}
+                    alt={item.name}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                )
               ) : (
                 <div className="flex items-center justify-center w-full h-full text-white">
                   {kindToIcon[item.kind] || <FaTrophy />}

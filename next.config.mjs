@@ -7,6 +7,16 @@ const nextConfig = {
         hostname: "media.itsfogo.com",
         pathname: "/media/**",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.laliga.com",
+        pathname: "/**",
+      },
     ],
   },
 };
