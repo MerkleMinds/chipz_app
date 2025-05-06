@@ -187,6 +187,7 @@ export default function Betslip() {
           )}
         </>
       )}
+      
       {showPopup && <Popup fn={() => setShowPopup(false)} />}
     </>
   );
