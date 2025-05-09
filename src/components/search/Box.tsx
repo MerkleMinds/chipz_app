@@ -36,11 +36,11 @@ const kindToIcon: {
   Science: <FaTrophy />
 };
 
-interface ISearchPanelProps {
+interface IBoxProps {
   items: SearchItem[];
 }
 
-export default function SearchPanel({ items }: ISearchPanelProps) {
+export default function Box({ items }: IBoxProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState<SearchItem[]>([]);
