@@ -1,17 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  LineChart,
-  Line,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
+import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
+import ProbabilityLineChart from "../charts/ProbabilityLineChart";
+import TimeRangeSelector from "../charts/TimeRangeSelector";
+import useTimeRangeFilter from "../charts/useTimeRangeFilter";
 
 export type MarketTrendData = {
   id: string;
@@ -26,53 +21,19 @@ export type MarketTrendsProps = {
   markets: MarketTrendData[];
 };
 
-const CustomTooltip = ({ active, payload, coordinate }: any) => {
-  if (active && payload && payload.length) {
-    const x = coordinate?.x;
-    const y = coordinate?.y - 10;
-
-    return (
-      <text x={x} y={y} dy={-4} fill="#ccc" fontSize={12} textAnchor="middle">
-        {`${payload[0].value}%`}
-      </text>
-    );
-  }
-
-  return null;
-};
-
 export default function MarketTrend({ markets }: MarketTrendsProps) {
   const router = useRouter();
-  const [timeRange, setTimeRange] = useState("1W");
   const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
   if (!Array.isArray(markets)) return null;
 
   const selectedMarket = markets.length === 1 ? markets[0] : null;
+  if (!selectedMarket) return null;
 
-  const getFilteredHistory = (market: MarketTrendData) => {
-    if (!market?.history || !Array.isArray(market.history)) return [];
-
-    const now = new Date();
-
-    if (timeRange === "1D") {
-      const oneDayAgo = new Date();
-      oneDayAgo.setHours(now.getHours() - 24);
-
-      const filteredPoints = market.history
-        .filter((point) => new Date(point.date) >= oneDayAgo)
-        .sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
-
-      return filteredPoints.length < 2
-        ? market.history.slice(-2)
-        : filteredPoints;
-    }
-
-    const daysToShow = timeRange === "1W" ? 7 : 30;
-    return market.history.slice(-daysToShow);
-  };
+  const { timeRange, setTimeRange, filteredData } = useTimeRangeFilter(
+    selectedMarket.history,
+    "1W"
+  );
 
   const handleBet = (betType: "yes" | "no") => {
     if (!selectedMarket?.id || !selectedMarket?.title) return;
@@ -92,14 +53,14 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
     setShow(true);
   };
 
-  if (!selectedMarket) return null;
-
   const handleLinkClick = () => {
     router.push(`/events/${selectedMarket.id}`);
   };
 
+  const isPositive = selectedMarket.probabilityChange.startsWith("+");
+
   return (
-    <div className="flex-grow text-white p-3 space-y-2 border border-neutral-700 rounded-xl bg-gray-800" onClick={handleLinkClick}>
+    <div className="flex-grow text-white p-3 space-y-2 rounded-xl bg-gray-800" onClick={handleLinkClick}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <div className="flex items-center space-x-2 cursor-pointer">
@@ -123,77 +84,18 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
           </div>
         </div>
       </div>
-      <div className="w-full h-40 flex items-center justify-center m-0">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={getFilteredHistory(selectedMarket)}
-            margin={{ left: 0, right: 0, top: 5, bottom: 10 }}
-          >
-            <YAxis
-              stroke="transparent"
-              tick={{ fontSize: 9, fill: "#ccc" }}
-              orientation="right"
-              width={30}
-              tickFormatter={(value) => `${value}%`}
-            />
-            <CartesianGrid
-              horizontal={true}
-              vertical={false}
-              stroke="#444"
-              fill="#1f2937"
-            />
-            <Tooltip content={<CustomTooltip />} cursor={false} />
-            <Line
-              type="monotone"
-              dataKey="probability"
-              stroke={
-                selectedMarket.probabilityChange.startsWith("+")
-                  ? "#23C45E"
-                  : "#FE4E4F"
-              }
-              strokeWidth={2}
-              dot={(props) => {
-                const isLastPoint =
-                  props.index === getFilteredHistory(selectedMarket).length - 1;
-                return isLastPoint ? (
-                  <circle
-                    cx={props.cx}
-                    cy={props.cy}
-                    r={4}
-                    fill={
-                      selectedMarket.probabilityChange.startsWith("+")
-                        ? "#23C45E"
-                        : "#111827"
-                    }
-                  />
-                ) : (
-                  <circle r={0} cx={props.cx} cy={props.cy} />
-                );
-              }}
-              activeDot={{ r: 4 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      
+      <ProbabilityLineChart 
+        data={filteredData} 
+        isPositive={isPositive} 
+      />
 
-      <div className="flex mb-2">
-        {["1D", "1W", "1M"].map((range) => (
-          <button
-            key={range}
-            onClick={(e) => {
-              e.stopPropagation();
-              setTimeRange(range);
-            }}
-            className={`text-xs rounded-xl border-xl w-[27px] h-[17px] ${
-              timeRange === range
-                ? "bg-chipz-gray-light text-bb-black"
-                : "bg-gray-800 text-gray-400"
-            }`}
-          >
-            {range}
-          </button>
-        ))}
-      </div>
+      <TimeRangeSelector
+        timeRange={timeRange as TimeRangeOption}
+        setTimeRange={setTimeRange}
+        availableRanges={TIME_RANGES.default}
+        stopPropagation={true}
+      />
 
       <div className="flex w-11/12 mx-auto">
         <div className="flex justify-between gap-2 my-3 w-full">

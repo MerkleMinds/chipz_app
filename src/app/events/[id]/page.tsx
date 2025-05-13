@@ -48,7 +48,7 @@ const BuyButtons = ({ yesPrice, noPrice }: BuyButtonsProps) => {
 
 const MarketTrendPart = () => {
   return (
-    <div className="w-full border border-[#A3A3A3] rounded-lg min-h-[250px]">
+    <div className="w-full min-h-[250px]">
       <MarketTrendEventPage 
         market={{
           id: "1",
