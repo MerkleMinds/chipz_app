@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
-import data from "@/utils/data/events.json" with { type: "json" };
+import { getEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
 
 interface PageProps {
   params: {
@@ -46,24 +46,11 @@ const BuyButtons = ({ yesPrice, noPrice }: BuyButtonsProps) => {
   );
 };
 
-const MarketTrendPart = () => {
+const MarketTrendPart = ({ eventId }: { eventId: string }) => {
   return (
     <div className="w-full border border-[#A3A3A3] rounded-lg min-h-[250px]">
       <MarketTrendEventPage 
-        market={{
-          id: "1",
-          probabilityChange: "+5.2",
-          history: [
-            { date: "2024-01-01", probability: 45 },
-            { date: "2024-01-02", probability: 50 },
-            { date: "2024-01-03", probability: 55 },
-            { date: "2024-01-04", probability: 60 },
-            { date: "2024-01-05", probability: 65 },
-            { date: "2024-01-06", probability: 70 },
-            { date: "2024-01-07", probability: 75 },
-            { date: "2024-01-08", probability: 80 },
-          ]
-        }} 
+        market={getMarketTrend(eventId)}
       />
     </div>
   );
@@ -86,14 +73,14 @@ const MainPage = ({ data }: MainPageProps) => {
 		</div>
 		<h2 className="text-white text-lg font-bold">{data.probability}% chance</h2>
 	  </div>
-	  <MarketTrendPart />
-	  <OrderBookPart />
+	  <MarketTrendPart eventId={data.id} />
+	  <OrderBookPart orderBookData={getOrderBookForEvent(data.id)} />
     </div>
   );
 };
 
 export default function Page({ params }: PageProps) {
-  const event = data.find(event => event.id.toString() === params.id);
+  const event = getEventById(params.id);
   
   if (!event) return null;
   // TODO: return 404 if event is not found

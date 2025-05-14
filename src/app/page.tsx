@@ -1,30 +1,13 @@
 import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
-import MarketBox, { type MarketItem } from "@/components/components/Market";
-import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
-import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
-import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
-// Import data directly - this is the default approach for static builds
-import homeData from "@/utils/data/sections/home.json";
-
-interface HomeData {
-    categories: CategoryData[];
-}
-
-interface CategoryData {
-    id?: string;
-    title: string;
-    items: {
-        trends?: MarketTrendData[];
-        multiChoice?: MarketNbrItem[];
-        previews?: {
-            displayMode?: 'slider' | 'grid' | string;
-            data: PredictionPreviewItem[];
-        };
-        market?: MarketItem[];
-    };
-}
+import MarketBox from "@/components/components/Market";
+import PredictionPreviewList from "@/components/components/PreviewBet";
+import MarketTrend from "@/components/components/MarketTrend";
+import MarketNbrBox from "@/components/components/MarketNbr";
+// Import data service and types
+import { getHomeData } from "@/utils/data/dataService";
+import { HomeData, CategoryData, MarketTrendData, MarketNbrItem, PredictionPreviewItem, MarketItem } from "@/utils/data/types";
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     if (!items) return null;
@@ -133,7 +116,7 @@ const getCategoryIcon = (title: string) => {
 };
 
 // Only fetch from API if specifically enabled
-async function getHomeData(): Promise<HomeData> {
+async function fetchHomeData(): Promise<HomeData> {
     // Check if API fetching is explicitly enabled
     const useApi = process.env.NEXT_PUBLIC_USE_API_FETCH === 'true';
     
@@ -156,18 +139,18 @@ async function getHomeData(): Promise<HomeData> {
         } catch (error) {
             console.error('API fetch failed, using static import:', error);
             // Fall back to static import if API fetch fails
-            return homeData;
+            return getHomeData();
         }
     }
     
-    // Default: use static import
-    return homeData;
+    // Default: use the data service
+    return getHomeData();
 }
 
 // Page is now an async component
 export default async function Page() {
-    // Get data either from API (if enabled) or static import
-    const data = await getHomeData();
+    // Get data from the data service
+    const data = getHomeData();
     
     return (
         <main className="flex flex-col gap-y-5">
