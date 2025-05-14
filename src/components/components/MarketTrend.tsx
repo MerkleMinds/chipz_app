@@ -25,15 +25,18 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
   const router = useRouter();
   const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
-  if (!Array.isArray(markets)) return null;
-
-  const selectedMarket = markets.length === 1 ? markets[0] : null;
-  if (!selectedMarket) return null;
-
+  // Validate markets before using them
+  const isValidMarkets = Array.isArray(markets);
+  const selectedMarket = isValidMarkets && markets.length === 1 ? markets[0] : null;
+  
+  // Call hooks unconditionally at the top level
   const { timeRange, setTimeRange, filteredData } = useTimeRangeFilter(
-    selectedMarket.history,
+    selectedMarket?.history || [],
     "1W"
   );
+
+  // Return null after hooks if conditions aren't met
+  if (!isValidMarkets || !selectedMarket) return null;
 
   const handleBet = (betType: "yes" | "no") => {
     if (!selectedMarket?.id || !selectedMarket?.title) return;
