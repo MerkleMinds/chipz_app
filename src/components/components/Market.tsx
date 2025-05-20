@@ -1,6 +1,5 @@
 "use client";
 
-// import { redirect, useRouter } from "next/navigation";}
 
 import { HalfCircleProgress } from "../HalfCircleProgress";
 
@@ -27,7 +26,7 @@ export default function MarketBox({ markets }: IBoxProps) {
         return (
           <div
             key={market.id}
-            className="w-full h-[200px] p-5 flex flex-col justify-between border border-neutral-700 rounded-xl bg-gray-800"
+            className="w-full h-[200px] p-5 flex flex-col justify-between rounded-xl bg-gray-800"
           >
             <div>
               <div className="flex items-center space-x-3">

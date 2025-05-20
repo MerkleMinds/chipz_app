@@ -28,7 +28,7 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
                     <div
                         key={prediction.id}
                         onClick={() => router.push(`/events/${prediction.id}`)}
-                        className="w-full h-20 p-5 flex items-center justify-between border border-neutral-700 rounded-xl bg-gray-800 cursor-pointer"
+                        className="w-full h-20 p-5 flex items-center justify-between rounded-xl bg-gray-800 cursor-pointer"
                     >
                         <div className="flex items-center space-x-3">
                             <div className="">
