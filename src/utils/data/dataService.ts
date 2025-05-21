@@ -6,8 +6,6 @@ import {
   Event,
   OrderBook,
   MarketTrendData,
-  MarketItem,
-  PredictionPreviewItem,
   SearchItem,
   HomeData,
   CategoryData,
@@ -452,36 +450,7 @@ export function getFeaturedEventsForSection(sectionId: string): Event[] {
     .filter((event): event is Event => event !== null && hasValidHistoryData(event));
 }
 
-// Search events by title, description, category, or tags
-export function searchEvents(query: string): Event[] {
-  if (!query) return [];
-  
-  const dataKey = `search-events-${query}`;
-  setLoading(dataKey, true);
-  
-  try {
-    const events = getAllEvents();
-    const lowerQuery = query.toLowerCase();
-    
-    // Filter events that match the query in title, description, category, or tags
-    const results = events.filter(event => 
-      // Add null check to prevent 'event is possibly null' lint errors
-      event && (
-        event.title.toLowerCase().includes(lowerQuery) ||
-        (event.description && event.description.toLowerCase().includes(lowerQuery)) ||
-        (event.category && event.category.toLowerCase().includes(lowerQuery)) ||
-        (event.tags && event.tags.some(tag => tag.toLowerCase().includes(lowerQuery)))
-      )
-    );
-    
-    setLoading(dataKey, false);
-    return results;
-  } catch (error) {
-    console.error(`Error searching events for query: ${query}`, error);
-    setError(dataKey, error instanceof Error ? error.message : String(error));
-    return [];
-  }
-}
+// NOTE: searchEvents function has been removed in favor of the more comprehensive searchItems function
 
 /**
  * OrderBook-related functions
@@ -778,91 +747,192 @@ export function getCategoryById(categoryId: string): CategoryData | null {
  * Search related functions
  */
 
-// Get all search items
+// Get all search items with improved caching and error handling
 export function getAllSearchItems(): SearchItem[] {
   const dataKey = 'search-items';
-  setLoading(dataKey, true);
   
-  if (!dataCache.search) {
+  // Cache expiration settings
+  const CACHE_TTL = 10 * 60 * 1000; // 10 minutes default TTL
+  const FORCE_REFRESH_TTL = 30 * 60 * 1000; // 30 minutes force refresh
+  
+  // Get current time
+  const now = new Date().getTime();
+  
+  // Get last updated timestamp
+  const lastUpdated = uiStateCache[dataKey]?.lastUpdated ? 
+    new Date(uiStateCache[dataKey].lastUpdated).getTime() : 0;
+  
+  // Calculate time since last update
+  const timeSinceUpdate = now - lastUpdated;
+  
+  // Check if we need to refresh the cache
+  const shouldRefreshCache = 
+    // No cache exists
+    !dataCache.search || !uiStateCache[dataKey] || 
+    // Force refresh after FORCE_REFRESH_TTL
+    timeSinceUpdate > FORCE_REFRESH_TTL || 
+    // Normal refresh after CACHE_TTL if there was an error previously
+    (timeSinceUpdate > CACHE_TTL && uiStateCache[dataKey]?.error)
+  
+  if (shouldRefreshCache) {
+    setLoading(dataKey, true);
+    
     try {
       // Generate search items from enhanced events data
       const events = getAllEvents();
       
-      // Convert events to search items
-      const eventSearchItems = events.map(event => ({
-        id: event.id,
-        name: event.title,
-        kind: event.category || 'Event',
-        image: event.imageUrl,
-        source: 'event'
-      }));
+      // Convert events to search items with null checking and enhanced information
+      const eventSearchItems = events
+        .filter(event => event) // Filter out null events
+        .map(event => {
+          // Extract tags from the event for better searchability
+          const tags = event.tags || [];
+          const description = event.description || '';
+          
+          return {
+            id: event.id,
+            name: event.title,
+            kind: event.category || 'Event',
+            image: event.imageUrl || '', // Ensure image is never undefined
+            source: 'event',
+            description: description.substring(0, 100), // Include a snippet of the description
+            tags: tags.join(' '), // Include tags for search matching
+            section: event.section || '',
+            date: event.closingDate || event.createdAt || ''
+          };
+        });
       
-      // Add additional search items if needed (teams, players, etc.)
-      // This would be where you'd add any other search items that aren't events
-      
-      // Store in cache
+      // Store in cache with timestamp
       dataCache.search = eventSearchItems;
       setLoading(dataKey, false);
+      
+      // Update last updated timestamp
+      if (uiStateCache[dataKey]) {
+        uiStateCache[dataKey].lastUpdated = new Date().toISOString();
+      }
     } catch (error) {
       console.error("Error generating search data:", error);
-      dataCache.search = [];
+      // Don't overwrite existing cache on error if it exists
+      if (!dataCache.search) {
+        dataCache.search = [];
+      }
       setError(dataKey, error instanceof Error ? error.message : String(error));
     }
   }
   
-  return dataCache.search;
+  return dataCache.search || [];
 }
 
-// Search items by query
+// Search items by query with improved performance and relevance sorting
 export function searchItems(query: string): SearchItem[] {
   if (!query) return [];
   
-  const items = getAllSearchItems();
-  const lowerQuery = query.toLowerCase();
+  const dataKey = `search-query-${query}`;
+  setLoading(dataKey, true);
   
-  return items.filter(item => 
-    item.name.toLowerCase().includes(lowerQuery) ||
-    item.kind.toLowerCase().includes(lowerQuery)
-  );
-}
-
-// Get search items by source type
-export function getSearchItemsBySource(source: string): SearchItem[] {
-  const items = getAllSearchItems();
-  return items.filter(item => item.source === source);
+  try {
+    const items = getAllSearchItems();
+    const lowerQuery = query.toLowerCase().trim();
+    
+    // Early return for empty query
+    if (!lowerQuery) {
+      setLoading(dataKey, false);
+      return [];
+    }
+    
+    // Calculate relevance score for each item
+    const scoredResults = items
+      .map(item => {
+        let score = 0;
+        const name = item.name?.toLowerCase() || '';
+        const kind = item.kind?.toLowerCase() || '';
+        const description = (item as any).description?.toLowerCase() || '';
+        const tags = (item as any).tags?.toLowerCase() || '';
+        const section = (item as any).section?.toLowerCase() || '';
+        
+        // Exact matches get highest score
+        if (name === lowerQuery) score += 100;
+        if (kind === lowerQuery) score += 50;
+        if (tags === lowerQuery) score += 40;
+        
+        // Starts with gets high score
+        if (name.startsWith(lowerQuery)) score += 75;
+        if (kind.startsWith(lowerQuery)) score += 35;
+        if (tags.startsWith(lowerQuery)) score += 30;
+        if (section.startsWith(lowerQuery)) score += 25;
+        
+        // Contains gets medium score
+        if (name.includes(lowerQuery)) score += 50;
+        if (description.includes(lowerQuery)) score += 40;
+        if (kind.includes(lowerQuery)) score += 25;
+        if (tags.includes(lowerQuery)) score += 20;
+        if (section.includes(lowerQuery)) score += 15;
+        
+        // Word boundary matches get bonus points
+        const nameWords = name.split(/\s+/);
+        const descWords = description.split(/\s+/);
+        const tagWords = tags.split(/\s+/);
+        
+        if (nameWords.some((word: string) => word === lowerQuery)) score += 30;
+        if (descWords.some((word: string) => word === lowerQuery)) score += 25;
+        if (tagWords.some((word: string) => word === lowerQuery)) score += 20;
+        
+        if (nameWords.some((word: string) => word.startsWith(lowerQuery))) score += 20;
+        if (descWords.some((word: string) => word.startsWith(lowerQuery))) score += 15;
+        if (tagWords.some((word: string) => word.startsWith(lowerQuery))) score += 15;
+        
+        return { item, score };
+      })
+      .filter(({ score }) => score > 0) // Only keep items with a score
+      .sort((a, b) => b.score - a.score); // Sort by score descending
+    
+    // Extract just the items from the scored results
+    const results = scoredResults.map(({ item }) => item);
+    
+    // Cache the results for this query
+    if (results.length > 0) {
+      // Store in cache with timestamp for potential future optimization
+      if (!dataCache.searchQueries) {
+        dataCache.searchQueries = {};
+      }
+      dataCache.searchQueries[lowerQuery] = {
+        results,
+        timestamp: new Date().getTime()
+      };
+    }
+    
+    setLoading(dataKey, false);
+    return results;
+  } catch (error) {
+    console.error(`Error searching items for query: ${query}`, error);
+    
+    // Provide more specific error messages based on error type
+    let errorMessage: string;
+    
+    if (error instanceof TypeError) {
+      errorMessage = `Type error while searching: ${error.message}. Check data structure integrity.`;
+    } else if (error instanceof ReferenceError) {
+      errorMessage = `Reference error while searching: ${error.message}. This may indicate a missing dependency.`;
+    } else if (error instanceof Error) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = String(error);
+    }
+    
+    // Set the error in UI state
+    setError(dataKey, errorMessage);
+    
+    // Recovery strategy: try to return cached results if available
+    if (dataCache.searchQueries && dataCache.searchQueries[query.toLowerCase().trim()]) {
+      console.log(`Recovering from error by using cached results for query: ${query}`);
+      return dataCache.searchQueries[query.toLowerCase().trim()].results;
+    }
+    
+    // If no cached results, return empty array
+    return [];
+  }
 }
 
 /**
- * Utility functions for data transformation
+ * End of data service functions
  */
-
-// Convert Event to PredictionPreviewItem
-export function eventToPredictionPreview(event: Event): PredictionPreviewItem {
-  return {
-    id: event.id,
-    title: event.title,
-    probability: event.probability,
-    imageUrl: event.imageUrl
-  };
-}
-
-// Convert Event to MarketItem
-export function eventToMarketItem(event: Event): MarketItem {
-  return {
-    id: event.id,
-    title: event.title,
-    probability: event.probability,
-    totalVolume: event.totalVolume,
-    imageUrl: event.imageUrl
-  };
-}
-
-// Get all prediction previews
-export function getAllPredictionPreviews(): PredictionPreviewItem[] {
-  return getAllEvents().map(eventToPredictionPreview);
-}
-
-// Get all market items
-export function getAllMarketItems(): MarketItem[] {
-  return getAllEvents().map(eventToMarketItem);
-}
