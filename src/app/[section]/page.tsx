@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import SectionContent, { SectionData } from "@/components/SectionContent";
 import sections from "@/utils/data/sections";
+import { getEventsBySection } from "@/utils/data/dataService";
 
 // Define the props for the page component
 interface SectionPageProps {
@@ -13,56 +14,75 @@ export default async function SectionPage({ params }: SectionPageProps) {
   const section = params.section.toLowerCase();
   
   // Find the section metadata from our sections list
-  const sectionMeta = sections.find(s => s.name.toLowerCase() === section);
+  const sectionMeta = sections.find(s => s.name.toLowerCase() === section || s.id === section);
   if (!sectionMeta) {
     console.log(`Page: Section metadata not found for: ${section}`);
     return notFound();
   }
 
-  // Fetch data from the API endpoint or use direct import
-  let data: SectionData;
+  // Get the section ID from the metadata
+  const sectionId = sectionMeta.id;
+  
   try {
-    // Check if API fetching is explicitly enabled
-    const useApi = process.env.NEXT_PUBLIC_USE_API_FETCH === 'true';
+    // Get events for this section using our enhanced data service
+    const sectionEvents = getEventsBySection(sectionId);
     
-    if (useApi) {
-      try {
-        // Use proper absolute URL for server components
-        const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-        const host = process.env.VERCEL_URL || 'localhost:3000';
-        const baseUrl = `${protocol}://${host}`;
-        
-        // First try the API endpoint
-        const response = await fetch(`${baseUrl}/api/${section}`, {
-          next: { revalidate: 3600 }
-        });
-        
-        if (!response.ok) {
-          throw new Error(`API returned status: ${response.status}`);
+    // Transform events into the format expected by SectionContent
+    const sectionData: SectionData = {
+      categories: [
+        {
+          title: sectionMeta.name,
+          items: {
+            // For events with options (multi-choice markets)
+            multiChoice: sectionEvents
+              .filter(event => event.options && event.options.length > 0)
+              .map(event => ({
+                type: "number",
+                id: event.id,
+                title: event.title,
+                totalVolume: event.totalVolume || "N/A",
+                imageUrl: event.imageUrl,
+                options: event.options?.map(opt => ({
+                  name: opt.title,
+                  probability: opt.probability
+                })) || []
+              })),
+            
+            // For binary events (yes/no markets)
+            trends: sectionEvents
+              .filter(event => !event.options && event.historyData && event.historyData.length > 0)
+              .map(event => {
+                // Calculate probability change
+                const historyData = event.historyData || [];
+                const latestProb = event.probability;
+                const earliestProb = historyData.length > 0 ? historyData[0].probability : latestProb;
+                const change = latestProb - earliestProb;
+                const probChange = change >= 0 ? `+${change.toFixed(1)}` : `${change.toFixed(1)}`;
+                
+                return {
+                  type: "trend",
+                  id: event.id,
+                  title: event.title,
+                  probability: event.probability,
+                  probabilityChange: probChange,
+                  image: event.imageUrl,
+                  history: event.historyData || []
+                };
+              })
+          }
         }
-        
-        data = await response.json();
-      } catch (apiError) {
-        console.error(`API fetch failed for section: ${section}`, apiError);
-        
-        // Fallback to direct import if API fails
-        data = require(`@/utils/data/sections/${section}.json`);
-        console.log(`Page: Successfully loaded data via direct import for: ${section}`);
-      }
-    } else {
-      // Default: use static import directly
-      data = require(`@/utils/data/sections/${section}.json`);
-    }
+      ]
+    };
+    
+    return (
+      <div>
+        <SectionContent data={sectionData} />
+      </div>
+    );
   } catch (error) {
     console.error(`Page: Error loading data for section: ${section}`, error);
     return notFound();
   }
-
-  return (
-    <div>
-      <SectionContent data={data} />
-    </div>
-  );
 }
 
 // Generate static paths for all sections

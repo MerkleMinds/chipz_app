@@ -1,0 +1,503 @@
+[
+  {
+    "id": "p1",
+    "title": "Will Trump remove tariff on Canada before May?",
+    "slug": "trump-remove-tariff-canada-may",
+    "conditional": "yes",
+    "description": "This market resolves to YES if Donald Trump removes tariffs on Canadian imports before May 2025, and NO otherwise.",
+    "category": "politics",
+    "subcategory": "trade",
+    "tags": ["trump", "tariffs", "canada", "trade"],
+    "section": "politics",
+    "probability": 63,
+    "totalVolume": "$8.5M",
+    "imageUrl": "https://m.media-amazon.com/images/I/81afCibN3PL.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2023-12-01T09:00:00Z",
+    "updatedAt": "2024-02-23T23:45:00Z",
+    "closingDate": "2025-05-01T00:00:00Z",
+    "relatedEventIds": ["e1", "p2"],
+    "historyData": [
+      { "date": "2023-12-01T09:00:00Z", "probability": 45 },
+      { "date": "2023-12-01T14:30:00Z", "probability": 46.5 },
+      { "date": "2023-12-01T20:00:00Z", "probability": 45.8 },
+      { "date": "2023-12-15T10:00:00Z", "probability": 48 },
+      { "date": "2023-12-15T16:00:00Z", "probability": 47.2 },
+      { "date": "2023-12-15T22:00:00Z", "probability": 48.5 },
+      { "date": "2024-01-01T08:00:00Z", "probability": 50 },
+      { "date": "2024-01-01T15:00:00Z", "probability": 51.2 },
+      { "date": "2024-01-01T21:00:00Z", "probability": 50.8 },
+      { "date": "2024-01-15T09:30:00Z", "probability": 55 },
+      { "date": "2024-01-15T14:00:00Z", "probability": 54.3 },
+      { "date": "2024-01-15T19:30:00Z", "probability": 55.5 },
+      { "date": "2024-02-01T08:30:00Z", "probability": 58 },
+      { "date": "2024-02-01T13:00:00Z", "probability": 57.5 },
+      { "date": "2024-02-01T18:30:00Z", "probability": 58.2 },
+      { "date": "2024-02-15T10:00:00Z", "probability": 60 },
+      { "date": "2024-02-15T15:30:00Z", "probability": 61.2 },
+      { "date": "2024-02-15T21:00:00Z", "probability": 60.8 },
+      { "date": "2024-02-23T09:00:00Z", "probability": 63.0 },
+      { "date": "2024-02-23T23:45:00Z", "probability": 63.4 }
+    ],
+    "orderBook": [
+      {
+        "yes": {
+          "id": "1",
+          "lastPrice": "0.63",
+          "spread": "0.02",
+          "asks": [
+            { "price": "0.65", "shares": 100, "total": "$65.00", "volume": 80 },
+            { "price": "0.67", "shares": 150, "total": "$100.50", "volume": 60 },
+            { "price": "0.69", "shares": 200, "total": "$138.00", "volume": 40 }
+          ],
+          "bids": [
+            { "price": "0.61", "shares": 120, "total": "$73.20", "volume": 70 },
+            { "price": "0.59", "shares": 180, "total": "$106.20", "volume": 50 },
+            { "price": "0.57", "shares": 250, "total": "$142.50", "volume": 30 }
+          ]
+        },
+        "no": {
+          "id": "2",
+          "lastPrice": "0.37",
+          "spread": "0.03",
+          "asks": [
+            { "price": "0.39", "shares": 90, "total": "$35.10", "volume": 75 },
+            { "price": "0.41", "shares": 130, "total": "$53.30", "volume": 55 },
+            { "price": "0.43", "shares": 180, "total": "$77.40", "volume": 35 }
+          ],
+          "bids": [
+            { "price": "0.36", "shares": 110, "total": "$39.60", "volume": 65 },
+            { "price": "0.34", "shares": 160, "total": "$54.40", "volume": 45 },
+            { "price": "0.32", "shares": 220, "total": "$70.40", "volume": 25 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "title": "New Tax Bill Passage",
+    "slug": "new-tax-bill-passage",
+    "conditional": "Will the new tax bill pass before the end of the year?",
+    "description": "This market resolves to YES if the proposed tax bill passes through Congress and is signed into law before December 31, 2024.",
+    "category": "politics",
+    "subcategory": "legislation",
+    "tags": ["taxes", "congress", "legislation"],
+    "section": "politics",
+    "probability": 65,
+    "totalVolume": "$5.2M",
+    "imageUrl": "/images/capitol.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": false,
+    "createdAt": "2024-01-15T12:00:00Z",
+    "updatedAt": "2024-02-20T16:30:00Z",
+    "closingDate": "2024-12-31T23:59:59Z",
+    "relatedEventIds": ["p1", "e1"],
+    "historyData": [
+      { "date": "2024-01-15T12:00:00Z", "probability": 55 },
+      { "date": "2024-01-20T14:00:00Z", "probability": 57 },
+      { "date": "2024-01-25T10:00:00Z", "probability": 59 },
+      { "date": "2024-01-30T15:00:00Z", "probability": 60 },
+      { "date": "2024-02-05T11:00:00Z", "probability": 62 },
+      { "date": "2024-02-10T16:00:00Z", "probability": 63 },
+      { "date": "2024-02-15T13:00:00Z", "probability": 64 },
+      { "date": "2024-02-20T16:30:00Z", "probability": 65 }
+    ]
+  },
+  {
+    "id": "s1",
+    "title": "Who will win the 2025 Copa Libertadores?",
+    "slug": "copa-libertadores-2025-winner",
+    "conditional": "no",
+    "description": "This market resolves based on which team wins the 2025 Copa Libertadores tournament.",
+    "category": "sports",
+    "subcategory": "soccer",
+    "tags": ["soccer", "copa libertadores", "south america"],
+    "section": "sports",
+    "probability": 1,
+    "totalVolume": "$10M",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-01-10T08:00:00Z",
+    "updatedAt": "2024-02-18T14:30:00Z",
+    "closingDate": "2025-11-30T23:59:59Z",
+    "relatedEventIds": ["s2", "s3"],
+    "historyData": [
+      { "date": "2024-01-10T08:00:00Z", "probability": 1 },
+      { "date": "2024-01-20T10:00:00Z", "probability": 1 },
+      { "date": "2024-01-30T12:00:00Z", "probability": 1 },
+      { "date": "2024-02-10T09:00:00Z", "probability": 1 },
+      { "date": "2024-02-18T14:30:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "s1-opt1",
+        "title": "Palmeiras",
+        "probability": 30,
+        "description": "Brazilian team Palmeiras wins the 2025 Copa Libertadores",
+        "orderBook": [
+          {
+            "yes": {
+              "lastPrice": "0.30",
+              "spread": "0.02",
+              "asks": [
+                { "price": "0.32", "shares": 100, "total": "$32.00", "volume": 80 },
+                { "price": "0.34", "shares": 150, "total": "$51.00", "volume": 60 },
+                { "price": "0.36", "shares": 200, "total": "$72.00", "volume": 40 }
+              ],
+              "bids": [
+                { "price": "0.28", "shares": 120, "total": "$33.60", "volume": 70 },
+                { "price": "0.26", "shares": 180, "total": "$46.80", "volume": 50 },
+                { "price": "0.24", "shares": 250, "total": "$60.00", "volume": 30 }
+              ]
+            },
+            "no": {
+              "lastPrice": "0.70",
+              "spread": "0.03",
+              "asks": [
+                { "price": "0.72", "shares": 90, "total": "$64.80", "volume": 75 },
+                { "price": "0.74", "shares": 130, "total": "$96.20", "volume": 55 },
+                { "price": "0.76", "shares": 180, "total": "$136.80", "volume": 35 }
+              ],
+              "bids": [
+                { "price": "0.68", "shares": 110, "total": "$74.80", "volume": 65 },
+                { "price": "0.66", "shares": 160, "total": "$105.60", "volume": 45 },
+                { "price": "0.64", "shares": 220, "total": "$140.80", "volume": 25 }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s1-opt2",
+        "title": "Flamengo",
+        "probability": 28,
+        "description": "Brazilian team Flamengo wins the 2025 Copa Libertadores"
+      },
+      {
+        "id": "s1-opt3",
+        "title": "River Plate",
+        "probability": 25,
+        "description": "Argentine team River Plate wins the 2025 Copa Libertadores"
+      },
+      {
+        "id": "s1-opt4",
+        "title": "Boca Juniors",
+        "probability": 17,
+        "description": "Argentine team Boca Juniors wins the 2025 Copa Libertadores"
+      }
+    ]
+  },
+  {
+    "id": "s2",
+    "title": "NBA Champion 2024",
+    "slug": "nba-champion-2024",
+    "conditional": "no",
+    "description": "This market resolves based on which team wins the 2024 NBA Championship.",
+    "category": "sports",
+    "subcategory": "basketball",
+    "tags": ["basketball", "nba", "playoffs"],
+    "section": "sports",
+    "probability": 1,
+    "totalVolume": "$25M",
+    "imageUrl": "https://cdn.nba.com/logos/nba/nba-logo.png",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2023-10-15T10:00:00Z",
+    "updatedAt": "2024-02-22T18:45:00Z",
+    "closingDate": "2024-06-30T23:59:59Z",
+    "relatedEventIds": ["s1", "s3"],
+    "historyData": [
+      { "date": "2023-10-15T10:00:00Z", "probability": 1 },
+      { "date": "2023-11-15T12:00:00Z", "probability": 1 },
+      { "date": "2023-12-15T14:00:00Z", "probability": 1 },
+      { "date": "2024-01-15T16:00:00Z", "probability": 1 },
+      { "date": "2024-02-15T18:00:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "s2-opt1",
+        "title": "Celtics",
+        "probability": 28,
+        "description": "Boston Celtics win the 2024 NBA Championship"
+      },
+      {
+        "id": "s2-opt2",
+        "title": "Nuggets",
+        "probability": 25,
+        "description": "Denver Nuggets win the 2024 NBA Championship"
+      },
+      {
+        "id": "s2-opt3",
+        "title": "Bucks",
+        "probability": 20,
+        "description": "Milwaukee Bucks win the 2024 NBA Championship"
+      },
+      {
+        "id": "s2-opt4",
+        "title": "Clippers",
+        "probability": 15,
+        "description": "LA Clippers win the 2024 NBA Championship"
+      }
+    ]
+  },
+  {
+    "id": "s3",
+    "title": "FIFA World Cup 2026 Winner",
+    "slug": "fifa-world-cup-2026-winner",
+    "conditional": "no",
+    "description": "This market resolves based on which country wins the 2026 FIFA World Cup.",
+    "category": "sports",
+    "subcategory": "soccer",
+    "tags": ["soccer", "world cup", "fifa"],
+    "section": "sports",
+    "probability": 1,
+    "totalVolume": "$30M",
+    "imageUrl": "/images/world-cup.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": false,
+    "createdAt": "2023-12-01T09:00:00Z",
+    "updatedAt": "2024-02-20T15:30:00Z",
+    "closingDate": "2026-07-31T23:59:59Z",
+    "relatedEventIds": ["s1", "s2"],
+    "historyData": [
+      { "date": "2023-12-01T09:00:00Z", "probability": 1 },
+      { "date": "2024-01-01T10:00:00Z", "probability": 1 },
+      { "date": "2024-02-01T11:00:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "s3-opt1",
+        "title": "Brazil",
+        "probability": 25,
+        "description": "Brazil wins the 2026 FIFA World Cup"
+      },
+      {
+        "id": "s3-opt2",
+        "title": "France",
+        "probability": 20,
+        "description": "France wins the 2026 FIFA World Cup"
+      },
+      {
+        "id": "s3-opt3",
+        "title": "Argentina",
+        "probability": 18,
+        "description": "Argentina wins the 2026 FIFA World Cup"
+      },
+      {
+        "id": "s3-opt4",
+        "title": "England",
+        "probability": 15,
+        "description": "England wins the 2026 FIFA World Cup"
+      }
+    ]
+  },
+  {
+    "id": "e1",
+    "title": "Fed interest rate by end of 2024?",
+    "slug": "fed-interest-rate-end-2024",
+    "conditional": "no",
+    "description": "This market resolves based on what the Federal Reserve interest rate will be at the end of 2024.",
+    "category": "economy",
+    "subcategory": "monetary-policy",
+    "tags": ["fed", "interest rates", "monetary policy"],
+    "section": "economy",
+    "probability": 1,
+    "totalVolume": "$15M",
+    "imageUrl": "/images/federal-reserve.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2023-11-10T14:00:00Z",
+    "updatedAt": "2024-02-21T16:45:00Z",
+    "closingDate": "2024-12-31T23:59:59Z",
+    "relatedEventIds": ["p1", "c1"],
+    "historyData": [
+      { "date": "2023-11-10T14:00:00Z", "probability": 1 },
+      { "date": "2023-12-10T15:00:00Z", "probability": 1 },
+      { "date": "2024-01-10T16:00:00Z", "probability": 1 },
+      { "date": "2024-02-10T17:00:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "e1-opt1",
+        "title": "Above 5.5%",
+        "probability": 15,
+        "description": "Federal Reserve interest rate will be above 5.5% at the end of 2024"
+      },
+      {
+        "id": "e1-opt2",
+        "title": "Between 4.5% and 5.5%",
+        "probability": 40,
+        "description": "Federal Reserve interest rate will be between 4.5% and 5.5% at the end of 2024"
+      },
+      {
+        "id": "e1-opt3",
+        "title": "Between 3.5% and 4.5%",
+        "probability": 35,
+        "description": "Federal Reserve interest rate will be between 3.5% and 4.5% at the end of 2024"
+      },
+      {
+        "id": "e1-opt4",
+        "title": "Below 3.5%",
+        "probability": 10,
+        "description": "Federal Reserve interest rate will be below 3.5% at the end of 2024"
+      }
+    ]
+  },
+  {
+    "id": "c1",
+    "title": "Bitcoin price above $100k in 2024?",
+    "slug": "bitcoin-price-above-100k-2024",
+    "conditional": "Will Bitcoin price exceed $100,000 at any point during 2024?",
+    "description": "This market resolves to YES if the price of Bitcoin exceeds $100,000 USD on any major exchange at any point during 2024.",
+    "category": "crypto",
+    "subcategory": "bitcoin",
+    "tags": ["bitcoin", "crypto", "price"],
+    "section": "crypto",
+    "probability": 45,
+    "totalVolume": "$20M",
+    "imageUrl": "/images/bitcoin.jpg",
+    "status": "active",
+    "isNew": true,
+    "isTrending": true,
+    "createdAt": "2024-01-05T08:30:00Z",
+    "updatedAt": "2024-02-22T19:15:00Z",
+    "closingDate": "2024-12-31T23:59:59Z",
+    "relatedEventIds": ["e1", "c2"],
+    "historyData": [
+      { "date": "2024-01-05T08:30:00Z", "probability": 30 },
+      { "date": "2024-01-10T10:45:00Z", "probability": 32 },
+      { "date": "2024-01-15T12:15:00Z", "probability": 35 },
+      { "date": "2024-01-20T14:30:00Z", "probability": 38 },
+      { "date": "2024-01-25T16:45:00Z", "probability": 40 },
+      { "date": "2024-01-30T18:00:00Z", "probability": 42 },
+      { "date": "2024-02-05T09:15:00Z", "probability": 43 },
+      { "date": "2024-02-10T11:30:00Z", "probability": 44 },
+      { "date": "2024-02-15T13:45:00Z", "probability": 45 },
+      { "date": "2024-02-20T16:00:00Z", "probability": 45 },
+      { "date": "2024-02-22T19:15:00Z", "probability": 45 }
+    ]
+  },
+  {
+    "id": "c2",
+    "title": "Ethereum to flip Bitcoin by market cap in 2024?",
+    "slug": "ethereum-flip-bitcoin-market-cap-2024",
+    "conditional": "Will Ethereum's market cap exceed Bitcoin's at any point during 2024?",
+    "description": "This market resolves to YES if Ethereum's total market capitalization exceeds Bitcoin's total market capitalization at any point during 2024.",
+    "category": "crypto",
+    "subcategory": "ethereum",
+    "tags": ["ethereum", "bitcoin", "crypto", "flippening"],
+    "section": "crypto",
+    "probability": 12,
+    "totalVolume": "$18M",
+    "imageUrl": "/images/ethereum.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": false,
+    "createdAt": "2024-01-08T09:45:00Z",
+    "updatedAt": "2024-02-23T20:30:00Z",
+    "closingDate": "2024-12-31T23:59:59Z",
+    "relatedEventIds": ["c1"],
+    "historyData": [
+      { "date": "2024-01-08T09:45:00Z", "probability": 8 },
+      { "date": "2024-01-15T11:00:00Z", "probability": 9 },
+      { "date": "2024-01-22T13:15:00Z", "probability": 10 },
+      { "date": "2024-01-29T15:30:00Z", "probability": 11 },
+      { "date": "2024-02-05T17:45:00Z", "probability": 11 },
+      { "date": "2024-02-12T10:00:00Z", "probability": 12 },
+      { "date": "2024-02-19T12:15:00Z", "probability": 12 },
+      { "date": "2024-02-23T20:30:00Z", "probability": 12 }
+    ]
+  },
+  {
+    "id": "l1",
+    "title": "UEFA Champions League Winner 2024",
+    "slug": "uefa-champions-league-winner-2024",
+    "conditional": "no",
+    "description": "This market resolves based on which team wins the 2023-2024 UEFA Champions League.",
+    "category": "sports",
+    "subcategory": "soccer",
+    "tags": ["soccer", "champions league", "uefa"],
+    "section": "live",
+    "probability": 1,
+    "totalVolume": "$28M",
+    "imageUrl": "/images/champions-league.jpg",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2023-09-15T12:00:00Z",
+    "updatedAt": "2024-02-23T22:00:00Z",
+    "closingDate": "2024-06-01T23:59:59Z",
+    "relatedEventIds": ["s1", "s3"],
+    "historyData": [
+      { "date": "2023-09-15T12:00:00Z", "probability": 1 },
+      { "date": "2023-10-15T13:00:00Z", "probability": 1 },
+      { "date": "2023-11-15T14:00:00Z", "probability": 1 },
+      { "date": "2023-12-15T15:00:00Z", "probability": 1 },
+      { "date": "2024-01-15T16:00:00Z", "probability": 1 },
+      { "date": "2024-02-15T17:00:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "l1-opt1",
+        "title": "Manchester City",
+        "probability": 30,
+        "description": "Manchester City wins the 2023-2024 UEFA Champions League"
+      },
+      {
+        "id": "l1-opt2",
+        "title": "Real Madrid",
+        "probability": 25,
+        "description": "Real Madrid wins the 2023-2024 UEFA Champions League"
+      },
+      {
+        "id": "l1-opt3",
+        "title": "Bayern Munich",
+        "probability": 20,
+        "description": "Bayern Munich wins the 2023-2024 UEFA Champions League"
+      },
+      {
+        "id": "l1-opt4",
+        "title": "Liverpool",
+        "probability": 15,
+        "description": "Liverpool wins the 2023-2024 UEFA Champions League"
+      }
+    ]
+  },
+  {
+    "id": "m1",
+    "title": "Will Elon Musk mention Dogecoin on Twitter in March 2024?",
+    "slug": "elon-musk-mention-dogecoin-twitter-march-2024",
+    "conditional": "Will Elon Musk mention Dogecoin on his Twitter/X account during March 2024?",
+    "description": "This market resolves to YES if Elon Musk mentions Dogecoin or $DOGE on his Twitter/X account at any point during March 2024.",
+    "category": "mentions",
+    "subcategory": "celebrities",
+    "tags": ["elon musk", "dogecoin", "twitter", "crypto"],
+    "section": "mentions",
+    "probability": 75,
+    "totalVolume": "$5M",
+    "imageUrl": "/images/elon-dogecoin.jpg",
+    "status": "active",
+    "isNew": true,
+    "isTrending": true,
+    "createdAt": "2024-02-15T10:30:00Z",
+    "updatedAt": "2024-02-23T21:45:00Z",
+    "closingDate": "2024-03-31T23:59:59Z",
+    "relatedEventIds": ["c1", "c2"],
+    "historyData": [
+      { "date": "2024-02-15T10:30:00Z", "probability": 70 },
+      { "date": "2024-02-18T12:45:00Z", "probability": 72 },
+      { "date": "2024-02-20T15:00:00Z", "probability": 73 },
+      { "date": "2024-02-22T17:15:00Z", "probability": 74 },
+      { "date": "2024-02-23T21:45:00Z", "probability": 75 }
+    ]
+  }
+]

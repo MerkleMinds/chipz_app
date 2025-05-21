@@ -9,9 +9,10 @@ import {
   FaTrophy,
 } from "react-icons/fa6";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { searchItems } from "@/utils/data/dataService";
 
 // Unified search item interface
 export interface SearchItem {
@@ -58,25 +59,36 @@ export default function SearchInterface({ items }: SearchInterfaceProps) {
       return;
     }
     
-    const filtered = items.filter(item => 
-      item.name.toLowerCase().includes(value.toLowerCase())
-    );
+    // Use the searchItems function from dataService instead of filtering locally
+    // This ensures we use the same search logic throughout the application
+    const filtered = searchItems(value);
     setFilteredItems(filtered);
   };
+  
+  // Use useEffect to update filtered items when the items prop changes
+  useEffect(() => {
+    if (searchTerm.trim() !== "") {
+      const filtered = searchItems(searchTerm);
+      setFilteredItems(filtered);
+    }
+  }, [items, searchTerm]);
 
   // Navigate to appropriate page when an item is clicked
   const handleItemClick = (item: SearchItem) => {
     // Route based on the source type
-    switch (item.source) {
-      case 'team':
-        router.push(`/event/${item.id.replace('team_', '')}`);
-        break;
-      case 'event':
-        router.push(`/event/${item.id}`);
-        break;
-      default:
-        router.push(`/events/${item.id}`);
-    }
+    // switch (item.source) {
+    //   case 'team':
+    //     router.push(`/event/${item.id.replace('team_', '')}`);
+    //     break;
+    //   case 'event':
+    //     router.push(`/event/${item.id}`);
+    //     break;
+    //   default:
+    //     router.push(`/events/${item.id}`);
+    // }
+
+    router.push(`/events/${item.id}`);
+
   };
 
   // Helper function to determine if an image is external or local

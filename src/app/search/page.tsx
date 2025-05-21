@@ -2,7 +2,7 @@ import SearchInterface from "@/components/search/SearchInterface";
 import { getAllSearchItems } from "@/utils/data/dataService";
 
 export default function Page() {
-  // Get search items from the data service
+  // Get search items from the enhanced events data via the data service
   const searchItems = getAllSearchItems();
   
   return (

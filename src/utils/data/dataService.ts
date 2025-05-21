@@ -1,24 +1,143 @@
 // Central data service for handling JSON data across the application
-import eventsData from "./events.json" with { type: "json" };
-import homeData from "./sections/home.json" with { type: "json" };
-import searchData from "./searchData.json" with { type: "json" };
+import eventsData from "./enhanced_events.json" with { type: "json" };
 import { dummyOrderBookData } from "./orderBookData";
+import sections from "./sections";
 import {
   Event,
-  EventOption,
   OrderBook,
-  MarketHistory,
   MarketTrendData,
   MarketItem,
-  MarketNbrItem,
   PredictionPreviewItem,
   SearchItem,
   HomeData,
-  CategoryData
+  CategoryData,
+  SectionInfo,
+  UIState,
+  DataWithUIState
 } from "./types";
 
 // Cache for storing parsed data to improve performance
 const dataCache: Record<string, any> = {};
+
+// UI state tracking for data operations
+const uiStateCache: Record<string, UIState> = {};
+
+/**
+ * Creates a default UI state object
+ */
+function createDefaultUIState(): UIState {
+  return {
+    loading: false,
+    error: null,
+    lastUpdated: null
+  };
+}
+
+/**
+ * Gets the current UI state for a specific data key
+ */
+export function getUIState(dataKey: string): UIState {
+  if (!uiStateCache[dataKey]) {
+    uiStateCache[dataKey] = createDefaultUIState();
+  }
+  return uiStateCache[dataKey];
+}
+
+/**
+ * Updates the UI state for a specific data key
+ */
+function updateUIState(dataKey: string, updates: Partial<UIState>): UIState {
+  const currentState = getUIState(dataKey);
+  uiStateCache[dataKey] = { ...currentState, ...updates };
+  return uiStateCache[dataKey];
+}
+
+/**
+ * Sets the loading state for a data key
+ */
+export function setLoading(dataKey: string, isLoading: boolean): void {
+  updateUIState(dataKey, { loading: isLoading });
+  if (!isLoading) {
+    // When loading completes, update the lastUpdated timestamp
+    updateUIState(dataKey, { lastUpdated: new Date().toISOString() });
+  }
+}
+
+/**
+ * Sets an error state for a data key
+ */
+export function setError(dataKey: string, error: string | null): void {
+  updateUIState(dataKey, { error, loading: false });
+}
+
+/**
+ * Wraps data with its UI state
+ */
+export function wrapWithUIState<T>(dataKey: string, data: T): DataWithUIState<T> {
+  return {
+    data,
+    uiState: getUIState(dataKey)
+  };
+}
+
+// Initialize the application with data validation
+export function initializeDataService() {
+  // Validate data on startup
+  validateDataConsistency();
+  
+  // Return the cache for debugging purposes
+  return { dataCache };
+}
+
+/**
+ * Validates data consistency across the application
+ * This helps identify navigation issues early
+ */
+function validateDataConsistency() {
+  const events = getAllEvents();
+  const allSections = getAllSections();
+  
+  // Check that all events have valid sections
+  const invalidSectionEvents = events.filter(
+    event => !allSections.some(section => section.id === event.section)
+  );
+  
+  if (invalidSectionEvents.length > 0) {
+    console.error("Events with invalid sections:", invalidSectionEvents.map(e => e.id));
+  }
+  
+  // Check that all events have history data for graphs
+  const eventsWithoutHistory = events.filter(event => !hasValidHistoryData(event));
+  if (eventsWithoutHistory.length > 0) {
+    console.warn("Events without valid history data:", eventsWithoutHistory.map(e => e.id));
+  }
+  
+  // Check that all section featured events exist
+  allSections.forEach(section => {
+    if (section.featuredEventIds) {
+      const missingEvents = section.featuredEventIds.filter(
+        id => !events.some(event => event.id === id)
+      );
+      
+      if (missingEvents.length > 0) {
+        console.error(`Section ${section.id} references non-existent events:`, missingEvents);
+      }
+    }
+  });
+  
+  // Check for events with missing related events
+  events.forEach(event => {
+    if (event.relatedEventIds && event.relatedEventIds.length > 0) {
+      const missingRelated = event.relatedEventIds.filter(
+        id => !events.some(e => e.id === id)
+      );
+      
+      if (missingRelated.length > 0) {
+        console.warn(`Event ${event.id} references non-existent related events:`, missingRelated);
+      }
+    }
+  });
+}
 
 /**
  * Data validation helper functions
@@ -38,45 +157,330 @@ function isValidOrderBook(data: any): boolean {
 }
 
 /**
+ * Validates an event object to ensure it has all required fields
+ */
+function isValidEvent(data: any): boolean {
+  return (
+    data &&
+    typeof data.id === 'string' &&
+    typeof data.title === 'string' &&
+    typeof data.conditional === 'string' &&
+    typeof data.probability === 'number' &&
+    typeof data.totalVolume === 'string' &&
+    typeof data.imageUrl === 'string'
+  );
+}
+
+/**
+ * Validates that an event has history data for graphs
+ */
+function hasValidHistoryData(event: Event): boolean {
+  return Boolean(event?.historyData && event.historyData.length >= 2);
+}
+
+/**
+ * Validates that an event belongs to a section
+ */
+function isEventInSection(event: Event | null, sectionId: string): boolean {
+  // Null check to prevent 'event is possibly null' lint errors
+  if (!event) return false;
+  
+  // Direct section match
+  if (event.section === sectionId) {
+    return true;
+  }
+  
+  // Check if the event's category belongs to the section
+  return false;
+}
+
+/**
+ * Ensures an event has a slug for routing
+ */
+function ensureEventSlug(event: Event): Event {
+  if (!event.slug) {
+    // Create a slug from the title if not present
+    const slug = event.title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    
+    return { ...event, slug };
+  }
+  return event;
+}
+
+/**
  * Event-related functions
  */
 
 // Get all events
 export function getAllEvents(): Event[] {
+  const dataKey = 'events';
+  
   if (!dataCache.events) {
     try {
-      dataCache.events = eventsData;
+      setLoading(dataKey, true);
+      
+      // Process events data to ensure all required fields are present
+      const processedEvents = (eventsData as Event[]).map(event => {
+        // Ensure event has a slug for routing
+        const eventWithSlug = ensureEventSlug(event);
+        
+        // Add default section if missing
+        if (!eventWithSlug.section) {
+          eventWithSlug.section = "live"; // Default to live section
+        }
+        
+        // Add empty history data if missing
+        if (!eventWithSlug.historyData || eventWithSlug.historyData.length < 2) {
+          eventWithSlug.historyData = [
+            { date: "2024-01-01", probability: event.probability - 10 },
+            { date: "2024-02-01", probability: event.probability - 5 },
+            { date: "2024-03-01", probability: event.probability },
+          ];
+        }
+        
+        // Add status if missing
+        if (!eventWithSlug.status) {
+          eventWithSlug.status = "active";
+        }
+        
+        // Add timestamps if missing
+        if (!eventWithSlug.createdAt) {
+          eventWithSlug.createdAt = new Date().toISOString();
+        }
+        
+        if (!eventWithSlug.updatedAt) {
+          eventWithSlug.updatedAt = new Date().toISOString();
+        }
+        
+        // Add empty related events if missing
+        if (!eventWithSlug.relatedEventIds) {
+          eventWithSlug.relatedEventIds = [];
+        }
+        
+        return eventWithSlug;
+      });
+      
+      dataCache.events = processedEvents;
+      setLoading(dataKey, false);
     } catch (error) {
       console.error("Error loading events data:", error);
       dataCache.events = [];
+      setError(dataKey, error instanceof Error ? error.message : String(error));
     }
   }
+  
   return dataCache.events;
+}
+
+// Get all events with UI state
+export function getAllEventsWithUIState(): DataWithUIState<Event[]> {
+  const dataKey = 'events';
+  const events = getAllEvents();
+  return wrapWithUIState(dataKey, events);
 }
 
 // Get a specific event by ID
 export function getEventById(id: string): Event | null {
-  const events = getAllEvents();
-  return events.find(event => event.id === id) || null;
+  const dataKey = `event-${id}`;
+  setLoading(dataKey, true);
+  
+  try {
+    const events = getAllEvents();
+    const event = events.find(event => event.id === id) || null;
+    
+    if (!event) {
+      console.warn(`Event with ID ${id} not found`);
+      setError(dataKey, `Event with ID ${id} not found`);
+      return null;
+    }
+    
+    setLoading(dataKey, false);
+    return event;
+  } catch (error) {
+    console.error(`Error retrieving event ${id}:`, error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
+    return null;
+  }
+}
+
+// Get a specific event by ID with UI state
+export function getEventByIdWithUIState(id: string): DataWithUIState<Event | null> {
+  const dataKey = `event-${id}`;
+  const event = getEventById(id);
+  
+  // Ensure we're not passing null directly to wrapWithUIState
+  // This fixes the 'event is possibly null' lint errors
+  return wrapWithUIState(dataKey, event || null);
+}
+
+// Get a specific event by slug
+export function getEventBySlug(slug: string): Event | null {
+  const dataKey = `event-slug-${slug}`;
+  setLoading(dataKey, true);
+  
+  try {
+    const events = getAllEvents();
+    const event = events.find(event => event.slug === slug) || null;
+    
+    if (!event) {
+      console.warn(`Event with slug ${slug} not found`);
+      setError(dataKey, `Event with slug ${slug} not found`);
+      return null;
+    }
+    
+    setLoading(dataKey, false);
+    return event;
+  } catch (error) {
+    console.error(`Error retrieving event with slug ${slug}:`, error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
+    return null;
+  }
+}
+
+// Get a specific event by slug with UI state
+export function getEventBySlugWithUIState(slug: string): DataWithUIState<Event | null> {
+  const dataKey = `event-slug-${slug}`;
+  const event = getEventBySlug(slug);
+  // Ensure we're not passing null directly to wrapWithUIState
+  // This fixes the 'event is possibly null' lint errors
+  return wrapWithUIState(dataKey, event || null);
 }
 
 // Get events by category
 export function getEventsByCategory(category: string): Event[] {
-  // This is a placeholder - in a real app, events would have categories
-  // For now, we'll just return all events
-  return getAllEvents();
+  const events = getAllEvents();
+  // Add null check to prevent 'event is possibly null' lint errors
+  return events.filter(event => event && event.category === category);
 }
 
-// Search events by title
+// Get events by section
+export function getEventsBySection(sectionId: string): Event[] {
+  const dataKey = `events-section-${sectionId}`;
+  setLoading(dataKey, true);
+  
+  try {
+    const events = getAllEvents();
+    // Add null check to prevent 'event is possibly null' lint errors
+    const sectionEvents = events.filter(event => event && isEventInSection(event, sectionId));
+    
+    // Sort events: trending first, then new, then by probability
+    const sortedEvents = [...sectionEvents].sort((a, b) => {
+      // First sort by trending
+      if (a.isTrending && !b.isTrending) return -1;
+      if (!a.isTrending && b.isTrending) return 1;
+      
+      // Then by new
+      if (a.isNew && !b.isNew) return -1;
+      if (!a.isNew && b.isNew) return 1;
+      
+      // Then by probability (higher first)
+      return b.probability - a.probability;
+    });
+    
+    setLoading(dataKey, false);
+    return sortedEvents;
+  } catch (error) {
+    console.error(`Error retrieving events for section ${sectionId}:`, error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
+    return [];
+  }
+}
+
+// Get events by section with UI state
+export function getEventsBySectionWithUIState(sectionId: string): DataWithUIState<Event[]> {
+  const dataKey = `events-section-${sectionId}`;
+  const events = getEventsBySection(sectionId);
+  return wrapWithUIState(dataKey, events);
+}
+
+// Get all sections
+export function getAllSections(): SectionInfo[] {
+  if (!dataCache.sections) {
+    try {
+      // Update section metadata with actual event counts
+      const updatedSections = sections.map(section => {
+        const sectionEvents = getEventsBySection(section.id);
+        const validEvents = sectionEvents.filter(event => isValidEvent(event));
+        
+        // Find featured events for this section
+        if (!section.featuredEventIds || section.featuredEventIds.length === 0) {
+          // If no featured events are specified, use the first 3 valid events
+          section.featuredEventIds = validEvents.slice(0, 3).map(event => event.id);
+        }
+        
+        // Update metadata
+        if (!section.metadata) {
+          section.metadata = {};
+        }
+        
+        section.metadata.totalEvents = validEvents.length;
+        section.metadata.lastUpdated = new Date().toISOString();
+        
+        return section;
+      });
+      
+      dataCache.sections = updatedSections;
+    } catch (error) {
+      console.error("Error processing sections data:", error);
+      dataCache.sections = [];
+    }
+  }
+  
+  return dataCache.sections;
+}
+
+// Get section by ID
+export function getSectionById(sectionId: string): SectionInfo | null {
+  const sections = getAllSections();
+  return sections.find(section => section.id === sectionId) || null;
+}
+
+// Get featured events for a section
+export function getFeaturedEventsForSection(sectionId: string): Event[] {
+  const section = getSectionById(sectionId);
+  
+  if (!section || !section.featuredEventIds || section.featuredEventIds.length === 0) {
+    return [];
+  }
+  
+  return section.featuredEventIds
+    .map(id => getEventById(id))
+    .filter((event): event is Event => event !== null && hasValidHistoryData(event));
+}
+
+// Search events by title, description, category, or tags
 export function searchEvents(query: string): Event[] {
   if (!query) return [];
   
-  const events = getAllEvents();
-  const lowerQuery = query.toLowerCase();
+  const dataKey = `search-events-${query}`;
+  setLoading(dataKey, true);
   
-  return events.filter(event => 
-    event.title.toLowerCase().includes(lowerQuery)
-  );
+  try {
+    const events = getAllEvents();
+    const lowerQuery = query.toLowerCase();
+    
+    // Filter events that match the query in title, description, category, or tags
+    const results = events.filter(event => 
+      // Add null check to prevent 'event is possibly null' lint errors
+      event && (
+        event.title.toLowerCase().includes(lowerQuery) ||
+        (event.description && event.description.toLowerCase().includes(lowerQuery)) ||
+        (event.category && event.category.toLowerCase().includes(lowerQuery)) ||
+        (event.tags && event.tags.some(tag => tag.toLowerCase().includes(lowerQuery)))
+      )
+    );
+    
+    setLoading(dataKey, false);
+    return results;
+  } catch (error) {
+    console.error(`Error searching events for query: ${query}`, error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
+    return [];
+  }
 }
 
 /**
@@ -125,22 +529,86 @@ export function getOrderBookForOption(eventId: string, optionTitle: string): Ord
 }
 
 /**
+ * Related events functions
+ */
+
+// Get related events for an event
+export function getRelatedEvents(eventId: string): Event[] {
+  const event = getEventById(eventId);
+  if (!event || !event.relatedEventIds || event.relatedEventIds.length === 0) {
+    // If no related events are specified, find events in the same category or section
+    const allEvents = getAllEvents();
+    
+    // If event is null, just return an empty array
+    if (!event) {
+      return [];
+    }
+    
+    const sameCategory = allEvents.filter(e => 
+      e && e.id !== eventId && 
+      ((event.category && e.category === event.category) || 
+       (event.section && e.section === event.section))
+    );
+    
+    // Return up to 3 events from the same category/section
+    return sameCategory.slice(0, 3);
+  }
+  
+  return event.relatedEventIds
+    .map(id => getEventById(id))
+    .filter((event): event is Event => event !== null);
+}
+
+/**
  * Market trend related functions
  */
 
 // Get market trend data for a specific market
 export function getMarketTrend(marketId: string): MarketTrendData {
-  // First check if we have real data for this market
-  const allCategories = getHomeData().categories;
+  const dataKey = `market-trend-${marketId}`;
+  setLoading(dataKey, true);
   
-  for (const category of allCategories) {
-    if (category.items.trends) {
-      const trend = category.items.trends.find(t => t.id === marketId);
-      if (trend) return trend;
+  try {
+    // First check if we have real data for this market
+    const allCategories = getHomeData().categories;
+    
+    for (const category of allCategories) {
+      if (category.items.trends) {
+        const trend = category.items.trends.find(t => t.id === marketId);
+        if (trend) {
+          setLoading(dataKey, false);
+          return trend;
+        }
+      }
     }
+    
+    // If no real data found, check if this is an event ID and use its history data
+    const event = getEventById(marketId);
+    if (event && event.historyData && event.historyData.length > 0) {
+      const firstProbability = event.historyData[0]?.probability || 0;
+      const change = event.probability - firstProbability;
+      const changeStr = change >= 0 ? "+" + change.toFixed(1) : change.toFixed(1);
+      
+      const result: MarketTrendData = {
+        id: marketId,
+        title: event.title,
+        probability: event.probability,
+        probabilityChange: changeStr,
+        history: [...event.historyData] // Create a copy to avoid reference issues
+      };
+      
+      setLoading(dataKey, false);
+      return result;
+    }
+    
+    // If no real data found, return dummy data
+    setLoading(dataKey, false);
+  } catch (error) {
+    console.error(`Error retrieving market trend for ${marketId}:`, error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
   }
   
-  // If no real data found, return dummy data
+  // Return dummy data as fallback
   return {
     id: marketId,
     probabilityChange: "+5.2",
@@ -163,15 +631,141 @@ export function getMarketTrend(marketId: string): MarketTrendData {
 
 // Get home page data
 export function getHomeData(): HomeData {
+  const dataKey = 'home';
+  setLoading(dataKey, true);
+
   if (!dataCache.home) {
     try {
-      dataCache.home = homeData;
+      // Create home data from the enhanced events
+      const events = getAllEvents();
+      
+      // Group events by category
+      const categories: CategoryData[] = [
+        {
+          id: 'politics',
+          title: 'Politics',
+          items: {
+            trends: events
+              .filter(event => event.section === 'politics' && event.historyData && event.historyData.length > 0)
+              .map(event => ({
+                type: 'trend',
+                id: event.id,
+                title: event.title,
+                probability: event.probability,
+                probabilityChange: calculateProbabilityChange(event),
+                image: event.imageUrl,
+                history: event.historyData || []
+              }))
+          }
+        },
+        {
+          id: 'sports',
+          title: 'Sports',
+          items: {
+            multiChoice: events
+              .filter(event => event.section === 'sports' && event.options && event.options.length > 0)
+              .map(event => ({
+                type: 'number',
+                id: event.id,
+                title: event.title,
+                totalVolume: event.totalVolume,
+                imageUrl: event.imageUrl,
+                options: event.options?.map(opt => ({
+                  name: opt.title,
+                  probability: opt.probability
+                })) || []
+              }))
+          }
+        },
+        {
+          id: 'economy',
+          title: 'Economy',
+          items: {
+            multiChoice: events
+              .filter(event => event.section === 'economy' && event.options && event.options.length > 0)
+              .map(event => ({
+                type: 'number',
+                id: event.id,
+                title: event.title,
+                totalVolume: event.totalVolume,
+                imageUrl: event.imageUrl,
+                options: event.options?.map(opt => ({
+                  name: opt.title,
+                  probability: opt.probability
+                })) || []
+              }))
+          }
+        },
+        {
+          id: 'crypto',
+          title: 'Crypto',
+          items: {
+            multiChoice: events
+              .filter(event => event.section === 'crypto')
+              .map(event => ({
+                type: 'number',
+                id: event.id,
+                title: event.title,
+                totalVolume: event.totalVolume || 'N/A',
+                imageUrl: event.imageUrl,
+                options: event.options?.map(opt => ({
+                  name: opt.title,
+                  probability: opt.probability
+                })) || []
+              }))
+          }
+        },
+        {
+          id: 'mentions',
+          title: 'Mentions',
+          items: {
+            multiChoice: events
+              .filter(event => event.section === 'mentions')
+              .map(event => ({
+                type: 'number',
+                id: event.id,
+                title: event.title,
+                totalVolume: event.totalVolume || 'N/A',
+                imageUrl: event.imageUrl,
+                options: event.options?.map(opt => ({
+                  name: opt.title,
+                  probability: opt.probability
+                })) || []
+              }))
+          }
+        }
+      ];
+      
+      dataCache.home = { 
+        categories,
+        lastUpdated: new Date().toISOString()
+      };
+      setLoading(dataKey, false);
     } catch (error) {
-      console.error("Error loading home data:", error);
+      console.error("Error generating home data:", error);
       dataCache.home = { categories: [] };
+      setError(dataKey, error instanceof Error ? error.message : String(error));
     }
   }
+  
   return dataCache.home;
+}
+
+// Helper function to calculate probability change
+function calculateProbabilityChange(event: Event): string {
+  if (!event.historyData || event.historyData.length < 2) {
+    return "+0";
+  }
+  
+  const sortedHistory = [...event.historyData].sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  
+  const latest = sortedHistory[0].probability;
+  const earliest = sortedHistory[sortedHistory.length - 1].probability;
+  const change = latest - earliest;
+  
+  return change >= 0 ? `+${change.toFixed(1)}` : `${change.toFixed(1)}`;
 }
 
 // Get category data by ID
@@ -186,14 +780,36 @@ export function getCategoryById(categoryId: string): CategoryData | null {
 
 // Get all search items
 export function getAllSearchItems(): SearchItem[] {
+  const dataKey = 'search-items';
+  setLoading(dataKey, true);
+  
   if (!dataCache.search) {
     try {
-      dataCache.search = searchData;
+      // Generate search items from enhanced events data
+      const events = getAllEvents();
+      
+      // Convert events to search items
+      const eventSearchItems = events.map(event => ({
+        id: event.id,
+        name: event.title,
+        kind: event.category || 'Event',
+        image: event.imageUrl,
+        source: 'event'
+      }));
+      
+      // Add additional search items if needed (teams, players, etc.)
+      // This would be where you'd add any other search items that aren't events
+      
+      // Store in cache
+      dataCache.search = eventSearchItems;
+      setLoading(dataKey, false);
     } catch (error) {
-      console.error("Error loading search data:", error);
+      console.error("Error generating search data:", error);
       dataCache.search = [];
+      setError(dataKey, error instanceof Error ? error.message : String(error));
     }
   }
+  
   return dataCache.search;
 }
 
