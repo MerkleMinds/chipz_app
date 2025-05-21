@@ -47,9 +47,9 @@ export default function Header() {
           <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
         </Link>
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 relative">
+          <Link href="/promo" className="flex items-center justify-center w-10 h-10 relative">
             <FaGift className={`text-lg text-bb-accent w-5 h-5`} />
-          </div>
+          </Link>
           {/* TODO: Add wallet connection 
           {address ? ( */}
             <div className="flex items-center gap-3">
