@@ -14,7 +14,7 @@ const bets: IBetv2[] = [
     stake: 100,
     odds: 2.5,
     potential: 250,
-    kind: MenuState.LIVE,
+    kind: MenuState.OPEN,
   },
   {
     title: "EuroCup Qualifiers",
@@ -56,7 +56,7 @@ const bets: IBetv2[] = [
     stake: 200,
     odds: 2.1,
     potential: 420,
-    kind: MenuState.LIVE,
+    kind: MenuState.OPEN,
   },
   {
     title: "ATP Wimbledon Final",
@@ -114,15 +114,19 @@ const bets: IBetv2[] = [
 ];
 
 export default function Page() {
-  const [state, setState] = useState(MenuState.LIVE);
+  const [state, setState] = useState(MenuState.OPEN);
 
   return (
     <div className="mb-16">
       <Menu state={state} setState={setState} />
-      <div className="flex flex-col items-center gap-5 m-5">
-        {bets
-          .filter((bet) => bet.kind === state)
-          .map((bet, index) => <Betv2 key={`bet-page-${index}`} {...bet} />)}
+      <div className="bg-gray-900 text-white mx-6">
+        <div className="max-w-md mx-auto">
+          <div className="flex flex-col items-center gap-5 py-5">
+            {bets
+              .filter((bet) => bet.kind === state)
+              .map((bet, index) => <Betv2 key={`bet-page-${index}`} {...bet} />)}
+          </div>
+        </div>
       </div>
     </div>
   );
