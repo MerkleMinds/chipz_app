@@ -175,10 +175,13 @@ export default function SearchInterface() {
                 <div className="w-10 h-10 mr-3 rounded-full overflow-hidden flex-shrink-0">
                   {isExternalImage(item.image) ? (
                     // For external images, use an img tag instead of Next.js Image to avoid config issues
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
+                      width={40}
+                      height={40}
                       className="object-cover w-full h-full"
+                      unoptimized={true}
                     />
                   ) : (
                     // For internal images, use Next.js Image component
@@ -204,7 +207,7 @@ export default function SearchInterface() {
           ))
         ) : !isLoading && searchTerm && !error ? (
           <div className="text-center text-gray-400 py-8">
-            No results found for "{searchTerm}"
+            No results found for &quot;{searchTerm}&quot;
           </div>
         ) : null}
       </div>
