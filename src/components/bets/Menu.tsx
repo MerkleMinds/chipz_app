@@ -1,29 +1,6 @@
 export enum MenuState {
-  LIVE,
   OPEN,
   SETTLED,
-}
-
-interface IKind {
-  state: MenuState;
-  setState: (state: MenuState) => void;
-  kind: MenuState;
-  children?: React.ReactNode;
-}
-
-function Kind({ state, setState, kind, children }: IKind) {
-  return (
-    <div
-      onClick={() => setState(kind)}
-      className={`px-2 py-1 transition-colors duration-300 ease-in-out rounded-md text-xs ${
-        state === kind
-          ? "text-white bg-gray-800"
-          : "text-neutral-400 hover:text-white"
-      }`}
-    >
-      {children}
-    </div>
-  );
 }
 
 interface IMenu {
@@ -33,16 +10,29 @@ interface IMenu {
 
 export default function Menu({ state, setState }: IMenu) {
   return (
-    <div className="w-full flex flex-row justify-evenly pt-2">
-      <Kind state={state} setState={setState} kind={MenuState.LIVE}>
-        <p className="text-sm">Live</p>
-      </Kind>
-      <Kind state={state} setState={setState} kind={MenuState.OPEN}>
-        <p className="text-sm">Open</p>
-      </Kind>
-      <Kind state={state} setState={setState} kind={MenuState.SETTLED}>
-        <p className="text-sm">Settled</p>
-      </Kind>
+    <div className="bg-gray-900 text-white mx-6 mt-2">
+      <div className="max-w-md mx-auto">
+        <div className="flex justify-between mb-4 gap-2">
+          {Object.keys(MenuState)
+            .filter(key => isNaN(Number(key)))
+            .map(tab => {
+              const tabState = MenuState[tab as keyof typeof MenuState];
+              return (
+                <button
+                  key={tab}
+                  className={`flex-1 py-2 transition-colors duration-300 ease-in-out rounded-md text-xs ${
+                    state === tabState
+                      ? "text-white bg-gray-800"
+                      : "text-neutral-400 hover:text-white"
+                  }`}
+                  onClick={() => setState(tabState)}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1).toLowerCase()}
+                </button>
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 }

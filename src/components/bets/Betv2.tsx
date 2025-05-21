@@ -20,7 +20,7 @@ export type IBetv2 =
   & BetBasev2
   & (
     | {
-      kind: MenuState.LIVE | MenuState.OPEN;
+      kind: MenuState.OPEN;
     }
     | {
       kind: MenuState.SETTLED;
