@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FaChevronDown } from 'react-icons/fa6';
+import { dummyOrderBookData } from "@/utils/data/orderBookData";
 
 // Define the Order and OrderBook types based on provided interfaces
 type Order = {
@@ -23,41 +24,10 @@ export interface OrderBook {
   no: OrderBookSide;
 }
 
-// Sample order book data for demonstration
-const sampleOrderBook: OrderBook = {
-  yes: {
-    lastPrice: "0.50",
-    spread: "0.02",
-    asks: [
-      { price: "0.52", shares: 100, total: "$52.00", volume: 80 },
-      { price: "0.54", shares: 150, total: "$81.00", volume: 60 },
-      { price: "0.56", shares: 200, total: "$112.00", volume: 40 }
-    ],
-    bids: [
-      { price: "0.48", shares: 120, total: "$57.60", volume: 70 },
-      { price: "0.46", shares: 180, total: "$82.80", volume: 50 },
-      { price: "0.44", shares: 250, total: "$110.00", volume: 30 }
-    ]
-  },
-  no: {
-    lastPrice: "0.45",
-    spread: "0.03",
-    asks: [
-      { price: "0.47", shares: 90, total: "$42.30", volume: 75 },
-      { price: "0.49", shares: 130, total: "$63.70", volume: 55 },
-      { price: "0.51", shares: 180, total: "$91.80", volume: 35 }
-    ],
-    bids: [
-      { price: "0.44", shares: 110, total: "$48.40", volume: 65 },
-      { price: "0.42", shares: 160, total: "$67.20", volume: 45 },
-      { price: "0.40", shares: 220, total: "$88.00", volume: 25 }
-    ]
-  }
-};
-
 // Props for the OrderBookPart component
 interface OrderBookPartProps {
   orderBookData?: OrderBook;
+  eventId?: string;
 }
 
 interface OrderRowProps {
@@ -92,7 +62,7 @@ const OrderRow = ({ orders, color, lastPrice }: OrderRowProps) => (
   </div>
 );
 
-export const OrderBookPart: React.FC<OrderBookPartProps> = ({ orderBookData = sampleOrderBook }) => {
+export const OrderBookPart: React.FC<OrderBookPartProps> = ({ orderBookData = dummyOrderBookData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<'yes' | 'no'>('yes');
 

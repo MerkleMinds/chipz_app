@@ -1,10 +1,11 @@
-import SearchInterface, { type SearchItem } from "@/components/search/SearchInterface";
-import searchData from "@/utils/data/searchData.json" with { type: "json" };
+import SearchInterface from "@/components/search/SearchInterface";
 
 export default function Page() {
   return (
     <div className="w-full flex items-center justify-center">
-      <SearchInterface items={searchData as SearchItem[]} />
+      <div className="w-full max-w-4xl p-4">
+        <SearchInterface />
+      </div>
     </div>
   );
 }

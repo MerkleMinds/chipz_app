@@ -1,30 +1,15 @@
 import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
-import MarketBox, { type MarketItem } from "@/components/components/Market";
-import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
-import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
-import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
-// Import data directly - this is the default approach for static builds
-import homeData from "@/utils/data/sections/home.json";
-
-interface HomeData {
-    categories: CategoryData[];
-}
-
-interface CategoryData {
-    id?: string;
-    title: string;
-    items: {
-        trends?: MarketTrendData[];
-        multiChoice?: MarketNbrItem[];
-        previews?: {
-            displayMode?: 'slider' | 'grid' | string;
-            data: PredictionPreviewItem[];
-        };
-        market?: MarketItem[];
-    };
-}
+import MarketBox from "@/components/components/Market";
+import PredictionPreviewList from "@/components/components/PreviewBet";
+import MarketTrend from "@/components/components/MarketTrend";
+import MarketNbrBox from "@/components/components/MarketNbr";
+// Import data service and types
+import { getHomeData } from "@/utils/data/dataService";
+import { CategoryData } from "@/utils/data/types";
+import Link from "next/link";
+import sections from "@/utils/data/sections";
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     if (!items) return null;
@@ -49,7 +34,15 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
                 renderSlider(
                     items.trends.map((item, index) => (
                         <div key={index} className="flex grow">
-                            <MarketTrend markets={[item]} />
+                            <MarketTrend markets={[{
+                                ...item,
+                                // Ensure title is always a string for MarketTrend component
+                                title: item.title || '',
+                                // Ensure probability is always a number for MarketTrend component
+                                probability: item.probability || 0,
+                                // Ensure image is always a string for MarketTrend component
+                                image: item.image || ''
+                            }]} />
                         </div>
                     ))
                 )}
@@ -100,6 +93,9 @@ interface PageProps {
 }
 
 const CompItem = ({ icon, title, items }: PageProps) => {
+    // Find the section path for the "See more" link
+    const sectionPath = sections.find(s => s.name.toLowerCase() === title.toLowerCase())?.path || '#';
+    
     return (
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
@@ -110,7 +106,7 @@ const CompItem = ({ icon, title, items }: PageProps) => {
                     </h1>
                 </div>
                 <div className="flex flex-row gap-1 items-center text-xs text-bb-accent">
-                    <a href="#">See more</a>
+                    <Link href={sectionPath}>See more</Link>
                     <FaAnglesRight />
                 </div>
             </div>
@@ -132,42 +128,12 @@ const getCategoryIcon = (title: string) => {
     }
 };
 
-// Only fetch from API if specifically enabled
-async function getHomeData(): Promise<HomeData> {
-    // Check if API fetching is explicitly enabled
-    const useApi = process.env.NEXT_PUBLIC_USE_API_FETCH === 'true';
-    
-    if (useApi) {
-        try {
-            // For server components, we need an absolute URL
-            const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-            const host = process.env.VERCEL_URL || 'localhost:3000';
-            const baseUrl = `${protocol}://${host}`;
-            
-            const res = await fetch(`${baseUrl}/api/home`, { 
-                next: { revalidate: 3600 } // Revalidate every hour
-            });
-            
-            if (!res.ok) {
-                throw new Error('Failed to fetch home data');
-            }
-            
-            return res.json();
-        } catch (error) {
-            console.error('API fetch failed, using static import:', error);
-            // Fall back to static import if API fetch fails
-            return homeData;
-        }
-    }
-    
-    // Default: use static import
-    return homeData;
-}
+
 
 // Page is now an async component
 export default async function Page() {
-    // Get data either from API (if enabled) or static import
-    const data = await getHomeData();
+    // Get data from the data service
+    const data = getHomeData();
     
     return (
         <main className="flex flex-col gap-y-5">
