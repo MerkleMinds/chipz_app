@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import CircularImage from "../ui/CircularImage";
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
@@ -67,10 +68,10 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <div className="flex items-center space-x-2 cursor-pointer">
-            <img
+            <CircularImage
               src={selectedMarket.image || ""}
               alt="flag"
-              className="w-8 h-8 rounded-full"
+              size={40}
             />
             <div className="flex justify-between grow">
               <div className="flex w-3/4 mr-auto items-center">

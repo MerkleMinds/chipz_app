@@ -1,8 +1,9 @@
 "use client";
 
 import { type IMatchv2 } from "@/components/Live";
+import { useAppContext } from "./Context";
+import Image from "next/image";
 import { hashBet } from "@/components/bets/Betv2";
-import { useAppContext } from "@/components/Context";
 import { perform, populate } from "@/utils/client";
 import { ExtractFrom } from "@/utils/types";
 import { useEffect, useState } from "react";
@@ -52,7 +53,13 @@ function Card(props: IMatchv2) {
             className="text-center flex flex-col items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
           >
             <div className="w-16 h-16 rounded-full flex items-center justify-center mb-2">
-              <img src={props.left.image} alt={props.left.team} />
+              <Image 
+                src={props.left.image} 
+                alt={props.left.team} 
+                width={64} 
+                height={64} 
+                className="object-contain" 
+              />
             </div>
             <p className="font-bold text-white text-center break-words">
               {props.left.team}
@@ -71,7 +78,13 @@ function Card(props: IMatchv2) {
             className="text-center flex flex-col items-center w-1/3 hover:bg-gray-700 hover:rounded-md transition-colors duration-300"
           >
             <div className="w-16 h-16 rounded-full flex items-center justify-center mb-2">
-              <img src={props.right.image} alt={props.right.team} />
+              <Image 
+                src={props.right.image} 
+                alt={props.right.team} 
+                width={64} 
+                height={64} 
+                className="object-contain" 
+              />
             </div>
             <p className="font-bold text-white text-center break-words">
               {props.right.team}

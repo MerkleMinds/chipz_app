@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import CircularImage from '../ui/CircularImage';
 import { HalfCircleProgress } from '../HalfCircleProgress';
 
 export type PredictionPreviewItem = {
@@ -32,10 +33,10 @@ export default function PredictionPreviewList({ predictions }: PredictionPreview
                     >
                         <div className="flex items-center space-x-3">
                             <div className="">
-                                <img
+                                <CircularImage
                                     src={prediction.imageUrl || ''}
                                     alt="flag"
-                                    className="w-8 h-8 rounded-full"
+                                    size={40}
                                 />
                             </div>
                             <div className="flex flex-col">

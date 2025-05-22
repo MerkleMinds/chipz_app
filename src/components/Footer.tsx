@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -101,7 +102,12 @@ export default function Footer() {
               href="#"
               aria-label="Chipz"
             >
-              <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
+              <Image 
+                src="/chipz_hor.png" 
+                alt="Chipz" 
+                width={100} 
+                height={30} 
+              />
             </Link>
 
             <div className="border-s border-neutral-700 ps-5 ms-5">

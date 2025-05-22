@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useAppContext } from "@/components/Context";
 import useTransaction from "@/hooks/useTransaction";
@@ -70,11 +70,17 @@ const ShopItem: React.FC<IShopItem> = ({ image, name, description, price }) => {
 
   return (
     <div className="flex flex-col bg-gray-800 p-2 rounded-lg shadow-md">
-      <img
-        className="w-full h-36 object-cover rounded-lg mb-2"
-        src={image}
-        alt={name}
-      />
+      <div className="relative w-full h-36 mb-2 rounded-lg overflow-hidden">
+        <Image
+          src={image}
+          alt={name}
+          fill
+          sizes="(max-width: 768px) 100vw, 300px"
+          className="object-cover"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI8V7yQCgAAAABJRU5ErkJggg=="
+        />
+      </div>
       <div className="flex flex-col justify-between h-full gap-3">
         <div className="flex flex-col gap-1">
           <h1 className="text-white font-bold text-sm">{name}</h1>
