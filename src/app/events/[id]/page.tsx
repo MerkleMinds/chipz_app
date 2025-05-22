@@ -4,6 +4,7 @@ import Partners from "@/components/Partners";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
 import { getEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
+import Image from "next/image";
 
 interface PageProps {
   params: {
@@ -60,11 +61,13 @@ const MainPage = ({ data }: MainPageProps) => {
   return (
     <div className="flex flex-col mx-3 mt-2 gap-3 text-white">
       <div className="flex flex-row justify-between">
-      <img
+      <Image
         src={data.imageUrl}
         alt="event-banner"
-        className="w-[45px] h-[45px] object-cover"
-        />
+        className="object-cover"
+        width={45}
+        height={45}
+      />
         </div>
       <h2 className="text-white text-lg font-bold">{data.title}</h2>
 	  <div className="flex flex-col">

@@ -1,7 +1,8 @@
 "use client";
 
 import React from 'react';
-import { FaGift } from "react-icons/fa6";
+import { FaGift } from "react-icons/fa";
+import Image from "next/image";
 import { CiWallet } from "react-icons/ci";
 import Link from "next/link";
 import { useAppContext } from "@/components/Context";
@@ -44,7 +45,13 @@ export default function Header() {
     <header className="w-full bg-gray-900 shadow-lg">
       <div className="flex justify-between items-center px-4 py-3 md:px-6">
         <Link href="/" className="flex items-center">
-          <img src="/chipz_hor.png" alt="Chipz" width={100} height={100} />
+          <Image 
+            src="/chipz_hor.png" 
+            alt="Chipz" 
+            width={100} 
+            height={30} 
+            priority 
+          />
         </Link>
         <div className="flex items-center gap-3">
           <Link href="/promo" className="flex items-center justify-center w-10 h-10 relative">

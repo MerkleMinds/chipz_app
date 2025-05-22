@@ -1,8 +1,9 @@
 "use client";
 import { perform, populate } from "@/utils/client";
 import { ExtractFrom } from "@/utils/types";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { FaAnglesRight, FaSpinner, FaTrophy } from "react-icons/fa6";
+import Image from "next/image";
 
 interface ILeagueProps {
   region: string;
@@ -21,7 +22,15 @@ function Card({ region, league, image }: ILeagueProps) {
           <FaAnglesRight />
         </div>
       </div>
-      <img src={image} alt={league} className="h-20 w-auto" />
+      <div className="relative h-20 w-20">
+        <Image 
+          src={image} 
+          alt={league} 
+          width={80}
+          height={80}
+          className="object-contain"
+        />
+      </div>
     </div>
   );
 }

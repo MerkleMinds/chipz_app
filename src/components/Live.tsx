@@ -17,7 +17,8 @@ import { hashBet } from "@/components/bets/Betv2";
 import { useAppContext } from "@/components/Context";
 import { perform, populate } from "@/utils/client";
 import { ExtractFrom } from "@/utils/types";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export interface IMatchv2 {
   competition: string;
@@ -103,10 +104,14 @@ function Card(match: IMatchv2) {
       <div className="flex flex-col gap-3 justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-row gap-3 items-center">
-            <img
+            <Image
               src={match.left.image}
               alt={match.left.team}
-              className="w-7 h-7"
+              width={28}
+              height={28}
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI8V7yQCgAAAABJRU5ErkJggg=="
             />
             <p className="text-white">{match.left.team}</p>
           </div>
@@ -116,10 +121,14 @@ function Card(match: IMatchv2) {
         </div>
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-row gap-3 items-center">
-            <img
+            <Image
               src={match.right.image}
               alt={match.right.team}
-              className="w-7 h-7"
+              width={28}
+              height={28}
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI8V7yQCgAAAABJRU5ErkJggg=="
             />
             <p className="text-white">{match.right.team}</p>
           </div>

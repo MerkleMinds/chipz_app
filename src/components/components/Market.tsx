@@ -2,6 +2,7 @@
 
 
 import { HalfCircleProgress } from "../HalfCircleProgress";
+import CircularImage from "../ui/CircularImage";
 
 export type MarketItem = {
   id: string;
@@ -30,10 +31,10 @@ export default function MarketBox({ markets }: IBoxProps) {
           >
             <div>
               <div className="flex items-center space-x-3">
-                <img
+                <CircularImage
                   src={market.imageUrl || ''}
                   alt="flag"
-                  className="w-8 h-8 rounded-full"
+                  size={40}
                 />
                 <div className="flex justify-between grow">
                   <div className="flex w-[60%] mr-auto items-center">
