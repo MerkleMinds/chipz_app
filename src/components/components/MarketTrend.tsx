@@ -6,7 +6,7 @@ import { hashBet } from "@/components/bets/Betv2";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
-import useTimeRangeFilter from "../charts/useTimeRangeFilter";
+import { useTimeRangeData } from "../charts/hooks/useTimeRangeData";
 
 export type MarketTrendData = {
   id: string;
@@ -30,7 +30,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
   const selectedMarket = isValidMarkets && markets.length === 1 ? markets[0] : null;
   
   // Call hooks unconditionally at the top level
-  const { timeRange, setTimeRange, filteredData } = useTimeRangeFilter(
+  const { timeRange, setTimeRange, filteredData, isLoading, error } = useTimeRangeData(
     selectedMarket?.history || [],
     "1W"
   );
@@ -90,7 +90,10 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
       
       <ProbabilityLineChart 
         data={filteredData} 
-        isPositive={isPositive} 
+        isPositive={isPositive}
+        timeRange={timeRange}
+        loading={isLoading}
+        error={error}
       />
 
       <TimeRangeSelector

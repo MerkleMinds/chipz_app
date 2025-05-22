@@ -46,18 +46,30 @@ export function useTimeRangeFilter<T extends DataPoint>(
         (point) => new Date(point.date) >= oneWeekAgo
       );
 
-      return filteredPoints.length < 2 ? sortedData.slice(-7) : filteredPoints;
+      // If we have less than 2 points for the week, show at least 2 points
+      // but no more than 7 points
+      if (filteredPoints.length < 2) {
+        return sortedData.slice(-Math.min(7, sortedData.length));
+      }
+      
+      return filteredPoints;
     }
 
     if (timeRange === "1M") {
       const oneMonthAgo = new Date(now);
-      oneMonthAgo.setDate(now.getDate() - 30);
+      oneMonthAgo.setMonth(now.getMonth() - 1);
 
       const filteredPoints = sortedData.filter(
         (point) => new Date(point.date) >= oneMonthAgo
       );
 
-      return filteredPoints.length < 2 ? sortedData : filteredPoints;
+      // If we have less than 2 points for the month, show at least 2 points
+      // but no more than 30 points
+      if (filteredPoints.length < 2) {
+        return sortedData.slice(-Math.min(30, sortedData.length));
+      }
+      
+      return filteredPoints;
     }
 
     // 1Y view
