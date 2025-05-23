@@ -1,6 +1,7 @@
 "use client";
 
 import { FaBolt, FaGear } from "react-icons/fa6";
+import Image from "next/image";
 
 import { type IMatchv2 } from "@/components/Live";
 import { getIcon } from "@/components/Live";
@@ -200,20 +201,28 @@ function Entryv2(match: IMatchv2) {
       <div className="flex flex-col gap-3 justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-row gap-3 items-center">
-            <img
+            <Image
               src={match.left.image}
               alt={match.left.team}
-              className="w-7 h-7"
+              width={28}
+              height={28}
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI8V7yQCgAAAABJRU5ErkJggg=="
             />
             <p className="text-white">{match.left.team}</p>
           </div>
         </div>
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-row gap-3 items-center">
-            <img
+            <Image
               src={match.right.image}
               alt={match.right.team}
-              className="w-7 h-7"
+              width={28}
+              height={28}
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI8V7yQCgAAAABJRU5ErkJggg=="
             />
             <p className="text-white">{match.right.team}</p>
           </div>

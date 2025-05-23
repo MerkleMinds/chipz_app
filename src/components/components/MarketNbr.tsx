@@ -3,6 +3,7 @@
 import { useAppContext } from "@/components/Context";
 import { hashBet } from "@/components/bets/Betv2";
 import { useRouter } from "next/navigation";
+import CircularImage from "../ui/CircularImage";
 
 
 export type MarketNbrItem = {
@@ -80,13 +81,13 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 	return (
 		<div className="flex grow flex-col space-y-4 justify-center min-w-[300px]">
 			{markets.map((market) => (
-				<div key={market.id} className="p-5 w-full rounded-xl bg-gray-800" onClick={() => handleLinkClick(market.id)}>
+				<div key={market.id} className="p-3 w-full rounded-xl bg-gray-800" onClick={() => handleLinkClick(market.id)}>
 					<div>
 						<div className="flex items-center space-x-3 cursor-pointer">
-							<img
+							<CircularImage
 								src={market.imageUrl}
 								alt="flag"
-								className="w-8 h-8 rounded-full"
+								size={40}
 							/>
 							<p className="text-white font-bold text-sm">{market.title}</p>
 						</div>
