@@ -125,19 +125,72 @@ export function useTimeRangeData<T extends ChartDataPoint>(
       if (filteredPoints.length < 2) {
         console.warn(`Insufficient filtered data points (${filteredPoints.length}) for ${timeRange} range, using fallback`);
         
-        // Determine max points to show based on time range
-        let maxPoints: number;
+        // Create a more intelligent fallback that spans the appropriate time range
+        // even if we don't have data points for every day/hour/etc.
+        
+        // If we have at least one data point, use it as the end point
+        const latestDataPoint = sortedData[sortedData.length - 1];
+        const latestDate = new Date(latestDataPoint.date);
+        
+        // Create a set of evenly distributed dates spanning the time range
+        const fallbackDates: Date[] = [];
+        const fallbackData: T[] = [];
+        
+        // Determine number of points and interval based on time range
+        let numPoints: number;
+        let intervalMs: number;
+        
         switch (timeRange) {
-          case "1D": maxPoints = 24; break;  // Hourly for a day
-          case "1W": maxPoints = 7; break;   // Daily for a week
-          case "1M": maxPoints = 30; break;  // Daily for a month
-          case "1Y": maxPoints = 12; break;  // Monthly for a year
-          default: maxPoints = 7;
+          case "1D":
+            numPoints = 8; // Every 3 hours
+            intervalMs = 3 * 60 * 60 * 1000; // 3 hours in ms
+            break;
+          case "1W":
+            numPoints = 7; // Daily
+            intervalMs = 24 * 60 * 60 * 1000; // 1 day in ms
+            break;
+          case "1M":
+            numPoints = 10; // Every 3 days
+            intervalMs = 3 * 24 * 60 * 60 * 1000; // 3 days in ms
+            break;
+          case "1Y":
+            numPoints = 12; // Monthly
+            intervalMs = 30 * 24 * 60 * 60 * 1000; // ~30 days in ms
+            break;
+          default:
+            numPoints = 7;
+            intervalMs = 24 * 60 * 60 * 1000; // 1 day in ms
         }
         
-        // Return limited number of points from the full dataset
-        const fallbackData = sortedData.slice(-Math.min(maxPoints, sortedData.length));
-        console.log(`Using ${fallbackData.length} fallback data points`);
+        // Generate dates working backward from the latest date
+        for (let i = 0; i < numPoints; i++) {
+          const date = new Date(latestDate.getTime() - i * intervalMs);
+          fallbackDates.unshift(date); // Add to beginning to maintain chronological order
+        }
+        
+        // For each generated date, find the closest actual data point
+        fallbackDates.forEach(targetDate => {
+          // Find the closest data point to this date
+          let closestPoint = sortedData[0];
+          let minDiff = Infinity;
+          
+          sortedData.forEach(point => {
+            const pointDate = new Date(point.date);
+            const diff = Math.abs(pointDate.getTime() - targetDate.getTime());
+            
+            if (diff < minDiff) {
+              minDiff = diff;
+              closestPoint = point;
+            }
+          });
+          
+          // Create a new data point with the target date but values from the closest point
+          const newPoint = { ...closestPoint };
+          newPoint.date = targetDate.toISOString();
+          fallbackData.push(newPoint as T);
+        });
+        
+        console.log(`Created ${fallbackData.length} evenly distributed fallback data points for ${timeRange} range`);
         return fallbackData;
       }
       
