@@ -2,7 +2,7 @@ export const HalfCircleProgress = ({ probability }: { probability: number }) => 
     const radius = 30;
     const circumference = Math.PI * radius;
     const progress = ((probability || 0) / 100) * circumference;
-    const color = (probability || 0) > 45 ? "#23C45E" : "#FE4E4F";
+    const color = (probability || 0) > 45 ? "var(--color-bb-success)" : "var(--color-bb-error)";
   
     return (
       <div className="relative w-[64px] h-[48px]">

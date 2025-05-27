@@ -119,7 +119,7 @@ export default function Page() {
   return (
     <div className="mb-16">
       <Menu state={state} setState={setState} />
-      <div className="bg-gray-900 text-white mx-6">
+      <div className="bg-bb-bg-card-dark text-white mx-6">
         <div className="max-w-md mx-auto">
           <div className="flex flex-col items-center gap-5 py-5">
             {bets

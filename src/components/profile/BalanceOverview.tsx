@@ -20,14 +20,14 @@ export default function BalanceOverview({ history, period = "Last 30 days" }: Ba
     .reduce((acc, h) => acc + h.amount, 0);
 
   return (
-    <div className="bg-gray-800 p-4 flex flex-col rounded-md gap-2 mb-4">
+    <div className="bg-bb-bg-card p-4 flex flex-col rounded-md gap-2 mb-4">
       <div className="w-full flex justify-between items-center">
         <p className="text-sm">{period}</p>
       </div>
       <div className="w-full flex justify-between items-center">
         <div className="flex flex-row gap-2 items-center">
-          <div className="bg-gray-900 p-1 rounded-md">
-            <IoIosArrowUp className="text-[#23C45E]" />
+          <div className="bg-bb-bg-card-dark p-1 rounded-md">
+            <IoIosArrowUp className="text-bb-success" />
           </div>
           <p className="text-neutral-400 text-sm">Total Revenue</p>
         </div>
@@ -35,8 +35,8 @@ export default function BalanceOverview({ history, period = "Last 30 days" }: Ba
       </div>
       <div className="w-full flex justify-between items-center">
         <div className="flex flex-row gap-2 items-center">
-          <div className="bg-gray-900 p-1 rounded-md">
-            <IoIosArrowDown className="text-[#EF4444]" />
+          <div className="bg-bb-bg-card-dark p-1 rounded-md">
+            <IoIosArrowDown className="text-bb-error" />
           </div>
           <p className="text-neutral-400 text-sm">Total Loss</p>
         </div>

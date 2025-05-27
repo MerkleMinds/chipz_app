@@ -1,13 +1,14 @@
 // Common chart configuration values
+// Using Tailwind theme colors for consistency
 export const CHART_COLORS = {
-  positive: "#23C45E",
-  negative: "#EF4444",
+  positive: "var(--color-bb-success, #23C45E)", // Using CSS variable that matches Tailwind theme
+  negative: "var(--color-bb-error, #EF4444)",
   marketPositive: "#6BD932",
   marketNegative: "#FE4E4F",
   gridStroke: "#444",
-  gridFill: "#1f2937",
+  gridFill: "var(--color-bb-bg-card, #1f2937)", // Using semantic background color
   tickColor: "#ccc",
-  background: "bg-gray-800",
+  background: "bg-bb-bg-card", // Using semantic Tailwind class
 };
 
 export const CHART_SIZES = {
