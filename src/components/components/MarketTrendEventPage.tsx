@@ -40,7 +40,7 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
   const isPositive = market.probabilityChange.startsWith("+");
 
   return (
-    <div className="text-white p-3 space-y-2 rounded-xl bg-gray-800 min-h-[250px]">
+    <div className="text-white p-3 space-y-2 rounded-xl bg-bb-bg-card min-h-[250px]">
       <ProbabilityLineChart 
         data={filteredData} 
         isPositive={isPositive}

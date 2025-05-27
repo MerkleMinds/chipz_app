@@ -34,7 +34,7 @@ export default function Bottom() {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-[24rem] bg-gray-900 text-white flex justify-around py-3 px-4 z-[100] shadow-lg">
+    <nav className="fixed bottom-0 w-[24rem] bg-bb-bg-card-dark text-white flex justify-around py-3 px-4 z-[100] shadow-lg">
       {links.map((link) => (
         <Link
           key={link.href}

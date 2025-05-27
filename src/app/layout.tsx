@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-900`}>
+      <body className={`${inter.className} bg-bb-bg-app`}>
         <AppContextProvider>
           <div className="max-w-sm mx-auto">
             <Header />

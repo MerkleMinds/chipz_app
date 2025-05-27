@@ -42,7 +42,7 @@ export default function Header() {
   }, [balance, setAmount]);
 
   return (
-    <header className="w-full bg-gray-900 shadow-lg">
+    <header className="w-full bg-bb-bg-card-dark shadow-lg">
       <div className="flex justify-between items-center px-4 py-3 md:px-6">
         <Link href="/" className="flex items-center">
           <Image 
