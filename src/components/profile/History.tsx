@@ -237,8 +237,8 @@ export default function History() {
 
   return (
     <div className="mb-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg mb-4">PnL Graph</h3>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg">PnL Graph</h3>
         <h3 className={`text-lg ${totalBalance >= 0 ? "text-[#23C45E]" : "text-[#EF4444]"}`}>
           {totalBalance} $
         </h3>
