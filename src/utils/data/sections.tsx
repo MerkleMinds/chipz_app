@@ -1,14 +1,14 @@
-import { FaBolt, FaLandmark, FaFootball, FaBitcoin, FaAt } from "react-icons/fa6";
+import { FaBolt, FaLandmark, FaFootball, FaBitcoin, FaChartLine, FaGlobe } from "react-icons/fa6";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { SectionInfo } from "./types";
 
 const sections: SectionInfo[] = [
   { 
-    id: "live",
-    name: "Live", 
+    id: "trending",
+    name: "Trending", 
     icon: <FaBolt className="inline-block" />, 
-    path: "/live",
-    description: "Live events happening right now",
+    path: "/trending",
+    description: "Most popular and trending events",
     featuredEventIds: [],
     metadata: {
       lastUpdated: new Date().toISOString(),
@@ -40,10 +40,10 @@ const sections: SectionInfo[] = [
     }
   },
   { 
-    id: "economy",
-    name: "Economy", 
+    id: "economics",
+    name: "Economics", 
     icon: <IoBriefcaseOutline className="inline-block" />, 
-    path: "/economy",
+    path: "/economics",
     description: "Economic events and predictions",
     featuredEventIds: [],
     metadata: {
@@ -64,11 +64,23 @@ const sections: SectionInfo[] = [
     }
   },
   { 
-    id: "mentions",
-    name: "Mentions", 
-    icon: <FaAt className="inline-block" />, 
-    path: "/mentions",
-    description: "Mentions and references",
+    id: "finance",
+    name: "Finance", 
+    icon: <FaChartLine className="inline-block" />, 
+    path: "/finance",
+    description: "Financial markets and investment predictions",
+    featuredEventIds: [],
+    metadata: {
+      lastUpdated: new Date().toISOString(),
+      totalEvents: 0
+    }
+  },
+  { 
+    id: "world",
+    name: "World Events", 
+    icon: <FaGlobe className="inline-block" />, 
+    path: "/world",
+    description: "Global events and international predictions",
     featuredEventIds: [],
     metadata: {
       lastUpdated: new Date().toISOString(),
