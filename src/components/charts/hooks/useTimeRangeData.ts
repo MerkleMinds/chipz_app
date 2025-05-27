@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { TimeRangeOption } from "../ChartConfig";
 import { ChartDataPoint } from "../utils/chartUtils";
 
@@ -28,8 +28,25 @@ export function useTimeRangeData<T extends ChartDataPoint>(
   const [timeRange, setTimeRange] = useState<TimeRangeOption>(initialTimeRange);
   const [isLoading] = useState<boolean>(false); // We're not using setIsLoading in this version
   const [error, setError] = useState<Error | null>(null);
+  
+  // Use refs to track if we've already processed this data and time range combination
+  const dataHashRef = useRef<string>("");
+  const timeRangeRef = useRef<string>(initialTimeRange);
+  const resultCacheRef = useRef<T[]>([]);
 
   const filteredData = useMemo(() => {
+    // Create a simple hash of the data to check if it's changed
+    const dataHash = data && Array.isArray(data) ? 
+      JSON.stringify(data.map(d => d.date)) : "empty";
+    
+    // If data and time range haven't changed, return cached result
+    if (dataHash === dataHashRef.current && timeRange === timeRangeRef.current && resultCacheRef.current.length > 0) {
+      return resultCacheRef.current;
+    }
+    
+    // Update refs with current values
+    dataHashRef.current = dataHash;
+    timeRangeRef.current = timeRange;
     try {
       // Reset error state
       setError(null);
@@ -45,11 +62,6 @@ export function useTimeRangeData<T extends ChartDataPoint>(
         console.warn('Empty data array provided to useTimeRangeData');
         return [];
       }
-
-      // Log data for debugging
-      console.log(`useTimeRangeData: Processing ${data.length} data points for ${timeRange} range`);
-      console.log('First data point:', data[0]);
-      console.log('Last data point:', data[data.length - 1]);
 
       // Ensure all data points have valid dates
       const validData = data.filter(point => {
@@ -119,24 +131,16 @@ export function useTimeRangeData<T extends ChartDataPoint>(
         return pointDate >= cutoffDate;
       });
 
-      console.log(`After filtering: ${filteredPoints.length} points remain for ${timeRange} range`);
 
       // Handle case with insufficient data points
       if (filteredPoints.length < 2) {
-        console.warn(`Insufficient filtered data points (${filteredPoints.length}) for ${timeRange} range, using fallback`);
         
-        // Create a more intelligent fallback that spans the appropriate time range
-        // even if we don't have data points for every day/hour/etc.
-        
-        // If we have at least one data point, use it as the end point
         const latestDataPoint = sortedData[sortedData.length - 1];
         const latestDate = new Date(latestDataPoint.date);
         
-        // Create a set of evenly distributed dates spanning the time range
         const fallbackDates: Date[] = [];
         const fallbackData: T[] = [];
         
-        // Determine number of points and interval based on time range
         let numPoints: number;
         let intervalMs: number;
         
@@ -190,7 +194,6 @@ export function useTimeRangeData<T extends ChartDataPoint>(
           fallbackData.push(newPoint as T);
         });
         
-        console.log(`Created ${fallbackData.length} evenly distributed fallback data points for ${timeRange} range`);
         return fallbackData;
       }
       
@@ -200,15 +203,17 @@ export function useTimeRangeData<T extends ChartDataPoint>(
       if (filteredPoints.length > maxPointsForDisplay) {
         const samplingRate = Math.ceil(filteredPoints.length / maxPointsForDisplay);
         const sampledPoints = filteredPoints.filter((_, index) => index % samplingRate === 0 || index === filteredPoints.length - 1);
-        console.log(`Sampled ${filteredPoints.length} points down to ${sampledPoints.length} points`);
         return sampledPoints;
       }
       
+      // Store the result in the cache before returning
+      resultCacheRef.current = filteredPoints;
       return filteredPoints;
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       setError(error);
       console.error("Error filtering data by time range:", error);
+      resultCacheRef.current = [];
       return [];
     }
   }, [data, timeRange]);

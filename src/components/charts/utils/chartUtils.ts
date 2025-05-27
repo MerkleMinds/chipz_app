@@ -87,10 +87,6 @@ export function debugDataPoints(data: ChartDataPoint[], label = 'Data points'): 
     return;
   }
 
-  console.log(`${label}: ${data.length} points`);
-  console.log('First point:', data[0]);
-  console.log('Last point:', data[data.length - 1]);
-  
   // Check for valid date strings
   const invalidDates = data.filter(point => !isValid(parseISO(point.date)));
   if (invalidDates.length > 0) {

@@ -56,7 +56,6 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
   // Log data for debugging
   useEffect(() => {
     debugDataPoints(data, 'ProbabilityLineChart data');
-    console.log('Chart timeRange:', timeRange);
   }, [data, timeRange]);
 
   // Memoize styling values to prevent unnecessary re-renders
@@ -77,7 +76,7 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
       switch (timeRange) {
         case '1D': formatPattern = 'HH:mm'; break;
         case '1W': formatPattern = 'dd/MM'; break;
-        case '1M': formatPattern = 'dd/MM'; break;
+        case '1M': formatPattern = 'dd MMM'; break; // Show day and abbreviated month name
         case '1Y': formatPattern = 'MMM yy'; break;
       }
       
