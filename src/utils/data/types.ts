@@ -67,6 +67,7 @@ export interface EventOption {
   probability: number;
   description?: string;          // Optional description
   orderBook?: any[];
+  historyData?: MarketHistory[]; // Historical data for option probability graph
 }
 
 // Market types

@@ -35,10 +35,16 @@ const CustomTooltip = ({ active, payload, coordinate }: TooltipProps<any, any>) 
 export default function MarketTrendEventPage({ market }: MarketTrendEventPageProps) {
   const memoizedMarket = useMemo(() => market, [market]);
   
-  const { timeRange, setTimeRange, filteredData, isLoading, error } = useTimeRangeData(
+  const { timeRange, setTimeRange: updateTimeRange, filteredData, isLoading, error } = useTimeRangeData(
     memoizedMarket.history,
     "1W"
   );
+
+  // Handle time range change
+  const handleTimeRangeChange = (newRange: TimeRangeOption) => {
+    console.log('MarketTrendEventPage - Changing time range to:', newRange);
+    updateTimeRange(newRange);
+  };
 
   const isPositive = market.probabilityChange.startsWith("+");
 
@@ -57,7 +63,7 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
 
       <TimeRangeSelector
         timeRange={timeRange as TimeRangeOption}
-        setTimeRange={setTimeRange}
+        setTimeRange={handleTimeRangeChange}
         availableRanges={TIME_RANGES.default}
       />
     </div>

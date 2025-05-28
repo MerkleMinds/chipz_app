@@ -58,12 +58,45 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
     debugDataPoints(data, 'ProbabilityLineChart data');
   }, [data, timeRange]);
 
+
   // Memoize styling values to prevent unnecessary re-renders
   const styles = useMemo(() => ({
     containerClass: `w-full ${height} flex items-center justify-center m-0 ${minHeight ? minHeight : ""}`,
     lineColor: isPositive ? CHART_COLORS.positive : CHART_COLORS.negative,
     dotFillColor: isPositive ? CHART_COLORS.positive : CHART_COLORS.negative,
   }), [height, isPositive, minHeight]);
+  
+  // Calculate Y-axis domain and ticks based on data
+  const yAxisConfig = useMemo(() => {
+    if (!data || data.length === 0) {
+      return {
+        domain: [0, 100],
+        ticks: [0, 20, 40, 60, 80, 100]
+      };
+    }
+
+    // Find max probability in the data
+    const maxProb = Math.max(...data.map(d => d.probability || 0));
+    
+    // Round up to nearest multiple of 20 for max domain value
+    const maxDomain = Math.min(Math.ceil(maxProb / 20) * 20, 100);
+    
+    // Generate ticks at equal intervals
+    const tickInterval = maxDomain <= 60 ? 15 : 20;
+    const ticks = [];
+    for (let i = 0; i <= maxDomain; i += tickInterval) {
+      ticks.push(i);
+    }
+    
+    // Always include 0 and maxDomain in ticks
+    if (!ticks.includes(0)) ticks.unshift(0);
+    if (!ticks.includes(maxDomain)) ticks.push(maxDomain);
+    
+    return {
+      domain: [0, maxDomain],
+      ticks: ticks.sort((a, b) => a - b)
+    };
+  }, [data]);
   
   // Format date based on time range
   const formatXAxis = (dateStr: string) => {
@@ -157,9 +190,9 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             orientation="right"
             width={CHART_SIZES.yAxisWidth}
             tickFormatter={formatPercentage}
-            domain={[0, 100]}
+            domain={yAxisConfig.domain}
             allowDecimals={false}
-            ticks={[0, 20, 40, 60, 80, 100]}
+            ticks={yAxisConfig.ticks}
           />
           <CartesianGrid
             horizontal={true}
@@ -167,8 +200,8 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             stroke={CHART_COLORS.gridStroke}
             fill={CHART_COLORS.gridFill}
             horizontalCoordinatesGenerator={(props) => {
-              // Force grid lines at specific percentage points
-              return [0, 20, 40, 60, 80, 100].map(value => {
+              // Force grid lines at specific percentage points based on calculated ticks
+              return yAxisConfig.ticks.map(value => {
                 return props.yAxis.scale(value);
               });
             }}

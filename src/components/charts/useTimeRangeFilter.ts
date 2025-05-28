@@ -24,63 +24,76 @@ export function useTimeRangeFilter<T extends DataPoint>(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
+    
+    // Use current date as the reference point for filtering
     const now = new Date();
-
+    
     if (timeRange === "1D") {
+      // For 1D, show the last 24 hours from now
       const oneDayAgo = new Date(now);
       oneDayAgo.setHours(now.getHours() - 24);
-
+      
+      // If no data points fall within the 1D range, return the most recent data points
       const filteredPoints = sortedData.filter(
         (point) => new Date(point.date) >= oneDayAgo
       );
-
-      // If we have less than 2 points for the day, show at least 2 points
-      return filteredPoints.length < 2 ? sortedData.slice(-2) : filteredPoints;
+      
+      if (filteredPoints.length === 0) {
+        // If no points in range, show the most recent points (up to 5)
+        return sortedData.slice(-5);
+      }
+      
+      return filteredPoints;
     }
 
     if (timeRange === "1W") {
+      // For 1W, show the last 7 days from now
       const oneWeekAgo = new Date(now);
       oneWeekAgo.setDate(now.getDate() - 7);
-
+      
       const filteredPoints = sortedData.filter(
         (point) => new Date(point.date) >= oneWeekAgo
       );
-
-      // If we have less than 2 points for the week, show at least 2 points
-      // but no more than 7 points
-      if (filteredPoints.length < 2) {
-        return sortedData.slice(-Math.min(7, sortedData.length));
+      
+      if (filteredPoints.length === 0) {
+        // If no points in range, show the most recent points (up to 10)
+        return sortedData.slice(-10);
       }
       
       return filteredPoints;
     }
 
     if (timeRange === "1M") {
+      // For 1M, show the last 30 days from now
       const oneMonthAgo = new Date(now);
-      oneMonthAgo.setMonth(now.getMonth() - 1);
-
+      oneMonthAgo.setDate(now.getDate() - 30);
+      
       const filteredPoints = sortedData.filter(
         (point) => new Date(point.date) >= oneMonthAgo
       );
-
-      // If we have less than 2 points for the month, show at least 2 points
-      // but no more than 30 points
-      if (filteredPoints.length < 2) {
-        return sortedData.slice(-Math.min(30, sortedData.length));
+      
+      if (filteredPoints.length === 0) {
+        // If no points in range, show all available data
+        return sortedData;
       }
       
       return filteredPoints;
     }
 
-    // 1Y view
+    // 1Y view - show the last year from now
     const oneYearAgo = new Date(now);
     oneYearAgo.setFullYear(now.getFullYear() - 1);
-
+    
     const filteredPoints = sortedData.filter(
       (point) => new Date(point.date) >= oneYearAgo
     );
-
-    return filteredPoints.length < 2 ? sortedData : filteredPoints;
+    
+    if (filteredPoints.length === 0) {
+      // If no points in range, show all available data
+      return sortedData;
+    }
+    
+    return filteredPoints;
   }, [data, timeRange]);
 
   return {
