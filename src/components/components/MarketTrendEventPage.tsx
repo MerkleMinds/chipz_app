@@ -33,7 +33,7 @@ const CustomTooltip = ({ active, payload, coordinate }: TooltipProps<any, any>) 
 };
 
 export default function MarketTrendEventPage({ market }: MarketTrendEventPageProps) {
-  const memoizedMarket = useMemo(() => market, [market.id]);
+  const memoizedMarket = useMemo(() => market, [market]);
   
   const { timeRange, setTimeRange, filteredData, isLoading, error } = useTimeRangeData(
     memoizedMarket.history,
