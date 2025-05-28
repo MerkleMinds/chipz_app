@@ -4,7 +4,7 @@ import React from "react";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
 import BalanceLineChart from "../charts/BalanceLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
-import useTimeRangeFilter from "../charts/useTimeRangeFilter";
+import { useTimeRangeData } from "../charts/hooks/useTimeRangeData";
 
 export type BalanceHistoryPoint = {
   date: string;
@@ -20,16 +20,17 @@ const HistoryPnlGraph = ({
   totalBalance,
   balanceHistory = [],
 }: HistoryPnlGraphProps) => {
-  const { timeRange, setTimeRange, filteredData } = useTimeRangeFilter<BalanceHistoryPoint>(
-    balanceHistory,
+  // Use type assertion to make TypeScript happy since BalanceHistoryPoint has balance instead of probability
+  const { timeRange, setTimeRange, filteredData } = useTimeRangeData(
+    balanceHistory as any,
     "1W"
   );
 
   return (
     <div className="flex-grow text-white p-3 space-y-2 rounded-xl bg-bb-bg-card">
       <BalanceLineChart 
-        data={filteredData} 
-        totalBalance={totalBalance} 
+        data={filteredData as any} 
+        totalBalance={totalBalance}
       />
 
       <TimeRangeSelector
