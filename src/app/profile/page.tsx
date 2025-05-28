@@ -32,7 +32,7 @@ export default function Page() {
           />
         </div>
       )}
-      <div className="bg-gray-900 text-white mx-6 mt-2 mb-16">
+      <div className="bg-bb-bg-card-dark text-white mx-6 mt-2 mb-16">
         <div className="max-w-md mx-auto">
           <div className="flex justify-between mb-4 gap-2">
             {(Object.keys(sections) as Array<keyof typeof sections>).map(
@@ -41,7 +41,7 @@ export default function Page() {
                   key={tab}
                   className={`flex-1 py-2 transition-colors duration-300 ease-in-out rounded-md text-xs ${
                     activeTab === tab
-                      ? "text-white bg-gray-800"
+                      ? "text-white bg-bb-bg-card"
                       : "text-neutral-400 hover:text-white"
                   }`}
                   onClick={() => setActiveTab(tab)}

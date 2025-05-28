@@ -27,7 +27,7 @@ export default function BetDetails(props: BetBasev2) {
   const [closed, setClosed] = useState<boolean>(true);
 
   return (
-    <div className="rounded-md bg-gray-800 flex flex-col w-full transition-all px-4 py-4">
+    <div className="rounded-md bg-bb-bg-card flex flex-col w-full transition-all px-4 py-4">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between items-center">
           <div className="text-white text-sm">{props.title} - {props.bet}</div>
@@ -35,9 +35,9 @@ export default function BetDetails(props: BetBasev2) {
             <div
               className={`text-sm rounded-sm px-2 border border-md ${
                 props.result === "win" || props.result === "cashout"
-                  ? "text-[#23C45E] border-[#23C45E]"
+                  ? "text-bb-success border-bb-success"
                   : props.result === "lose"
-                  ? "text-[#EF4444] border-[#EF4444]"
+                  ? "text-bb-error border-bb-error"
                   : "bg-black"
               }`}
             >

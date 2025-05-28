@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-gray-900 mb-16">
+    <footer className="relative overflow-hidden bg-bb-bg-card-dark mb-16">
       <svg
         className="absolute -bottom-20 start-1/2 w-[1900px] transform -translate-x-1/2"
         width="2745"

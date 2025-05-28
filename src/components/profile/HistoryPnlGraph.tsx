@@ -27,7 +27,7 @@ const HistoryPnlGraph = ({
   );
 
   return (
-    <div className="flex-grow text-white p-3 space-y-2 rounded-xl bg-gray-800">
+    <div className="flex-grow text-white p-3 space-y-2 rounded-xl bg-bb-bg-card">
       <BalanceLineChart 
         data={filteredData as any} 
         totalBalance={totalBalance}
