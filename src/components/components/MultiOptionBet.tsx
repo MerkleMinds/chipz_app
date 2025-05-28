@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Event, EventOption } from "@/utils/data/types";
 import MarketTrendEventPage from "./MarketTrendEventPage";
 import OrderBookPart from "./OrderBook";
@@ -14,7 +14,7 @@ interface MultiOptionBetProps {
 
 const MultiOptionBet: React.FC<MultiOptionBetProps> = ({ event, selectedOptionId, onOptionChange }) => {
   // Find the selected option based on selectedOptionId or default to first option
-  const findSelectedOption = (): EventOption | null => {
+  const findSelectedOption = useCallback((): EventOption | null => {
     if (!event.options || event.options.length === 0) return null;
     
     if (selectedOptionId) {
@@ -23,7 +23,7 @@ const MultiOptionBet: React.FC<MultiOptionBetProps> = ({ event, selectedOptionId
     }
     
     return event.options[0];
-  };
+  }, [event.options, selectedOptionId]);
   
   const [selectedOption, setSelectedOption] = useState<EventOption | null>(findSelectedOption());
 
@@ -31,7 +31,7 @@ const MultiOptionBet: React.FC<MultiOptionBetProps> = ({ event, selectedOptionId
   useEffect(() => {
     const newSelectedOption = findSelectedOption();
     setSelectedOption(newSelectedOption);
-  }, [selectedOptionId, event.options]);
+  }, [selectedOptionId, event.options, findSelectedOption]);
 
   if (!event.options || event.options.length === 0) {
     return <div className="text-white p-4">No options available for this bet.</div>;
