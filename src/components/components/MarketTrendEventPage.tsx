@@ -4,7 +4,8 @@ import { TooltipProps } from "recharts";
 import { TIME_RANGES, TimeRangeOption, CHART_SIZES } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
-import useTimeRangeFilter from "../charts/useTimeRangeFilter";
+import { useTimeRangeData } from "../charts/hooks/useTimeRangeData";
+import { useMemo } from "react";
 
 export type MarketTrendData = {
   id: string;
@@ -22,9 +23,9 @@ const CustomTooltip = ({ active, payload, coordinate }: TooltipProps<any, any>) 
     const y = coordinate.y ? coordinate.y - 10 : 0;
 
     return (
-      <text x={x} y={y} dy={-4} fill="#ccc" fontSize={12} textAnchor="middle">
+      <p className="absolute" style={{ left: x, top: y }}>
         {`${payload[0].value}%`}
-      </text>
+      </p>
     );
   }
 
@@ -32,8 +33,10 @@ const CustomTooltip = ({ active, payload, coordinate }: TooltipProps<any, any>) 
 };
 
 export default function MarketTrendEventPage({ market }: MarketTrendEventPageProps) {
-  const { timeRange, setTimeRange, filteredData } = useTimeRangeFilter(
-    market.history,
+  const memoizedMarket = useMemo(() => market, [market]);
+  
+  const { timeRange, setTimeRange, filteredData, isLoading, error } = useTimeRangeData(
+    memoizedMarket.history,
     "1W"
   );
 
@@ -47,6 +50,9 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
         showTooltip={true}
         customTooltip={CustomTooltip}
         minHeight={CHART_SIZES.minHeight}
+        timeRange={timeRange}
+        loading={isLoading}
+        error={error}
       />
 
       <TimeRangeSelector

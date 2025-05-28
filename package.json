@@ -13,6 +13,7 @@
     "@types/canvas-confetti": "^1.6.4",
     "canvas-confetti": "^1.9.3",
     "copy-to-clipboard": "^3.3.3",
+    "date-fns": "^4.1.0",
     "next": "14.2.3",
     "preline": "^2.3.0",
     "react": "^18",
