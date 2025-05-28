@@ -140,6 +140,20 @@
         "title": "Palmeiras",
         "probability": 30,
         "description": "Brazilian team Palmeiras wins the 2025 Copa Libertadores",
+        "historyData": [
+          { "date": "2024-01-10T08:00:00Z", "probability": 25 },
+          { "date": "2024-01-20T10:00:00Z", "probability": 27 },
+          { "date": "2024-01-30T12:00:00Z", "probability": 26 },
+          { "date": "2024-02-10T09:00:00Z", "probability": 28 },
+          { "date": "2024-02-18T14:30:00Z", "probability": 30 },
+          { "date": "2024-03-05T10:00:00Z", "probability": 29 },
+          { "date": "2024-03-15T11:30:00Z", "probability": 28 },
+          { "date": "2024-04-02T09:45:00Z", "probability": 30 },
+          { "date": "2024-04-20T14:15:00Z", "probability": 32 },
+          { "date": "2024-05-01T10:30:00Z", "probability": 31 },
+          { "date": "2024-05-15T16:00:00Z", "probability": 30 },
+          { "date": "2024-05-27T09:00:00Z", "probability": 30 }
+        ],
         "orderBook": [
           {
             "yes": {
@@ -177,19 +191,157 @@
         "id": "s1-opt2",
         "title": "Flamengo",
         "probability": 28,
-        "description": "Brazilian team Flamengo wins the 2025 Copa Libertadores"
+        "description": "Brazilian team Flamengo wins the 2025 Copa Libertadores",
+        "historyData": [
+          { "date": "2024-01-10T08:00:00Z", "probability": 22 },
+          { "date": "2024-01-20T10:00:00Z", "probability": 24 },
+          { "date": "2024-01-30T12:00:00Z", "probability": 25 },
+          { "date": "2024-02-10T09:00:00Z", "probability": 27 },
+          { "date": "2024-02-18T14:30:00Z", "probability": 28 },
+          { "date": "2024-03-05T10:00:00Z", "probability": 27 },
+          { "date": "2024-03-15T11:30:00Z", "probability": 26 },
+          { "date": "2024-04-02T09:45:00Z", "probability": 28 },
+          { "date": "2024-04-20T14:15:00Z", "probability": 29 },
+          { "date": "2024-05-01T10:30:00Z", "probability": 28 },
+          { "date": "2024-05-15T16:00:00Z", "probability": 27 },
+          { "date": "2024-05-27T09:00:00Z", "probability": 28 }
+        ],
+        "orderBook": [
+          {
+            "yes": {
+              "lastPrice": "0.28",
+              "spread": "0.02",
+              "asks": [
+                { "price": "0.30", "shares": 110, "total": "$33.00", "volume": 75 },
+                { "price": "0.32", "shares": 160, "total": "$51.20", "volume": 55 },
+                { "price": "0.34", "shares": 210, "total": "$71.40", "volume": 35 }
+              ],
+              "bids": [
+                { "price": "0.26", "shares": 130, "total": "$33.80", "volume": 65 },
+                { "price": "0.24", "shares": 190, "total": "$45.60", "volume": 45 },
+                { "price": "0.22", "shares": 260, "total": "$57.20", "volume": 25 }
+              ]
+            },
+            "no": {
+              "lastPrice": "0.72",
+              "spread": "0.03",
+              "asks": [
+                { "price": "0.74", "shares": 95, "total": "$70.30", "volume": 70 },
+                { "price": "0.76", "shares": 135, "total": "$102.60", "volume": 50 },
+                { "price": "0.78", "shares": 185, "total": "$144.30", "volume": 30 }
+              ],
+              "bids": [
+                { "price": "0.70", "shares": 115, "total": "$80.50", "volume": 60 },
+                { "price": "0.68", "shares": 165, "total": "$112.20", "volume": 40 },
+                { "price": "0.66", "shares": 225, "total": "$148.50", "volume": 20 }
+              ]
+            }
+          }
+        ]
       },
       {
         "id": "s1-opt3",
         "title": "River Plate",
         "probability": 25,
-        "description": "Argentine team River Plate wins the 2025 Copa Libertadores"
+        "description": "Argentine team River Plate wins the 2025 Copa Libertadores",
+        "historyData": [
+          { "date": "2024-01-10T08:00:00Z", "probability": 28 },
+          { "date": "2024-01-20T10:00:00Z", "probability": 27 },
+          { "date": "2024-01-30T12:00:00Z", "probability": 26 },
+          { "date": "2024-02-10T09:00:00Z", "probability": 25 },
+          { "date": "2024-02-18T14:30:00Z", "probability": 25 },
+          { "date": "2024-03-05T10:00:00Z", "probability": 24 },
+          { "date": "2024-03-15T11:30:00Z", "probability": 25 },
+          { "date": "2024-04-02T09:45:00Z", "probability": 26 },
+          { "date": "2024-04-20T14:15:00Z", "probability": 25 },
+          { "date": "2024-05-01T10:30:00Z", "probability": 24 },
+          { "date": "2024-05-15T16:00:00Z", "probability": 25 },
+          { "date": "2024-05-27T09:00:00Z", "probability": 25 }
+        ],
+        "orderBook": [
+          {
+            "yes": {
+              "lastPrice": "0.25",
+              "spread": "0.02",
+              "asks": [
+                { "price": "0.27", "shares": 105, "total": "$28.35", "volume": 78 },
+                { "price": "0.29", "shares": 155, "total": "$44.95", "volume": 58 },
+                { "price": "0.31", "shares": 205, "total": "$63.55", "volume": 38 }
+              ],
+              "bids": [
+                { "price": "0.23", "shares": 125, "total": "$28.75", "volume": 68 },
+                { "price": "0.21", "shares": 185, "total": "$38.85", "volume": 48 },
+                { "price": "0.19", "shares": 255, "total": "$48.45", "volume": 28 }
+              ]
+            },
+            "no": {
+              "lastPrice": "0.75",
+              "spread": "0.03",
+              "asks": [
+                { "price": "0.77", "shares": 95, "total": "$73.15", "volume": 73 },
+                { "price": "0.79", "shares": 135, "total": "$106.65", "volume": 53 },
+                { "price": "0.81", "shares": 185, "total": "$149.85", "volume": 33 }
+              ],
+              "bids": [
+                { "price": "0.73", "shares": 115, "total": "$83.95", "volume": 63 },
+                { "price": "0.71", "shares": 165, "total": "$117.15", "volume": 43 },
+                { "price": "0.69", "shares": 225, "total": "$155.25", "volume": 23 }
+              ]
+            }
+          }
+        ]
       },
       {
         "id": "s1-opt4",
         "title": "Boca Juniors",
         "probability": 17,
-        "description": "Argentine team Boca Juniors wins the 2025 Copa Libertadores"
+        "description": "Argentine team Boca Juniors wins the 2025 Copa Libertadores",
+        "historyData": [
+          { "date": "2024-01-10T08:00:00Z", "probability": 20 },
+          { "date": "2024-01-20T10:00:00Z", "probability": 19 },
+          { "date": "2024-01-30T12:00:00Z", "probability": 18 },
+          { "date": "2024-02-10T09:00:00Z", "probability": 17 },
+          { "date": "2024-02-18T14:30:00Z", "probability": 17 },
+          { "date": "2024-03-05T10:00:00Z", "probability": 18 },
+          { "date": "2024-03-15T11:30:00Z", "probability": 19 },
+          { "date": "2024-04-02T09:45:00Z", "probability": 18 },
+          { "date": "2024-04-20T14:15:00Z", "probability": 17 },
+          { "date": "2024-05-01T10:30:00Z", "probability": 16 },
+          { "date": "2024-05-15T16:00:00Z", "probability": 17 },
+          { "date": "2024-05-27T09:00:00Z", "probability": 17 }
+        ],
+        "orderBook": [
+          {
+            "yes": {
+              "lastPrice": "0.17",
+              "spread": "0.02",
+              "asks": [
+                { "price": "0.19", "shares": 100, "total": "$19.00", "volume": 80 },
+                { "price": "0.21", "shares": 150, "total": "$31.50", "volume": 60 },
+                { "price": "0.23", "shares": 200, "total": "$46.00", "volume": 40 }
+              ],
+              "bids": [
+                { "price": "0.15", "shares": 120, "total": "$18.00", "volume": 70 },
+                { "price": "0.13", "shares": 180, "total": "$23.40", "volume": 50 },
+                { "price": "0.11", "shares": 250, "total": "$27.50", "volume": 30 }
+              ]
+            },
+            "no": {
+              "lastPrice": "0.83",
+              "spread": "0.03",
+              "asks": [
+                { "price": "0.85", "shares": 90, "total": "$76.50", "volume": 75 },
+                { "price": "0.87", "shares": 130, "total": "$113.10", "volume": 55 },
+                { "price": "0.89", "shares": 180, "total": "$160.20", "volume": 35 }
+              ],
+              "bids": [
+                { "price": "0.81", "shares": 110, "total": "$89.10", "volume": 65 },
+                { "price": "0.79", "shares": 160, "total": "$126.40", "volume": 45 },
+                { "price": "0.77", "shares": 220, "total": "$169.40", "volume": 25 }
+              ]
+            }
+          }
+        ]
       }
     ]
   },

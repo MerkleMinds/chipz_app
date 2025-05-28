@@ -79,13 +79,14 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
                 const isLastPoint = props.index === data.length - 1;
                 return isLastPoint ? (
                   <circle
+                    key={`dot-${props.index}`}
                     cx={props.cx}
                     cy={props.cy}
                     r={CHART_SIZES.dotRadius}
                     fill={dotFillColor}
                   />
                 ) : (
-                  <circle r={0} cx={props.cx} cy={props.cy} />
+                  <circle key={`dot-${props.index}`} r={0} cx={props.cx} cy={props.cy} />
                 );
               }}
               activeDot={{ r: CHART_SIZES.dotRadius }}

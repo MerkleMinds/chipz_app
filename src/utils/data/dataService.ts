@@ -533,8 +533,8 @@ export function getRelatedEvents(eventId: string): Event[] {
  */
 
 // Get market trend data for a specific market
-export function getMarketTrend(marketId: string): MarketTrendData {
-  const dataKey = `market-trend-${marketId}`;
+export function getMarketTrend(marketId: string, optionId?: string): MarketTrendData {
+  const dataKey = `market-trend-${marketId}${optionId ? `-${optionId}` : ''}`;
   setLoading(dataKey, true);
   
   try {
@@ -553,6 +553,30 @@ export function getMarketTrend(marketId: string): MarketTrendData {
     
     // If no real data found, check if this is an event ID and use its history data
     const event = getEventById(marketId);
+    
+    // If this is a multi-option bet and an optionId is provided, get the option's data
+    if (event && optionId && event.options) {
+      const option = event.options.find(opt => opt.id === optionId);
+      
+      if (option && option.historyData && option.historyData.length > 0) {
+        const firstProbability = option.historyData[0]?.probability || 0;
+        const change = option.probability - firstProbability;
+        const changeStr = change >= 0 ? "+" + change.toFixed(1) : change.toFixed(1);
+        
+        const result: MarketTrendData = {
+          id: optionId,
+          title: option.title,
+          probability: option.probability,
+          probabilityChange: changeStr,
+          history: [...option.historyData] // Create a copy to avoid reference issues
+        };
+        
+        setLoading(dataKey, false);
+        return result;
+      }
+    }
+    
+    // If this is a simple yes/no bet or no option was found, use the event's data
     if (event && event.historyData && event.historyData.length > 0) {
       const firstProbability = event.historyData[0]?.probability || 0;
       const change = event.probability - firstProbability;
@@ -573,7 +597,7 @@ export function getMarketTrend(marketId: string): MarketTrendData {
     // If no real data found, return dummy data
     setLoading(dataKey, false);
   } catch (error) {
-    console.error(`Error retrieving market trend for ${marketId}:`, error);
+    console.error(`Error retrieving market trend for ${marketId}${optionId ? ` option ${optionId}` : ''}:`, error);
     setError(dataKey, error instanceof Error ? error.message : String(error));
   }
   
