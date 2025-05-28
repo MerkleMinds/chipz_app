@@ -21,7 +21,7 @@ export const CHART_SIZES = {
 };
 
 export const CHART_MARGINS = {
-  default: { left: 0, right: 0, top: 5, bottom: 10 },
+  default: { left: 0, right: 0, top: 5, bottom: 0 },
   withPadding: { left: 5, right: 5, top: 10, bottom: 10 },
 };
 

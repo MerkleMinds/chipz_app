@@ -157,12 +157,21 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             orientation="right"
             width={CHART_SIZES.yAxisWidth}
             tickFormatter={formatPercentage}
+            domain={[0, 100]}
+            allowDecimals={false}
+            ticks={[0, 20, 40, 60, 80, 100]}
           />
           <CartesianGrid
             horizontal={true}
             vertical={false}
             stroke={CHART_COLORS.gridStroke}
             fill={CHART_COLORS.gridFill}
+            horizontalCoordinatesGenerator={(props) => {
+              // Force grid lines at specific percentage points
+              return [0, 20, 40, 60, 80, 100].map(value => {
+                return props.yAxis.scale(value);
+              });
+            }}
           />
           {showTooltip && customTooltip && (
             <Tooltip content={customTooltip} cursor={false} />
