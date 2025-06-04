@@ -64,7 +64,7 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
   const isPositive = selectedMarket.probabilityChange.startsWith("+");
 
   return (
-    <div className="flex-grow text-white p-3 rounded-xl bg-gray-800" onClick={handleLinkClick}>
+    <div className="w-[300px] text-white p-3 rounded-xl bg-gray-800" onClick={handleLinkClick}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <div className="flex items-center space-x-2 cursor-pointer">

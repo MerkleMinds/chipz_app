@@ -79,9 +79,9 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 	};
 
 	return (
-		<div className="flex grow flex-col space-y-4 justify-center min-w-[300px]">
+		<div className="flex flex-col w-[300px] grow space-y-4 justify-center">
 			{markets.map((market) => (
-				<div key={market.id} className="p-3 w-full rounded-xl bg-gray-800" onClick={() => handleLinkClick(market.id)}>
+				<div key={market.id} className="p-3 grow w-full rounded-xl bg-gray-800 flex flex-col justify-between" onClick={() => handleLinkClick(market.id)}>
 					<div>
 						<div className="flex items-center space-x-3 cursor-pointer">
 							<CircularImage
@@ -98,7 +98,7 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 							/>
 						</div>
 					</div>
-					<div className="flex justify-between items-end mt-3">
+					<div className="mt-3">
 						<p className="text-gray-400 text-[0.65rem]">{market.totalVolume} Vol.</p>
 					</div>
 				</div>
