@@ -36,11 +36,11 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
     return (
       <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
         <div className="w-full max-w-sm mx-auto">
-          <div className="flex gap-4">
-            <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10">
+          <div className="flex gap-2">
+            <button className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10">
               Buy Yes {yesPrice}$
             </button>
-            <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10">
+            <button className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10">
               Buy No {noPrice}$
             </button>
           </div>
@@ -62,12 +62,18 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
   return (
     <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
       <div className="w-full max-w-sm mx-auto">
-        <div className="flex gap-4">
-          <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10">
-            Buy {selectedOption.title} {optionPrice}$
+        <div className="flex gap-2">
+          <button 
+            className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10"
+            title={`Buy ${selectedOption.title} ${optionPrice}$`}
+          >
+            Buy <span className="inline-block align-bottom max-w-[85px] overflow-hidden text-ellipsis whitespace-nowrap">{selectedOption.title}</span> {optionPrice}$
           </button>
-          <button className="flex-1 py-3 px-4 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10">
-            Sell {selectedOption.title} {oppositePrice}$
+          <button 
+            className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10"
+            title={`Sell ${selectedOption.title} ${oppositePrice}$`}
+          >
+            Sell <span className="inline-block align-bottom max-w-[85px] overflow-hidden text-ellipsis whitespace-nowrap">{selectedOption.title}</span> {oppositePrice}$
           </button>
         </div>
       </div>
@@ -98,31 +104,22 @@ const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => 
   const isMultiOptionBet = data.options && data.options.length > 0;
   
   return (
-    <div className="flex flex-col mx-3 mt-2 gap-5 text-white max-w-3xl w-full mx-auto">
-      {/* Event header with image and title */}
-      <div className="flex flex-col gap-3 items-start">
+    <div className="flex flex-col mx-3 mt-2 gap-3 text-white">
+      <div className="flex flex-col items-start gap-2">
         <Image
           src={data.imageUrl}
           alt="event-banner"
-          className="object-cover rounded-lg"
-          width={80}
-          height={80}
+          className="object-cover rounded-md"
+          width={45}
+          height={45}
         />
-        <h2 className="text-white text-xl font-bold">{data.title}</h2>
-        {data.description && (
-          <p className="text-gray-300 text-sm">{data.description}</p>
-        )}
+        <h2 className="text-white text-lg font-bold">{data.title}</h2>
       </div>
       
-      {/* Event content - vertical layout */}
       <div className="flex flex-col w-full gap-6">
         {isMultiOptionBet ? (
           <>
-            {/* Combined chart showing all options */}
-            <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
-              <h3 className="text-lg font-medium mb-3">Probability Trend</h3>
-              <MultiOptionTrendChart event={data} />
-            </div>
+            <MultiOptionTrendChart event={data} />
             
             {/* Individual option selector and details */}
             <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
@@ -136,10 +133,7 @@ const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => 
           </>
         ) : (
           <>
-            <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
-              <h3 className="text-lg font-medium mb-3">Probability Trend</h3>
-              <SimpleYesNoBet event={data} />
-            </div>
+            <SimpleYesNoBet event={data} />
           </>
         )}
       </div>

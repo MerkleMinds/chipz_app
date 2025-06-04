@@ -1,3 +1,5 @@
+"use client";
+
 import { FaLandmark, FaFootball, FaPiggyBank } from "react-icons/fa6";
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
@@ -26,10 +28,14 @@ export interface SectionData {
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     if (!items) return null;
-
-    // Vertical layout without scrollbar, centered
-    const renderVertical = (components: JSX.Element[]) => (
-        <div className="flex flex-col gap-4 items-center">
+    
+    // Horizontal scrolling layout for events
+    const renderHorizontal = (components: JSX.Element[]) => (
+        <div className="flex flex-row gap-4 overflow-x-auto pb-4 hide-scrollbar" 
+             style={{ 
+                 scrollbarWidth: 'none', /* Firefox */
+                 msOverflowStyle: 'none',  /* IE and Edge */
+             }}>
             {components}
         </div>
     );
@@ -44,27 +50,27 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     return (
         <>
             {items.trends && items.trends.length > 0 && 
-                renderVertical(
+                renderHorizontal(
                     items.trends.map((item, index) => (
-                        <div key={index} className="mx-auto">
+                        <div key={index} className="w-full">
                             <MarketTrend markets={[item]} />
                         </div>
                     ))
                 )}
             
             {items.multiChoice && items.multiChoice.length > 0 && 
-                renderVertical(
+                renderHorizontal(
                     items.multiChoice.map((item, index) => (
-                        <div key={index} className="mx-auto">
+                        <div key={index} className="w-full">
                             <MarketNbrBox markets={[item]} />
                         </div>
                     ))
                 )}
             
             {items.market && items.market.length > 0 && 
-                renderVertical(
+                renderHorizontal(
                     items.market.map((item, index) => (
-                        <div key={index} className="mx-auto">
+                        <div key={index} className="w-full">
                             <MarketBox markets={[item]} />
                         </div>
                     ))
@@ -74,14 +80,14 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
                 items.previews.displayMode === 'grid' ? 
                     renderGrid(
                         items.previews.data.map((item, index) => (
-                            <div key={index} className="mx-auto">
+                            <div key={index} className="w-full">
                                 <PredictionPreviewList predictions={[item]} />
                             </div>
                         ))
                     ) :
-                    renderVertical(
+                    renderHorizontal(
                         items.previews.data.map((item, index) => (
-                            <div key={index} className="mx-auto">
+                            <div key={index} className="w-full">
                                 <PredictionPreviewList predictions={[item]} />
                             </div>
                         ))
@@ -130,6 +136,17 @@ export const getCategoryIcon = (title: string) => {
 export default function SectionContent({ data }: { data: SectionData }) {
     return (
         <main className="flex flex-col gap-y-5">
+            {/* Add style for hiding scrollbars */}
+            <style jsx global>{`
+                .hide-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                .hide-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
+            
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}

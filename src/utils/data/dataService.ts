@@ -367,7 +367,6 @@ export function getEventsBySection(sectionId: string): Event[] {
     }
     
     const events = getAllEvents().filter(event => isEventInSection(event, sectionId));
-    
     // Sort events: trending first, then new, then by probability
     const sortedEvents = [...events].sort((a, b) => {
       // First sort by trending
