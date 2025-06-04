@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { FaGift } from "react-icons/fa";
 import Image from "next/image";
 import { CiWallet } from "react-icons/ci";
 import Link from "next/link";
@@ -53,14 +52,20 @@ export default function Header() {
             priority 
           />
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link href="/promo" className="flex items-center justify-center w-10 h-10 relative">
-            <FaGift className={`text-lg text-bb-accent w-5 h-5`} />
+            <Image 
+              src="/promo-icon-top.svg" 
+              alt="Promo icon" 
+              width={20} 
+              height={20} 
+              className="text-bb-accent"
+            />
           </Link>
           {/* TODO: Add wallet connection 
           {address ? ( */}
-            <div className="flex items-center gap-3">
-              <div className="w-[74px] h-[34px] rounded border-chipz-custom bg-gray-800 flex flex-row items-center justify-center">
+            <div className="flex items-center gap-2">
+              <div className="w-[74px] h-[34px] rounded border border-white flex flex-row items-center justify-center">
                 <CiWallet className={`text-lg text-white w-4 h-4`} />
                 <span className="text-xs text-white font-semibold ml-2">
                   {amount.toFixed(2)} $
