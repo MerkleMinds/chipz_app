@@ -238,7 +238,7 @@ export default function History() {
   return (
     <div className="mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg mb-4">PnL Graph</h3>
+        <h3 className="text-lg">PnL Graph</h3>
         <h3 className={`text-lg ${totalBalance >= 0 ? "text-bb-success" : "text-bb-error"}`}>
           {totalBalance} $
         </h3>
