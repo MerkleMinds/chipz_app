@@ -11,7 +11,7 @@ import {
   Tooltip,
   TooltipProps,
 } from "recharts";
-import { format, parseISO } from "date-fns";
+import { formatDateByTimeRange, getTickCountByTimeRange, calculateTickInterval } from "./utils/dateFormatUtils";
 import { 
   CHART_COLORS, 
   CHART_MARGINS, 
@@ -98,38 +98,15 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
     };
   }, [data]);
   
-  // Format date based on time range
+  // Use shared utility for formatting dates
   const formatXAxis = (dateStr: string) => {
-    try {
-      if (!dateStr) return '';
-      
-      const date = parseISO(dateStr);
-      let formatPattern = 'dd/MM';
-      
-      switch (timeRange) {
-        case '1D': formatPattern = 'HH:mm'; break;
-        case '1W': formatPattern = 'dd/MM'; break;
-        case '1M': formatPattern = 'dd MMM'; break; // Show day and abbreviated month name
-        case '1Y': formatPattern = 'MMM yy'; break;
-      }
-      
-      return format(date, formatPattern);
-    } catch (error) {
-      console.error('Error formatting date:', dateStr, error);
-      return dateStr;
-    }
+    // Log for debugging
+    console.log(`ProbabilityLineChart formatting date: ${dateStr}, timeRange: ${timeRange}`);
+    return formatDateByTimeRange(dateStr, timeRange);
   };
   
-  // Calculate optimal tick count based on time range
-  const getTickCount = () => {
-    switch (timeRange) {
-      case '1D': return 4;
-      case '1W': return 5;
-      case '1M': return 6;
-      case '1Y': return 6;
-      default: return 5;
-    }
-  };
+  // Use shared utility for tick count
+  const getTickCount = () => getTickCountByTimeRange(timeRange);
 
   // Handle loading state
   if (loading) {
@@ -181,7 +158,7 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             minTickGap={5}
             height={30}
             tickCount={getTickCount()}
-            interval={data.length <= getTickCount() ? 0 : 'preserveStartEnd'}
+            interval={calculateTickInterval(data.length, getTickCount())}
             tickFormatter={formatXAxis}
           />
           <YAxis

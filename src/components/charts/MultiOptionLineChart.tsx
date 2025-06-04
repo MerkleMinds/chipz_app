@@ -1,21 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import {
   LineChart,
   Line,
   YAxis,
+  XAxis,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
   TooltipProps,
   Legend,
 } from "recharts";
+import { formatDateByTimeRange, getTickCountByTimeRange, calculateTickInterval } from "./utils/dateFormatUtils";
 import { 
   CHART_COLORS, 
   CHART_MARGINS, 
   CHART_SIZES, 
-  formatPercentage 
+  formatPercentage,
+  TimeRangeOption 
 } from "./ChartConfig";
 
 export interface MultiOptionDataPoint {
@@ -35,6 +38,7 @@ interface MultiOptionLineChartProps {
   className?: string;
   height?: string;
   minHeight?: string;
+  timeRange?: TimeRangeOption;
 }
 
 // Generate a color based on index
@@ -61,8 +65,57 @@ const MultiOptionLineChart: React.FC<MultiOptionLineChartProps> = ({
   className = "",
   height = CHART_SIZES.height,
   minHeight,
+  timeRange = "1W",
 }) => {
   const containerClass = `w-full ${height} flex items-center justify-center m-0 ${minHeight ? minHeight : ""}`;
+
+  // Calculate Y-axis domain and ticks based on data
+  const yAxisConfig = useMemo(() => {
+    if (!data || data.length === 0) {
+      return {
+        domain: [0, 100],
+        ticks: [0, 20, 40, 60, 80, 100]
+      };
+    }
+
+    // Find max value across all options
+    let maxValue = 0;
+    data.forEach(dataPoint => {
+      options.forEach(option => {
+        const value = dataPoint[option.id] || 0;
+        if (value > maxValue) maxValue = value;
+      });
+    });
+    
+    // Round up to nearest multiple of 20 for max domain value
+    const maxDomain = Math.min(Math.ceil(maxValue / 20) * 20, 100);
+    
+    // Generate ticks at equal intervals
+    const tickInterval = maxDomain <= 60 ? 15 : 20;
+    const ticks = [];
+    for (let i = 0; i <= maxDomain; i += tickInterval) {
+      ticks.push(i);
+    }
+    
+    // Always include 0 and maxDomain in ticks
+    if (!ticks.includes(0)) ticks.unshift(0);
+    if (!ticks.includes(maxDomain)) ticks.push(maxDomain);
+    
+    return {
+      domain: [0, maxDomain],
+      ticks: ticks.sort((a, b) => a - b)
+    };
+  }, [data, options]);
+
+  // Use shared utility for formatting dates
+  const formatXAxis = (dateStr: string) => {
+    // Log for debugging
+    console.log(`MultiOptionLineChart formatting date: ${dateStr}, timeRange: ${timeRange}`);
+    return formatDateByTimeRange(dateStr, timeRange);
+  };
+  
+  // Use shared utility for tick count
+  const getTickCount = () => getTickCountByTimeRange(timeRange);
 
   const CustomTooltip = ({ active, payload, label }: TooltipProps<any, any>) => {
     if (active && payload && payload.length > 0) {
@@ -88,18 +141,39 @@ const MultiOptionLineChart: React.FC<MultiOptionLineChartProps> = ({
             data={data}
             margin={CHART_MARGINS.default}
           >
+            <XAxis
+              dataKey="date"
+              stroke="transparent"
+              tick={{ fontSize: CHART_SIZES.tickFontSize, fill: CHART_COLORS.tickColor }}
+              tickLine={false}
+              axisLine={false}
+              minTickGap={5}
+              height={30}
+              tickCount={getTickCount()}
+              interval={calculateTickInterval(data.length, getTickCount())}
+              tickFormatter={formatXAxis}
+            />
             <YAxis
               stroke="transparent"
               tick={{ fontSize: CHART_SIZES.tickFontSize, fill: CHART_COLORS.tickColor }}
               orientation="right"
               width={CHART_SIZES.yAxisWidth}
               tickFormatter={formatPercentage}
+              domain={yAxisConfig.domain}
+              allowDecimals={false}
+              ticks={yAxisConfig.ticks}
             />
             <CartesianGrid
               horizontal={true}
               vertical={false}
               stroke={CHART_COLORS.gridStroke}
               fill={CHART_COLORS.gridFill}
+              horizontalCoordinatesGenerator={(props) => {
+                // Force grid lines at specific percentage points based on calculated ticks
+                return yAxisConfig.ticks.map(value => {
+                  return props.yAxis.scale(value);
+                });
+              }}
             />
             {showTooltip && (
               <Tooltip content={customTooltip || CustomTooltip} cursor={false} />
@@ -121,6 +195,8 @@ const MultiOptionLineChart: React.FC<MultiOptionLineChartProps> = ({
                 strokeWidth={CHART_SIZES.strokeWidth}
                 dot={false}
                 activeDot={{ r: CHART_SIZES.dotRadius }}
+                isAnimationActive={false}
+                connectNulls={true}
               />
             ))}
           </LineChart>

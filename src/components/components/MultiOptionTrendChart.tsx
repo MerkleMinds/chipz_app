@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Event } from "@/utils/data/types";
 import MultiOptionLineChart from "../charts/MultiOptionLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
 import { TIME_RANGES, TimeRangeOption, CHART_SIZES } from "../charts/ChartConfig";
-import useTimeRangeFilter from "../charts/useTimeRangeFilter";
 
 interface MultiOptionTrendChartProps {
   event: Event;
@@ -76,16 +75,70 @@ const MultiOptionTrendChart: React.FC<MultiOptionTrendChartProps> = ({ event }) 
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
     
+    console.log("Combined data points:", result.length);
+    console.log("First point:", result[0]);
+    console.log("Last point:", result[result.length - 1]);
+    
     return result;
   }, [event.options]);
-
-  // Apply time range filtering to the combined data
-  const { filteredData, setTimeRange: updateTimeRange } = useTimeRangeFilter(combinedData, timeRange);
   
+  // Filter data based on selected time range without using the hook
+  const filteredData = useMemo(() => {
+    if (!combinedData || combinedData.length === 0) {
+      console.log("No combined data to filter");
+      return [];
+    }
+    
+    // Get the latest date in the dataset
+    const latestDate = new Date(combinedData[combinedData.length - 1].date);
+    console.log(`Latest date in dataset: ${latestDate.toISOString()}`);
+    
+    let result = [];
+    
+    // Filter based on time range
+    if (timeRange === "1D") {
+      const oneDayAgo = new Date(latestDate);
+      oneDayAgo.setHours(latestDate.getHours() - 24);
+      console.log(`1D: Filtering from ${oneDayAgo.toISOString()} to ${latestDate.toISOString()}`);
+      
+      result = combinedData.filter(point => new Date(point.date) >= oneDayAgo);
+    } else if (timeRange === "1W") {
+      const oneWeekAgo = new Date(latestDate);
+      oneWeekAgo.setDate(latestDate.getDate() - 7);
+      console.log(`1W: Filtering from ${oneWeekAgo.toISOString()} to ${latestDate.toISOString()}`);
+      
+      result = combinedData.filter(point => new Date(point.date) >= oneWeekAgo);
+    } else if (timeRange === "1M") {
+      const oneMonthAgo = new Date(latestDate);
+      oneMonthAgo.setDate(latestDate.getDate() - 30);
+      console.log(`1M: Filtering from ${oneMonthAgo.toISOString()} to ${latestDate.toISOString()}`);
+      
+      result = combinedData.filter(point => new Date(point.date) >= oneMonthAgo);
+    } else {
+      // 1Y view
+      const oneYearAgo = new Date(latestDate);
+      oneYearAgo.setFullYear(latestDate.getFullYear() - 1);
+      console.log(`1Y: Filtering from ${oneYearAgo.toISOString()} to ${latestDate.toISOString()}`);
+      
+      result = combinedData.filter(point => new Date(point.date) >= oneYearAgo);
+    }
+    
+    console.log(`Filtered data for ${timeRange}: ${result.length} points`);
+    return result;
+  }, [combinedData, timeRange]);
+  
+  // Log filtered data whenever it changes
+  useEffect(() => {
+    console.log(`TimeRange: ${timeRange}, Filtered data points: ${filteredData.length}`);
+    if (filteredData.length > 0) {
+      console.log('First filtered point:', filteredData[0]);
+      console.log('Last filtered point:', filteredData[filteredData.length - 1]);
+    }
+  }, [filteredData, timeRange]);
+
   // Handle time range change
   const handleTimeRangeChange = (newRange: TimeRangeOption) => {
     setTimeRange(newRange);
-    updateTimeRange(newRange);
   };
 
   if (!event.options || event.options.length === 0) {
@@ -100,6 +153,7 @@ const MultiOptionTrendChart: React.FC<MultiOptionTrendChartProps> = ({ event }) 
         options={optionsForChart}
         showTooltip={true}
         minHeight={CHART_SIZES.minHeight}
+        timeRange={timeRange}
       />
 
       <TimeRangeSelector
