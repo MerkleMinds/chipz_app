@@ -98,33 +98,51 @@ const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => 
   const isMultiOptionBet = data.options && data.options.length > 0;
   
   return (
-    <div className="flex flex-col mx-3 mt-2 gap-3 text-white">
-      <div className="flex flex-row justify-between">
+    <div className="flex flex-col mx-3 mt-2 gap-5 text-white max-w-3xl w-full mx-auto">
+      {/* Event header with image and title */}
+      <div className="flex flex-col gap-3 items-start">
         <Image
           src={data.imageUrl}
           alt="event-banner"
-          className="object-cover"
-          width={45}
-          height={45}
+          className="object-cover rounded-lg"
+          width={80}
+          height={80}
         />
+        <h2 className="text-white text-xl font-bold">{data.title}</h2>
+        {data.description && (
+          <p className="text-gray-300 text-sm">{data.description}</p>
+        )}
       </div>
-      <h2 className="text-white text-lg font-bold">{data.title}</h2>
       
-      {isMultiOptionBet ? (
-        <div className="flex flex-col gap-4">
-          {/* Combined chart showing all options */}
-          <MultiOptionTrendChart event={data} />
-          
-          {/* Individual option selector and details */}
-          <MultiOptionBet 
-            event={data}
-            selectedOptionId={selectedOptionId}
-            onOptionChange={onOptionChange}
-          />
-        </div>
-      ) : (
-        <SimpleYesNoBet event={data} />
-      )}
+      {/* Event content - vertical layout */}
+      <div className="flex flex-col w-full gap-6">
+        {isMultiOptionBet ? (
+          <>
+            {/* Combined chart showing all options */}
+            <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
+              <h3 className="text-lg font-medium mb-3">Probability Trend</h3>
+              <MultiOptionTrendChart event={data} />
+            </div>
+            
+            {/* Individual option selector and details */}
+            <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
+              <h3 className="text-lg font-medium mb-3">Options</h3>
+              <MultiOptionBet 
+                event={data}
+                selectedOptionId={selectedOptionId}
+                onOptionChange={onOptionChange}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="w-full bg-gray-800 bg-opacity-50 rounded-lg p-4">
+              <h3 className="text-lg font-medium mb-3">Probability Trend</h3>
+              <SimpleYesNoBet event={data} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
+import { FaLandmark, FaFootball, FaPiggyBank } from "react-icons/fa6";
 import MarketBox, { type MarketItem } from "@/components/components/Market";
 import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
 import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
@@ -21,49 +21,50 @@ export interface CategoryData {
 
 export interface SectionData {
     categories: CategoryData[];
+    showSeeMore?: boolean;
 }
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
     if (!items) return null;
 
-    const renderSlider = (components: JSX.Element[]) => (
-        components.length > 1 ? (
-            <div className="overflow-x-auto flex gap-4 container-snap">
-                {components}
-            </div>
-        ) : components[0]
+    // Vertical layout without scrollbar, centered
+    const renderVertical = (components: JSX.Element[]) => (
+        <div className="flex flex-col gap-4 items-center">
+            {components}
+        </div>
     );
 
+    // For grid layouts (multi-column), centered
     const renderGrid = (components: JSX.Element[]) => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center">
             {components}
-        </>
+        </div>
     );
 
     return (
         <>
             {items.trends && items.trends.length > 0 && 
-                renderSlider(
+                renderVertical(
                     items.trends.map((item, index) => (
-                        <div key={index} className="flex grow">
+                        <div key={index} className="mx-auto">
                             <MarketTrend markets={[item]} />
                         </div>
                     ))
                 )}
             
             {items.multiChoice && items.multiChoice.length > 0 && 
-                renderSlider(
+                renderVertical(
                     items.multiChoice.map((item, index) => (
-                        <div key={index} className="flex grow">
+                        <div key={index} className="mx-auto">
                             <MarketNbrBox markets={[item]} />
                         </div>
                     ))
                 )}
             
             {items.market && items.market.length > 0 && 
-                renderSlider(
+                renderVertical(
                     items.market.map((item, index) => (
-                        <div key={index} className="flex grow">
+                        <div key={index} className="mx-auto">
                             <MarketBox markets={[item]} />
                         </div>
                     ))
@@ -73,14 +74,14 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
                 items.previews.displayMode === 'grid' ? 
                     renderGrid(
                         items.previews.data.map((item, index) => (
-                            <div key={index} className="flex grow">
+                            <div key={index} className="mx-auto">
                                 <PredictionPreviewList predictions={[item]} />
                             </div>
                         ))
                     ) :
-                    renderSlider(
+                    renderVertical(
                         items.previews.data.map((item, index) => (
-                            <div key={index} className="flex grow min-w-[300px]">
+                            <div key={index} className="mx-auto">
                                 <PredictionPreviewList predictions={[item]} />
                             </div>
                         ))
@@ -106,10 +107,7 @@ const CompItem = ({ icon, title, items }: CompItemProps) => {
                         {title}
                     </h1>
                 </div>
-                <div className="flex flex-row gap-1 items-center text-xs text-bb-accent">
-                    <a href="#">See more</a>
-                    <FaAnglesRight />
-                </div>
+
             </div>
             <HandleWhichComponent items={items} />
         </div>
