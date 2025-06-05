@@ -1,25 +1,10 @@
 "use client";
 
 import { FaLandmark, FaFootball, FaPiggyBank } from "react-icons/fa6";
-import MarketBox, { type MarketItem } from "@/components/components/Market";
-import PredictionPreviewList, { type PredictionPreviewItem } from "@/components/components/PreviewBet";
-import MarketTrend, { type MarketTrendData } from "@/components/components/MarketTrend";
-import MarketNbrBox, { type MarketNbrItem } from "@/components/components/MarketNbr";
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
-
-export interface CategoryData {
-    title: string;
-    items: {
-        trends?: MarketTrendData[];
-        multiChoice?: MarketNbrItem[];
-        previews?: {
-            displayMode?: 'slider' | 'grid';
-            data: PredictionPreviewItem[];
-        };
-        market?: MarketItem[];
-    };
-}
+import { ItemsRenderer } from "@/components/ItemsRenderer";
+import { CategoryData } from "@/utils/data/types";
 
 export interface SectionData {
     categories: CategoryData[];
@@ -27,74 +12,7 @@ export interface SectionData {
 }
 
 const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
-    if (!items) return null;
-    
-    // Horizontal scrolling layout for events
-    const renderHorizontal = (components: JSX.Element[]) => (
-        <div className="flex flex-row gap-4 overflow-x-auto pb-4 hide-scrollbar" 
-             style={{ 
-                 scrollbarWidth: 'none', /* Firefox */
-                 msOverflowStyle: 'none',  /* IE and Edge */
-             }}>
-            {components}
-        </div>
-    );
-
-    // For grid layouts (multi-column), centered
-    const renderGrid = (components: JSX.Element[]) => (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center">
-            {components}
-        </div>
-    );
-
-    return (
-        <>
-            {items.trends && items.trends.length > 0 && 
-                renderHorizontal(
-                    items.trends.map((item, index) => (
-                        <div key={index} className="w-full">
-                            <MarketTrend markets={[item]} />
-                        </div>
-                    ))
-                )}
-            
-            {items.multiChoice && items.multiChoice.length > 0 && 
-                renderHorizontal(
-                    items.multiChoice.map((item, index) => (
-                        <div key={index} className="w-full">
-                            <MarketNbrBox markets={[item]} />
-                        </div>
-                    ))
-                )}
-            
-            {items.market && items.market.length > 0 && 
-                renderHorizontal(
-                    items.market.map((item, index) => (
-                        <div key={index} className="w-full">
-                            <MarketBox markets={[item]} />
-                        </div>
-                    ))
-                )}
-            
-            {items.previews && items.previews.data.length > 0 && (
-                items.previews.displayMode === 'grid' ? 
-                    renderGrid(
-                        items.previews.data.map((item, index) => (
-                            <div key={index} className="w-full">
-                                <PredictionPreviewList predictions={[item]} />
-                            </div>
-                        ))
-                    ) :
-                    renderHorizontal(
-                        items.previews.data.map((item, index) => (
-                            <div key={index} className="w-full">
-                                <PredictionPreviewList predictions={[item]} />
-                            </div>
-                        ))
-                    )
-            )}
-        </>
-    );
+    return <ItemsRenderer items={items} layoutMode="horizontal" />;
 };
 
 interface CompItemProps {
@@ -109,7 +27,7 @@ const CompItem = ({ icon, title, items }: CompItemProps) => {
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-1 items-center">
                     {icon}
-                    <h1 className="text-white font-bold font-just text-sm">
+                    <h1 className="text-white font-bold font-just text-sm capitalize">
                         {title}
                     </h1>
                 </div>
@@ -136,7 +54,6 @@ export const getCategoryIcon = (title: string) => {
 export default function SectionContent({ data }: { data: SectionData }) {
     return (
         <main className="flex flex-col gap-y-5">
-            {/* Add style for hiding scrollbars */}
             <style jsx global>{`
                 .hide-scrollbar::-webkit-scrollbar {
                     display: none;
