@@ -1,5 +1,6 @@
 // Central data service for handling JSON data across the application
 import eventsData from "./enhanced_events.json" with { type: "json" };
+import pastEventsData from "./past_events.json" with { type: "json" };
 import { dummyOrderBookData } from "./orderBookData";
 import sections from "./sections";
 import {
@@ -1015,6 +1016,73 @@ export function searchItems(query: string): SearchItem[] {
     // If no cached results, return empty array
     return [];
   }
+}
+
+/**
+ * Past events related functions
+ */
+
+/**
+ * Get all past/resolved events
+ */
+export function getPastEvents(): Event[] {
+  const cacheKey = 'past_events';
+  
+  if (dataCache[cacheKey]) {
+    return dataCache[cacheKey];
+  }
+  
+  try {
+    // Type assertion since we know the structure matches the Event type
+    const events = pastEventsData as unknown as Event[];
+    
+    // Process events for consistent data structure
+    const processedEvents = events.map(event => ensureEventSlug(event));
+    
+    // Cache the processed events
+    dataCache[cacheKey] = processedEvents;
+    updateUIState(cacheKey, { loading: false, lastUpdated: new Date().toISOString() });
+    
+    return processedEvents;
+  } catch (err) {
+    const error = err instanceof Error ? err.message : 'Unknown error loading past events';
+    updateUIState(cacheKey, { loading: false, error });
+    console.error('Error loading past events:', error);
+    return [];
+  }
+}
+
+/**
+ * Get a specific past event by ID
+ */
+export function getPastEventById(id: string): Event | null {
+  const cacheKey = `past_event_${id}`;
+  
+  if (dataCache[cacheKey]) {
+    return dataCache[cacheKey];
+  }
+  
+  try {
+    const allPastEvents = getPastEvents();
+    const event = allPastEvents.find(event => event.id === id) || null;
+    
+    dataCache[cacheKey] = event;
+    updateUIState(cacheKey, { loading: false, lastUpdated: new Date().toISOString() });
+    
+    return event;
+  } catch (err) {
+    const error = err instanceof Error ? err.message : `Unknown error loading past event ${id}`;
+    updateUIState(cacheKey, { loading: false, error });
+    console.error(`Error loading past event ${id}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get past events with UI state
+ */
+export function getPastEventsWithUIState(): DataWithUIState<Event[]> {
+  return wrapWithUIState('past_events', getPastEvents());
 }
 
 /**

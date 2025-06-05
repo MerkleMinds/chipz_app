@@ -1,7 +1,7 @@
 "use client";
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-
+import { useRouter } from "next/navigation";
 import { MenuState } from "@/components/bets/Menu";
 import crypto from "crypto";
 import { useState } from "react";
@@ -14,6 +14,7 @@ type BetBasev2 = {
   stake: number;
   odds: number;
   potential: number;
+  eventId?: string; // ID for linking to event details
 };
 
 export type IBetv2 =
@@ -36,10 +37,21 @@ export const hashBet = ({ date, title }: { date: Date; title: string }) =>
     .slice(0, 16);
 
 export default function Betv2(props: IBetv2) {
+  const router = useRouter();
   const [closed, setClosed] = useState<boolean>(true);
+  
+  // Navigate to event details page
+  const navigateToEvent = () => {
+    if (props.eventId) {
+      router.push(`/events/${props.eventId}`);
+    }
+  };
 
   return (
-    <div className="rounded-md bg-gray-800 flex flex-col w-full transition-all px-4 py-2">
+    <div 
+      className="rounded-md bg-gray-800 flex flex-col w-full transition-all px-4 py-2 cursor-pointer hover:bg-gray-700"
+      onClick={navigateToEvent}
+    >
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between items-center">
           <div className="text-white text-sm font-bold">{props.bet}</div>

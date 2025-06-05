@@ -5,8 +5,19 @@ import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
 import MultiOptionBet from "@/components/components/MultiOptionBet";
 import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart";
-import { getEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
+import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
 import { Event as EventType } from "@/utils/data/types";
+
+// Extended type to handle past event properties
+interface ResolvedEvent extends EventType {
+  resolved_date?: string;
+  winning_outcome?: string;
+  final_odds?: any;
+  resolution_source?: string;
+  resolution_details?: string;
+  history?: { date: string; probability: number }[];
+  probabilityChange?: string;
+}
 import Image from "next/image";
 import { useState } from "react";
 
@@ -142,22 +153,50 @@ const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => 
 };
 
 export default function Page({ params }: PageProps) {
-  const event = getEventById(params.id);
+  // Try to get the event from both active and past events
+  const activeEvent = getEventById(params.id);
+  const pastEvent = getPastEventById(params.id);
+  const event = activeEvent || pastEvent as ResolvedEvent | undefined;
+  
   const [selectedOptionId, setSelectedOptionId] = useState<string | undefined>(
     event?.options && event.options.length > 0 ? event.options[0].id : undefined
   );
   
-  if (!event) return null;
-  // TODO: return 404 if event is not found
+  if (!event) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center p-4">
+          <h2 className="text-xl text-red-500">Event not found</h2>
+          <p className="text-gray-400 mt-2">The event you are looking for does not exist.</p>
+        </div>
+      </div>
+    );
+  }
 
   // Handle option change
   const handleOptionChange = (optionId: string) => {
     setSelectedOptionId(optionId);
   };
 
+  // Convert event to the format expected by MarketTrendEventPage
+  const marketData = {
+    id: event.id,
+    probabilityChange: (event as ResolvedEvent).probabilityChange || "+0.0%",
+    history: (event as ResolvedEvent).history || []
+  };
+
   return (
     <main className="flex flex-col gap-5 pb-20">
+      {/* Main content */}
       <MainPage data={event} selectedOptionId={selectedOptionId} onOptionChange={handleOptionChange} />
+      
+      {/* Show the market trend data if available and the event has options */}
+      {event?.options && event.options.length > 0 && event.historyData && event.historyData.length > 0 && (
+        <div className="px-4">
+          <MarketTrendEventPage market={marketData} />
+        </div>
+      )}
+      
       <Partners />
       <Footer />
       <BuyButtons event={event} selectedOptionId={selectedOptionId} />
