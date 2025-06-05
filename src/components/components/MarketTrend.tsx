@@ -20,9 +20,11 @@ export type MarketTrendData = {
 
 export type MarketTrendsProps = {
   markets: MarketTrendData[];
+  className?: string; // Add className prop for custom styling
+  fullWidth?: boolean; // Add fullWidth prop to control width
 };
 
-export default function MarketTrend({ markets }: MarketTrendsProps) {
+export default function MarketTrend({ markets, className = '', fullWidth = false }: MarketTrendsProps) {
   const router = useRouter();
   const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
@@ -63,8 +65,12 @@ export default function MarketTrend({ markets }: MarketTrendsProps) {
 
   const isPositive = selectedMarket.probabilityChange.startsWith("+");
 
+  const widthClass = fullWidth ? 'w-full' : 'w-[300px]';
+  
   return (
-    <div className="w-[300px] text-white p-3 rounded-xl bg-gray-800" onClick={handleLinkClick}>
+    <div 
+      className={`${widthClass} text-white p-3 rounded-xl bg-gray-800 ${className}`} 
+      onClick={handleLinkClick}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col ">
           <div className="flex items-center space-x-2 cursor-pointer">
