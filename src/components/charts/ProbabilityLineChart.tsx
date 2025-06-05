@@ -35,6 +35,8 @@ interface ProbabilityLineChartProps {
   timeRange?: TimeRangeOption;
   loading?: boolean;
   error?: Error | null;
+  forceZeroBaseline?: boolean;
+  yAxisPadding?: number;
 }
 
 /**
@@ -52,6 +54,8 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
   timeRange = "1W",
   loading = false,
   error = null,
+  forceZeroBaseline = false,
+  yAxisPadding = 5,
 }) => {
   // Log data for debugging
   useEffect(() => {
@@ -75,28 +79,83 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
       };
     }
 
-    // Find max probability in the data
-    const maxProb = Math.max(...data.map(d => d.probability || 0));
+    // Find min and max probability in the data
+    const probabilities = data.map(d => d.probability || 0);
+    const maxProb = Math.max(...probabilities);
+    const minProb = forceZeroBaseline ? 0 : Math.min(...probabilities);
     
-    // Round up to nearest multiple of 20 for max domain value
-    const maxDomain = Math.min(Math.ceil(maxProb / 20) * 20, 100);
+    // Calculate the range between min and max probability
+    // (We're always rounding to nice values now regardless of range)
     
-    // Generate ticks at equal intervals
-    const tickInterval = maxDomain <= 60 ? 15 : 20;
-    const ticks = [];
-    for (let i = 0; i <= maxDomain; i += tickInterval) {
-      ticks.push(i);
+    // Calculate min domain with padding
+    let minDomain;
+    if (forceZeroBaseline) {
+      minDomain = 0;
+    } else {
+      // For better visualization, round down to nearest 5 or 10
+      // This creates a more focused view that shows data variations
+      const roundDownFactor = minProb >= 10 ? 10 : 5;
+      minDomain = Math.floor(minProb / roundDownFactor) * roundDownFactor;
+      
+      // Apply additional padding if needed
+      minDomain = Math.max(0, minDomain - yAxisPadding);
+      
+      // If the data range is very small, expand the minimum further to show variations
+      const range = maxProb - minProb;
+      if (range < 10 && minDomain > 0) {
+        // Expand view to show more context around the data points
+        minDomain = Math.max(0, minDomain - 15);
+      }
     }
     
-    // Always include 0 and maxDomain in ticks
-    if (!ticks.includes(0)) ticks.unshift(0);
+    // Always round the max domain to a nice round number (nearest 10)
+    // Calculate max domain with padding first (but don't exceed 100)
+    let maxProb_withPadding = Math.min(100, maxProb + yAxisPadding);
+    
+    // Round up to the nearest multiple of 10
+    let maxDomain = Math.min(Math.ceil(maxProb_withPadding / 10) * 10, 100);
+    
+    // For very small values (less than 10), consider using 5-based rounding instead
+    if (maxProb_withPadding < 10) {
+      maxDomain = Math.min(Math.ceil(maxProb_withPadding / 5) * 5, 100);
+    }
+    
+    // Calculate optimal tick interval based on the domain range
+    const domainRange = maxDomain - minDomain;
+    let tickCount = 5; // Target number of ticks
+    
+    // Calculate a nice tick interval
+    const rawInterval = domainRange / (tickCount - 1);
+    const magnitude = Math.pow(10, Math.floor(Math.log10(rawInterval)));
+    const possibleIntervals = [1, 2, 2.5, 5, 10].map(x => x * magnitude);
+    const tickInterval = possibleIntervals.find(i => i >= rawInterval) || possibleIntervals[possibleIntervals.length - 1];
+    
+    // Generate ticks at the calculated interval
+    const ticks = [];
+    const firstTick = Math.floor(minDomain / tickInterval) * tickInterval;
+    for (let i = firstTick; i <= maxDomain + (tickInterval / 2); i += tickInterval) {
+      // Round to avoid floating point issues
+      const roundedTick = Math.round(i * 100) / 100;
+      if (roundedTick >= minDomain && roundedTick <= maxDomain) {
+        ticks.push(roundedTick);
+      }
+    }
+    
+    // Always include the min and max domain values in ticks if they're not already there
+    if (!ticks.includes(minDomain) && minDomain > 0) ticks.unshift(minDomain);
     if (!ticks.includes(maxDomain)) ticks.push(maxDomain);
     
+    // Always include 0 if we're showing from zero
+    if (minDomain === 0 && !ticks.includes(0)) ticks.unshift(0);
+    
+    // Debug info
+    console.debug(`Chart Y-axis: min=${minDomain}, max=${maxDomain}, interval=${tickInterval}, ticks=[${ticks.join(', ')}]`);
+    
     return {
-      domain: [0, maxDomain],
+      domain: [minDomain, maxDomain],
       ticks: ticks.sort((a, b) => a - b)
     };
-  }, [data]);
+  }, [data, forceZeroBaseline, yAxisPadding]);
   
   // Format date based on time range
   const formatXAxis = (dateStr: string) => {
