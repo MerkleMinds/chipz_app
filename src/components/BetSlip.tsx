@@ -139,8 +139,8 @@ export default function Betslip() {
                   </button>
                 </div>
                 <div>
-                  {bets.map((bet, index) => (
-                    <Bet {...bet} key={`betslip-${index}`} />
+                  {bets.map((bet) => (
+                    <Bet {...bet} key={bet.id} />
                   ))}
                 </div>
                 <div className="flex flex-col gap-3">

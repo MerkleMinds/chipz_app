@@ -248,8 +248,11 @@ export default function History() {
       <BalanceOverview history={history} />
       <h3 className="text-lg mb-4">Detailed Overview</h3>
       <div className="space-y-4">
-        {betData.map((bet, index) => (
-          <BetDetails key={index} {...bet} />
+        {betData.map((bet) => (
+          <BetDetails
+            key={hashBet({ date: bet.date, title: bet.title })}
+            {...bet}
+          />
         ))}
       </div>
     </div>

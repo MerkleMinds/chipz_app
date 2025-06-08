@@ -1,6 +1,6 @@
 "use client";
 
-import Betv2, { type IBetv2 } from "@/components/bets/Betv2";
+import Betv2, { type IBetv2, hashBet } from "@/components/bets/Betv2";
 import Menu, { MenuState } from "@/components/bets/Menu";
 import { getPastEvents } from "@/utils/data/dataService";
 
@@ -166,10 +166,20 @@ export default function Page() {
             {state === MenuState.OPEN ? (
               bets
                 .filter((bet) => bet.kind === state)
-                .map((bet, index) => <Betv2 key={`bet-page-${index}`} {...bet} />)
+                .map((bet) => (
+                  <Betv2
+                    key={bet.eventId || hashBet({ date: bet.date, title: bet.title })}
+                    {...bet}
+                  />
+                ))
             ) : (
               settledBets.length > 0 ? (
-                settledBets.map((bet: IBetv2, index: number) => <Betv2 key={`settled-bet-${index}`} {...bet} />)
+                settledBets.map((bet: IBetv2) => (
+                  <Betv2
+                    key={bet.eventId || hashBet({ date: bet.date, title: bet.title })}
+                    {...bet}
+                  />
+                ))
               ) : (
                 <div className="text-neutral-400 text-center p-4">
                   <p>No settled bets found</p>
