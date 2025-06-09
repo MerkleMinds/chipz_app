@@ -7,7 +7,7 @@ import { stableTokenABI } from "@celo/abis";
 import { tokenMap } from "@/hooks/useTransaction";
 
 async function check(address: `0x${string}`) {
-  const constract = getContract({
+  const contract = getContract({
     abi: stableTokenABI,
     address: tokenMap["cUSD"].address,
     publicClient: createPublicClient({
@@ -16,7 +16,7 @@ async function check(address: `0x${string}`) {
     }),
   });
 
-  const balance = await constract.read.balanceOf([
+  const balance = await contract.read.balanceOf([
     address,
   ]);
 

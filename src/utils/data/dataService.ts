@@ -1,5 +1,6 @@
 // Central data service for handling JSON data across the application
 import eventsData from "./enhanced_events.json" with { type: "json" };
+import pastEventsData from "./past_events.json" with { type: "json" };
 import { dummyOrderBookData } from "./orderBookData";
 import sections from "./sections";
 import {
@@ -76,15 +77,6 @@ export function wrapWithUIState<T>(dataKey: string, data: T): DataWithUIState<T>
     data,
     uiState: getUIState(dataKey)
   };
-}
-
-// Initialize the application with data validation
-export function initializeDataService() {
-  // Validate data on startup
-  validateDataConsistency();
-  
-  // Return the cache for debugging purposes
-  return { dataCache };
 }
 
 /**
@@ -357,16 +349,18 @@ export function getEventsByCategory(category: string): Event[] {
 
 // Get events by section
 export function getEventsBySection(sectionId: string): Event[] {
-  const dataKey = `events-section-${sectionId}`;
+  const dataKey = `events_section_${sectionId}`;
   setLoading(dataKey, true);
-  
+
   try {
-    const events = getAllEvents();
-    // Add null check to prevent 'event is possibly null' lint errors
-    const sectionEvents = events.filter(event => event && isEventInSection(event, sectionId));
+    // Special handling for trending section
+    if (sectionId === 'trending') {
+      return getEventsByTrending();
+    }
     
+    const events = getAllEvents().filter(event => isEventInSection(event, sectionId));
     // Sort events: trending first, then new, then by probability
-    const sortedEvents = [...sectionEvents].sort((a, b) => {
+    const sortedEvents = [...events].sort((a, b) => {
       // First sort by trending
       if (a.isTrending && !b.isTrending) return -1;
       if (!a.isTrending && b.isTrending) return 1;
@@ -386,6 +380,42 @@ export function getEventsBySection(sectionId: string): Event[] {
     setError(dataKey, error instanceof Error ? error.message : String(error));
     return [];
   }
+}
+
+// Get trending events (events with history data)
+export function getEventsByTrending(): Event[] {
+  const dataKey = 'events_trending';
+  setLoading(dataKey, true);
+
+  try {
+    // Get events with history data, sorted by recent activity
+    const events = getAllEvents()
+      .filter(event => event.historyData && event.historyData.length > 0)
+      .sort((a, b) => {
+        // Sort by absolute probability change (most volatile first)
+        const aChange = Math.abs(calculateProbabilityChangeValue(a));
+        const bChange = Math.abs(calculateProbabilityChangeValue(b));
+        return bChange - aChange;
+      })
+      .slice(0, 10); // Limit to top 10 trending events
+    
+    setLoading(dataKey, false);
+    return events;
+  } catch (error) {
+    console.error('Error getting trending events:', error);
+    setError(dataKey, error instanceof Error ? error.message : String(error));
+    return [];
+  }
+}
+
+// Helper function to calculate probability change as a number
+function calculateProbabilityChangeValue(event: Event): number {
+  if (!event.historyData || event.historyData.length === 0) return 0;
+  
+  const historyData = event.historyData;
+  const latestProb = event.probability;
+  const earliestProb = historyData[0].probability;
+  return latestProb - earliestProb;
 }
 
 // Get events by section with UI state
@@ -632,105 +662,127 @@ export function getHomeData(): HomeData {
       // Create home data from the enhanced events
       const events = getAllEvents();
       
-      // Group events by category
-      const categories: CategoryData[] = [
-        {
-          id: 'politics',
-          title: 'Politics',
-          items: {
-            trends: events
-              .filter(event => event.section === 'politics' && event.historyData && event.historyData.length > 0)
+      // Helper function to determine display mode based on section ID
+      const determinePreviewDisplayMode = (sectionId: string): 'slider' | 'grid' => {
+        // Sections that work better with grid layout
+        const gridSections = ['world', 'sports'];
+        return gridSections.includes(sectionId) ? 'grid' : 'slider';
+      };
+      
+      // Generate categories dynamically from sections config
+      const categories: CategoryData[] = sections.map(section => {
+        const sectionEvents = events.filter(event => {
+          // For trending section, get events with history data
+          if (section.id === 'trending') {
+            return event.historyData && event.historyData.length > 0;
+          }
+          // For other sections, match by section ID
+          return event.section === section.id;
+        });
+        
+        // Prepare category data structure
+        const categoryData: CategoryData = {
+          id: section.id,
+          title: section.name,
+          items: {},
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            totalItems: sectionEvents.length
+          }
+        };
+        
+        // Track which events have been displayed in specialized sections
+        const displayedEventIds = new Set<string>();
+        
+        // Add trend items (events with history data) primarily for politics and finance sections
+        if (['trending', 'politics', 'finance'].includes(section.id)) {
+          const trendEvents = sectionEvents.filter(event => event.historyData && event.historyData.length > 0);
+          if (trendEvents.length > 0) {
+            const trendItems = trendEvents
+              .slice(0, section.id === 'trending' ? 3 : 5) // Limit items
+              .map(event => {
+                // Track this event as displayed
+                displayedEventIds.add(event.id);
+                return {
+                  type: 'trend',
+                  id: event.id,
+                  title: event.title,
+                  probability: event.probability,
+                  probabilityChange: calculateProbabilityChange(event),
+                  image: event.imageUrl,
+                  history: event.historyData || []
+                };
+              });
+            
+            if (trendItems.length > 0) {
+              categoryData.items.trends = trendItems;
+            }
+          }
+        }
+        
+        // Add multi-choice items (events with options) primarily for sports, economics, and crypto sections
+        if (['sports', 'economics', 'crypto', 'world'].includes(section.id)) {
+          const multiChoiceEvents = sectionEvents.filter(event => 
+            event.options && event.options.length > 0 && !displayedEventIds.has(event.id)
+          );
+          
+          if (multiChoiceEvents.length > 0) {
+            const multiChoiceItems = multiChoiceEvents
+              .slice(0, 5) // Limit items
+              .map(event => {
+                // Track this event as displayed
+                displayedEventIds.add(event.id);
+                return {
+                  type: 'number',
+                  id: event.id,
+                  title: event.title,
+                  totalVolume: event.totalVolume || 'N/A',
+                  imageUrl: event.imageUrl,
+                  options: event.options?.map(opt => ({
+                    name: opt.title,
+                    probability: opt.probability
+                  })) || []
+                };
+              });
+            
+            if (multiChoiceItems.length > 0) {
+              categoryData.items.multiChoice = multiChoiceItems;
+            }
+          }
+        }
+        
+        // Add preview items for events that haven't been displayed in specialized sections
+        const remainingEvents = sectionEvents.filter(event => !displayedEventIds.has(event.id));
+        if (remainingEvents.length > 0) {
+          categoryData.items.previews = {
+            displayMode: determinePreviewDisplayMode(section.id),
+            data: remainingEvents
+              .slice(0, 6) // Limit preview items
               .map(event => ({
-                type: 'trend',
                 id: event.id,
                 title: event.title,
                 probability: event.probability,
-                probabilityChange: calculateProbabilityChange(event),
-                image: event.imageUrl,
-                history: event.historyData || []
+                imageUrl: event.imageUrl
               }))
-          }
-        },
-        {
-          id: 'sports',
-          title: 'Sports',
-          items: {
-            multiChoice: events
-              .filter(event => event.section === 'sports' && event.options && event.options.length > 0)
-              .map(event => ({
-                type: 'number',
-                id: event.id,
-                title: event.title,
-                totalVolume: event.totalVolume,
-                imageUrl: event.imageUrl,
-                options: event.options?.map(opt => ({
-                  name: opt.title,
-                  probability: opt.probability
-                })) || []
-              }))
-          }
-        },
-        {
-          id: 'economy',
-          title: 'Economy',
-          items: {
-            multiChoice: events
-              .filter(event => event.section === 'economy' && event.options && event.options.length > 0)
-              .map(event => ({
-                type: 'number',
-                id: event.id,
-                title: event.title,
-                totalVolume: event.totalVolume,
-                imageUrl: event.imageUrl,
-                options: event.options?.map(opt => ({
-                  name: opt.title,
-                  probability: opt.probability
-                })) || []
-              }))
-          }
-        },
-        {
-          id: 'crypto',
-          title: 'Crypto',
-          items: {
-            multiChoice: events
-              .filter(event => event.section === 'crypto')
-              .map(event => ({
-                type: 'number',
-                id: event.id,
-                title: event.title,
-                totalVolume: event.totalVolume || 'N/A',
-                imageUrl: event.imageUrl,
-                options: event.options?.map(opt => ({
-                  name: opt.title,
-                  probability: opt.probability
-                })) || []
-              }))
-          }
-        },
-        {
-          id: 'mentions',
-          title: 'Mentions',
-          items: {
-            multiChoice: events
-              .filter(event => event.section === 'mentions')
-              .map(event => ({
-                type: 'number',
-                id: event.id,
-                title: event.title,
-                totalVolume: event.totalVolume || 'N/A',
-                imageUrl: event.imageUrl,
-                options: event.options?.map(opt => ({
-                  name: opt.title,
-                  probability: opt.probability
-                })) || []
-              }))
-          }
+          };
         }
-      ];
+        
+        return categoryData;
+      });
+      
+      // Filter out categories with no items to display
+      const filteredCategories = categories.filter(category => {
+        const items = category.items;
+        return (
+          (items.trends && items.trends.length > 0) ||
+          (items.multiChoice && items.multiChoice.length > 0) ||
+          (items.market && items.market.length > 0) ||
+          (items.previews && items.previews.data.length > 0)
+        );
+      });
       
       dataCache.home = { 
-        categories,
+        categories: filteredCategories,
         lastUpdated: new Date().toISOString()
       };
       setLoading(dataKey, false);
@@ -955,6 +1007,73 @@ export function searchItems(query: string): SearchItem[] {
     // If no cached results, return empty array
     return [];
   }
+}
+
+/**
+ * Past events related functions
+ */
+
+/**
+ * Get all past/resolved events
+ */
+export function getPastEvents(): Event[] {
+  const cacheKey = 'past_events';
+  
+  if (dataCache[cacheKey]) {
+    return dataCache[cacheKey];
+  }
+  
+  try {
+    // Type assertion since we know the structure matches the Event type
+    const events = pastEventsData as unknown as Event[];
+    
+    // Process events for consistent data structure
+    const processedEvents = events.map(event => ensureEventSlug(event));
+    
+    // Cache the processed events
+    dataCache[cacheKey] = processedEvents;
+    updateUIState(cacheKey, { loading: false, lastUpdated: new Date().toISOString() });
+    
+    return processedEvents;
+  } catch (err) {
+    const error = err instanceof Error ? err.message : 'Unknown error loading past events';
+    updateUIState(cacheKey, { loading: false, error });
+    console.error('Error loading past events:', error);
+    return [];
+  }
+}
+
+/**
+ * Get a specific past event by ID
+ */
+export function getPastEventById(id: string): Event | null {
+  const cacheKey = `past_event_${id}`;
+  
+  if (dataCache[cacheKey]) {
+    return dataCache[cacheKey];
+  }
+  
+  try {
+    const allPastEvents = getPastEvents();
+    const event = allPastEvents.find(event => event.id === id) || null;
+    
+    dataCache[cacheKey] = event;
+    updateUIState(cacheKey, { loading: false, lastUpdated: new Date().toISOString() });
+    
+    return event;
+  } catch (err) {
+    const error = err instanceof Error ? err.message : `Unknown error loading past event ${id}`;
+    updateUIState(cacheKey, { loading: false, error });
+    console.error(`Error loading past event ${id}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get past events with UI state
+ */
+export function getPastEventsWithUIState(): DataWithUIState<Event[]> {
+  return wrapWithUIState('past_events', getPastEvents());
 }
 
 /**

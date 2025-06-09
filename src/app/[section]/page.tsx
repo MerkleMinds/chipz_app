@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import SectionContent, { SectionData } from "@/components/SectionContent";
 import sections from "@/utils/data/sections";
 import { getEventsBySection } from "@/utils/data/dataService";
+import { Event as EventType } from "@/utils/data/types";
 
 // Define the props for the page component
 interface SectionPageProps {
@@ -26,15 +27,29 @@ export default async function SectionPage({ params }: SectionPageProps) {
   try {
     // Get events for this section using our enhanced data service
     const sectionEvents = getEventsBySection(sectionId);
-    
+
+    // Split events into separate arrays by subcategory
+    const subCategories = sectionEvents.reduce((acc, event) => {
+      // Use a default subcategory name if subcategory is undefined
+      const subCat = event.subcategory || 'General';
+      
+      if (acc[subCat]) {
+        acc[subCat].push(event);
+      } else {
+        acc[subCat] = [event];
+      }
+      return acc;
+    }, {} as Record<string, EventType[]>);
+
     // Transform events into the format expected by SectionContent
     const sectionData: SectionData = {
-      categories: [
-        {
-          title: sectionMeta.name,
+      categories: Object.keys(subCategories).map(subCat => {
+        const subCatEvents = subCategories[subCat];
+        return {
+          title: subCat,
           items: {
             // For events with options (multi-choice markets)
-            multiChoice: sectionEvents
+            multiChoice: subCatEvents
               .filter(event => event.options && event.options.length > 0)
               .map(event => ({
                 type: "number",
@@ -49,7 +64,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
               })),
             
             // For binary events (yes/no markets)
-            trends: sectionEvents
+            trends: subCatEvents
               .filter(event => !event.options && event.historyData && event.historyData.length > 0)
               .map(event => {
                 // Calculate probability change
@@ -70,8 +85,8 @@ export default async function SectionPage({ params }: SectionPageProps) {
                 };
               })
           }
-        }
-      ]
+        };
+      })
     };
     
     return (

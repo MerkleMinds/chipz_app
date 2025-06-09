@@ -1,39 +1,32 @@
-import { FaCheck, FaCreditCard, FaEnvelope, FaFutbol } from "react-icons/fa6";
 import { SiGoogle, SiMeta, SiTwitch } from "react-icons/si";
-
+import { MdOutlineEmail } from "react-icons/md";
 import { TbPlugConnected } from "react-icons/tb";
+
+import Image from "next/image";
 
 export default function Settings() {
   return (
     <>
-      <div className="mb-6">
-        <h3 className="text-lg mb-4">Get started</h3>
-        <ul>
-          <li className="flex justify-between items-center mb-2">
-            <div className="flex items-center">
-              <FaEnvelope className="mr-2" />
-              <span>Connect Opera MiniPay</span>
+    <div className="grid grid-cols gap-y-4">
+      <div>
+        <h3 className="text-lg mb-2">Change Email</h3>
+        <div className="flex flex-col space-y-2">
+          <button className="flex items-center justify-between bg-gray-800 p-3 rounded">
+            <div className="flex items-center gap-2">
+              <Image 
+                src="/change-email-arrows.svg" 
+                alt="Promo icon" 
+                width={15} 
+                height={15} 
+                className="text-bb-accent"
+              />
+              <span className="p-0 text-neutral-400">current.email@example.com</span>
             </div>
-            <FaCheck className="text-green-500" />
-          </li>
-          <li className="flex justify-between items-center mb-2">
-            <div className="flex items-center">
-              <FaCreditCard className="mr-2" />
-              <span>Deposit</span>
-            </div>
-            <FaCheck className="text-green-500" />
-          </li>
-          <li className="flex justify-between items-center mb-2">
-            <div className="flex items-center">
-              <FaFutbol className="mr-2" />
-              <span>Place a bet</span>
-            </div>
-            <FaCheck className="text-green-500" />
-          </li>
-        </ul>
+          </button>
+        </div>
       </div>
-      <div className="mb-[4.5rem]">
-        <h3 className="text-lg mb-4">Link account</h3>
+      <div>
+        <h3 className="text-lg mb-2">Link account</h3>
         <div className="flex flex-col space-y-2">
           <button className="flex items-center justify-between bg-gray-800 p-3 rounded">
             <div className="flex items-center">
@@ -58,6 +51,14 @@ export default function Settings() {
           </button>
         </div>
       </div>
+      <div>
+        <div className="flex items-center gap-x-2">
+          <h3>Contact</h3>
+          <MdOutlineEmail size={17} />
+        </div>
+      </div>
+    </div>
+
     </>
   );
 }
