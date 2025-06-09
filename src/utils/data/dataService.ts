@@ -79,15 +79,6 @@ export function wrapWithUIState<T>(dataKey: string, data: T): DataWithUIState<T>
   };
 }
 
-// Initialize the application with data validation
-export function initializeDataService() {
-  // Validate data on startup
-  validateDataConsistency();
-  
-  // Return the cache for debugging purposes
-  return { dataCache };
-}
-
 /**
  * Validates data consistency across the application
  * This helps identify navigation issues early
