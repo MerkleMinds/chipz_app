@@ -1,17 +1,20 @@
 import { useState } from "react";
 
 import { createPublicClient, formatEther, getContract, http } from "viem";
-import { celo } from "viem/chains";
 import { stableTokenABI } from "@celo/abis";
 
 import { tokenMap } from "@/hooks/useTransaction";
+import { getNetworkConfig } from "@/utils/networkConfig";
 
 async function check(address: `0x${string}`) {
+  // Determine which network to use based on environment variable
+  const chain = getNetworkConfig();
+  
   const contract = getContract({
     abi: stableTokenABI,
     address: tokenMap["cUSD"].address,
     publicClient: createPublicClient({
-      chain: celo,
+      chain,
       transport: http(),
     }),
   });

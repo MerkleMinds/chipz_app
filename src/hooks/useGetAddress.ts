@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { createWalletClient, custom } from "viem";
-import { celo, celoAlfajores } from "viem/chains";
+import { getNetworkConfig } from "@/utils/networkConfig";
 
 export default function useGetAddress() {
   const [address, setAddress] = useState<`0x${string}` | null>(null);
@@ -13,7 +13,7 @@ export default function useGetAddress() {
       if (window && window.ethereum) {
         // Create a wallet client using Viem
         const client = createWalletClient({
-          chain: window.ethereum.isMiniPay ? celoAlfajores : celo, // Use appropriate chain based on environment
+          chain: getNetworkConfig(window.ethereum.isMiniPay), // Use appropriate chain based on environment
           transport: custom(window.ethereum)
         });
         
@@ -38,7 +38,7 @@ export default function useGetAddress() {
         try {
           // Create a wallet client using Viem
           const client = createWalletClient({
-            chain: window.ethereum.isMiniPay ? celoAlfajores : celo,
+            chain: getNetworkConfig(window.ethereum.isMiniPay),
             transport: custom(window.ethereum)
           });
           
