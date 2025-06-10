@@ -80,25 +80,24 @@ export default function useTransaction(token: AllowedTokens): [
   const [error, setError] = useState<Nullable<string>>(null);
 
   const dispatch = async (to: `0x${string}`, amount: number) => {
-    const client = window.ethereum
-      ? createWalletClient({
-        chain: chainMap[token],
-        transport: custom(window.ethereum),
-      })
-      : null;
+    // Always verify the existence of window.ethereum before initializing
+    if (!window || !window.ethereum) {
+      setError("Could not find provider, are you using Opera MiniPay?");
+      setSuccess(false);
+      return;
+    }
+    
+    const client = createWalletClient({
+      chain: chainMap[token],
+      transport: custom(window.ethereum),
+    });
 
     const publicClient = createPublicClient({
       chain: chainMap[token],
       transport: http(),
     });
 
-    if (!client) {
-      setError(
-        `Could not find provider, are you using Opera MiniPay?`,
-      );
-      setSuccess(false);
-      return;
-    }
+    // Client is now guaranteed to exist since we check for window.ethereum above
 
     const writeArgs: {
       [k in AllowedTokens]: { functionName: string; args: unknown[] };
@@ -133,12 +132,27 @@ export default function useTransaction(token: AllowedTokens): [
     const { functionName, args } = writeArgs[token];
 
     try {
+      // Get the user's address
+      const addresses = await client.getAddresses();
+      if (!addresses || addresses.length === 0) {
+        setError("No connected accounts found");
+        setSuccess(false);
+        return;
+      }
+      
+      // MiniPay only accepts legacy transactions and supports setting feeCurrency to cUSD
       const hash = await client.writeContract({
         address,
         abi,
         functionName,
-        account: (await client.getAddresses())[0],
+        account: addresses[0],
         args,
+        // Use legacy transactions for MiniPay compatibility
+        // Add feeCurrency if needed for cUSD gas payments
+        ...(window.ethereum.isMiniPay ? {
+          // @ts-ignore - MiniPay specific property
+          feeCurrency: "0x765DE816845861e75A25fCA122bb6898B8B1282a" // cUSD address
+        } : {})
       });
 
       const transaction = await publicClient.waitForTransactionReceipt({
