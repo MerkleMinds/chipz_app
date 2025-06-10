@@ -148,9 +148,6 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
     // Always include 0 if we're showing from zero
     if (minDomain === 0 && !ticks.includes(0)) ticks.unshift(0);
     
-    // Debug info
-    console.debug(`Chart Y-axis: min=${minDomain}, max=${maxDomain}, interval=${tickInterval}, ticks=[${ticks.join(', ')}]`);
-    
     return {
       domain: [minDomain, maxDomain],
       ticks: ticks.sort((a, b) => a - b)

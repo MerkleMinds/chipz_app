@@ -24,6 +24,8 @@ export const StakeControl = ({
     }
   };
 
+  console.log(amount);
+
   return (
     <div className="mt-4 text-gray-400">
       <div className="flex flex-1 flex-col gap-y-4">
@@ -67,7 +69,7 @@ export const StakeControl = ({
             values={amount}
             step={0.2}
             min={0.0}
-            max={100}
+            max={150}
             onChange={handleAmountChange}
             renderTrack={({ props, children }) => (
               <div
@@ -82,7 +84,7 @@ export const StakeControl = ({
                     values: amount,
                     colors: ["#ff5f1f", "transparent"],
                     min: 0.0,
-                    max: 100,
+                    max: 150,
                   }),
                 }}
               >
