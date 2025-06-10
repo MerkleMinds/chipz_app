@@ -79,55 +79,6 @@ export function wrapWithUIState<T>(dataKey: string, data: T): DataWithUIState<T>
   };
 }
 
-/**
- * Validates data consistency across the application
- * This helps identify navigation issues early
- */
-function validateDataConsistency() {
-  const events = getAllEvents();
-  const allSections = getAllSections();
-  
-  // Check that all events have valid sections
-  const invalidSectionEvents = events.filter(
-    event => !allSections.some(section => section.id === event.section)
-  );
-  
-  if (invalidSectionEvents.length > 0) {
-    console.error("Events with invalid sections:", invalidSectionEvents.map(e => e.id));
-  }
-  
-  // Check that all events have history data for graphs
-  const eventsWithoutHistory = events.filter(event => !hasValidHistoryData(event));
-  if (eventsWithoutHistory.length > 0) {
-    console.warn("Events without valid history data:", eventsWithoutHistory.map(e => e.id));
-  }
-  
-  // Check that all section featured events exist
-  allSections.forEach(section => {
-    if (section.featuredEventIds) {
-      const missingEvents = section.featuredEventIds.filter(
-        id => !events.some(event => event.id === id)
-      );
-      
-      if (missingEvents.length > 0) {
-        console.error(`Section ${section.id} references non-existent events:`, missingEvents);
-      }
-    }
-  });
-  
-  // Check for events with missing related events
-  events.forEach(event => {
-    if (event.relatedEventIds && event.relatedEventIds.length > 0) {
-      const missingRelated = event.relatedEventIds.filter(
-        id => !events.some(e => e.id === id)
-      );
-      
-      if (missingRelated.length > 0) {
-        console.warn(`Event ${event.id} references non-existent related events:`, missingRelated);
-      }
-    }
-  });
-}
 
 /**
  * Data validation helper functions
