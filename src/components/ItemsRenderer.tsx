@@ -28,11 +28,11 @@ export const ItemsRenderer = ({
     if (!items) return null;
     
     // Wrapper component that makes all child components w-full by default
-    const renderItem = (component: JSX.Element, index: number, extraClasses: string = '') => {
+    const renderItem = (component: JSX.Element, index: number, extraClasses: string = '', isPreview: boolean = false) => {
         const baseClasses = "w-full";
         const layoutClasses = {
             'vertical': 'mb-6', // Vertical spacing for vertical layout
-            'horizontal': 'min-w-[300px]', // Minimum width for horizontal scrolling
+            'horizontal': isPreview ? '' : 'min-w-[300px]', // Minimum width for horizontal scrolling, not for previews
             'grid': '' // No additional classes for grid layout
         };
         
@@ -70,8 +70,9 @@ export const ItemsRenderer = ({
         }
     };
 
-    // Prepare all components to render
-    const components: JSX.Element[] = [];
+    // Prepare components to render, separated by type
+    const marketComponents: JSX.Element[] = [];
+    const previewComponents: JSX.Element[] = [];
     
     // STEP 1: First collect all items with explicit marketType fields for proper rendering
     // These will take precedence over the category-based rendering
@@ -131,7 +132,7 @@ export const ItemsRenderer = ({
                 // Set fullWidth to true when in vertical layout mode (trending page)
                 const shouldBeFullWidth = layoutMode === 'vertical';
                 
-                components.push(
+                marketComponents.push(
                     renderItem(
                         <MarketTrend 
                             key={`trend-${index}`} 
@@ -158,7 +159,7 @@ export const ItemsRenderer = ({
                 const itemAny = item as any;
                 if (!itemAny.options) itemAny.options = [];
                 
-                components.push(
+                marketComponents.push(
                     renderItem(
                         <MarketNbrBox 
                             key={`multi-${index}`} 
@@ -183,7 +184,7 @@ export const ItemsRenderer = ({
                 return; // Skip this item, it will be rendered in the next steps
             }
             
-            components.push(
+            marketComponents.push(
                 renderItem(
                     <MarketBox 
                         key={`market-${index}`} 
@@ -204,7 +205,7 @@ export const ItemsRenderer = ({
             itemAny.options = [];
         }
         
-        components.push(
+        marketComponents.push(
             renderItem(
                 <MarketNbrBox 
                     key={`explicit-nbr-${index}`} 
@@ -230,7 +231,7 @@ export const ItemsRenderer = ({
             history: itemAny.history || []
         };
         
-        components.push(
+        marketComponents.push(
             renderItem(
                 <MarketTrend 
                     key={`explicit-trend-${index}`} 
@@ -247,27 +248,27 @@ export const ItemsRenderer = ({
     
     // Add preview items
     if (items.previews && items.previews.data.length > 0) {
-        // Use grid layout if specified in the preview items
-        const previewLayoutMode = items.previews.displayMode === 'grid' ? 'grid' : layoutMode;
-        
         items.previews.data.forEach((item, index) => {
-            components.push(
+            previewComponents.push(
                 renderItem(
                     <PredictionPreviewList 
                         key={`preview-${index}`} 
                         predictions={[item]} 
                     />,
-                    (items.trends?.length || 0) + 
-                    (items.multiChoice?.length || 0) + 
-                    (items.market?.length || 0) + 
                     index,
-                    previewLayoutMode === 'horizontal' ? 'min-w-[300px]' : ''
+                    'min-w-[300px]' // Use same width as market components for horizontal scrolling
                 )
             );
         });
     }
     
-    return renderContainer(components);
+    // Return both containers - market components and preview components in horizontal layout
+    return (
+        <>
+            {marketComponents.length > 0 && renderContainer(marketComponents)}
+            {previewComponents.length > 0 && renderContainer(previewComponents)}
+        </>
+    );
 };
 
 export default ItemsRenderer;
