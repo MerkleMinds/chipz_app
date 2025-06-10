@@ -39,7 +39,7 @@ export default function Betslip() {
   } = useAppContext();
   const [{ error, success }, dispatch] = useTransaction("cUSD");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const address = useGetAddress();
+  const { address, connectWallet: _connectWallet, isConnecting: _isConnecting } = useGetAddress();
   const [balance, getBalance] = useGetBalance();
   const [placedBet, setPlacedBet] = useState<boolean>(false);
   const [isPlacingBet, setIsPlacingBet] = useState<boolean>(false);
