@@ -30,6 +30,8 @@ export default function Header() {
   const address = useGetAddress();
   const [balance, getBalance] = useGetBalance();
 
+  console.log(address)
+
   useEffect(() => {
     if (address) {
       getBalance(address);
