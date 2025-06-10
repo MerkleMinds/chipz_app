@@ -32,7 +32,7 @@ export default function CircularImage({
 
   // Use a placeholder if the source is empty or there was an error loading the image
   const imageSrc = !src || hasError 
-    ? 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiM0QjU1NjMiLz48L3N2Zz4='
+    ? '/placeholder.svg'
     : src;
 
   return (
