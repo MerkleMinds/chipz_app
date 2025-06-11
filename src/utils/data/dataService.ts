@@ -79,7 +79,6 @@ export function wrapWithUIState<T>(dataKey: string, data: T): DataWithUIState<T>
   };
 }
 
-
 /**
  * Data validation helper functions
  */
