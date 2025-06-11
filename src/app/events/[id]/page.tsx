@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
+import { BET_SCALE_FACTOR, formatBetAmount } from "@/config/betting";
 import MultiOptionBet from "@/components/components/MultiOptionBet";
 import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart";
 import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
@@ -41,8 +42,8 @@ interface BuyButtonsProps {
 const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
   // For simple yes/no bets
   if (!event.options || event.options.length === 0) {
-    const yesPrice = event.probability;
-    const noPrice = 100 - event.probability;
+    const yesPrice = formatBetAmount(event.probability * BET_SCALE_FACTOR);
+    const noPrice = formatBetAmount((100 - event.probability) * BET_SCALE_FACTOR);
     
     return (
       <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
@@ -67,8 +68,8 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
     
   if (!selectedOption) return null;
   
-  const optionPrice = selectedOption.probability;
-  const oppositePrice = 100 - optionPrice;
+  const optionPrice = formatBetAmount(selectedOption.probability * BET_SCALE_FACTOR);
+  const oppositePrice = formatBetAmount((100 - selectedOption.probability) * BET_SCALE_FACTOR);
   
   return (
     <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
