@@ -10,7 +10,7 @@ import {
 import { celo, celoAlfajores } from "viem/chains";
 import hackathonABI from "@/contracts/abi.json";
 
-type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN";
+type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN" | "USDC";
 
 const chainMap: {
   [k in AllowedTokens]: typeof celo | typeof celoAlfajores;
@@ -18,6 +18,7 @@ const chainMap: {
   "cUSD": celo,
   "cUSDt": celoAlfajores,
   "lHKTHN": celoAlfajores,
+  "USDC": celoAlfajores,
 };
 
 export const tokenMap: {
@@ -67,6 +68,36 @@ export const tokenMap: {
     address: "0xeC8027457e5d353FA28D45f62C4De57a607749B6",
     decimals: 0,
     abi: hackathonABI as Abi,
+  },
+  "USDC": {
+    address: "0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B", // Alfajores testnet USDC address
+    decimals: 6, // USDC uses 6 decimals
+    abi: [{
+      type: "function",
+      stateMutability: "nonpayable",
+      payable: false,
+      outputs: [
+        { "type": "bool", "name": "", "internalType": "bool" },
+      ],
+      name: "transfer",
+      inputs: [
+        { type: "address", name: "to", internalType: "address" },
+        { type: "uint256", name: "value", internalType: "uint256" },
+      ],
+      constant: false,
+    }, {
+      type: "function",
+      stateMutability: "view",
+      payable: false,
+      outputs: [
+        { "type": "uint256", "name": "", "internalType": "uint256" },
+      ],
+      name: "balanceOf",
+      inputs: [
+        { type: "address", name: "account", internalType: "address" },
+      ],
+      constant: true,
+    }],
   },
 };
 
@@ -121,6 +152,13 @@ export default function useTransaction(token: AllowedTokens): [
         args: [
           to,
           parseUnits(amount.toString(), 0),
+        ],
+      },
+      "USDC": {
+        functionName: "transfer",
+        args: [
+          to,
+          parseUnits(amount.toString(), 6),
         ],
       },
     };
