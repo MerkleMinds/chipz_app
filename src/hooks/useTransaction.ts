@@ -9,16 +9,14 @@ import {
 } from "viem";
 import { celo, celoAlfajores } from "viem/chains";
 import hackathonABI from "@/contracts/abi.json";
+import { getNetworkConfig } from "@/utils/networkConfig";
 
 type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN" | "USDC";
 
-const chainMap: {
-  [k in AllowedTokens]: typeof celo | typeof celoAlfajores;
-} = {
-  "cUSD": celo,
-  "cUSDt": celoAlfajores,
-  "lHKTHN": celoAlfajores,
-  "USDC": celoAlfajores,
+// Use token addresses based on network
+const getTokenChain = (token: AllowedTokens, isMiniPay: boolean) => {
+  // Always use the network config function to determine the correct chain
+  return getNetworkConfig(isMiniPay);
 };
 
 export const tokenMap: {
@@ -118,13 +116,19 @@ export default function useTransaction(token: AllowedTokens): [
       return;
     }
     
+    // Detect if we're using MiniPay
+    const isMiniPay = window.ethereum.isMiniPay === true;
+    
+    // Get the appropriate chain based on environment and wallet type
+    const chain = getTokenChain(token, isMiniPay);
+    
     const client = createWalletClient({
-      chain: chainMap[token],
+      chain,
       transport: custom(window.ethereum),
     });
 
     const publicClient = createPublicClient({
-      chain: chainMap[token],
+      chain,
       transport: http(),
     });
 
