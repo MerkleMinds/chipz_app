@@ -53,7 +53,12 @@ export default function Betslip() {
 
   useEffect(() => {
     setAmount(balance);
-  }, [balance, setAmount]);
+    
+    // If quantity is greater than balance, adjust it
+    if (quantity > balance && balance > 0) {
+      setQuantity(Math.floor(balance));
+    }
+  }, [balance, setAmount, quantity]);
 
   useEffect(() => {
     if (!address || !placedBet) {
@@ -151,13 +156,14 @@ export default function Betslip() {
                 <div className="flex flex-col gap-3">
                   <StakeControl 
                     onChange={setQuantity} 
-                    defaultValue={quantity} 
+                    defaultValue={quantity}
+                    maxAmount={balance}
                   />
                   <div className="flex flex-row justify-between items-center">
                     <p className="text-white">Potential Profit</p>
                     <p className="text-bb-success font-bold">
                       {formatBetAmount(
-                        quantity * TOTAL_BET_AMOUNT * bets.reduce((acc, bet) => acc + bet.odds, 0)
+                        quantity * TOTAL_BET_AMOUNT * bets.reduce((acc, bet) => acc * bet.odds, 1)
                       )} $
                     </p>
                   </div>

@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 interface StakeControlProps {
   onChange: (value: number) => void;
   defaultValue?: number;
+  maxAmount?: number;
 }
 
 export const StakeControl = ({
   onChange,
-  defaultValue = 10,
+  defaultValue = 1,
+  maxAmount,
 }: StakeControlProps) => {
-  const MAX_ACCOUNT_AMOUNT = 150;
+  const MAX_ACCOUNT_AMOUNT = maxAmount || 150;
   const [amount, setAmount] = useState([defaultValue]);
 
   useEffect(() => {

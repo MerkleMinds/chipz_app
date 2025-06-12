@@ -25,14 +25,18 @@ const DEFAULT_SETTLED_BET: IBetv2 = {
  * Convert a BetSlip bet to the format used in the bets page
  */
 export function convertBetSlipToBetv2(bet: IBetSlipBet, quantity: number): IBetv2 {
+  // Calculate potential profit correctly using multiplication
+  const stake = quantity * TOTAL_BET_AMOUNT;
+  const potential = Math.round(stake * bet.odds * 100) / 100;
+  
   return {
     title: bet.match,
     bet: `${bet.match} - ${bet.chosen}`,
     competition: bet.match.split(" ")[0], // Use first part of match as competition
     date: new Date(),
-    stake: quantity * TOTAL_BET_AMOUNT,
+    stake: stake,
     odds: bet.odds,
-    potential: Math.round(quantity * TOTAL_BET_AMOUNT * bet.odds * 100) / 100,
+    potential: potential,
     kind: MenuState.OPEN,
     eventId: bet.id
   };
@@ -104,15 +108,33 @@ export function getSettledBets(): IBetv2[] {
  */
 export function saveNewBet(betSlipBets: IBetSlipBet[], quantity: number): void {
   try {
-    // Convert BetSlip bets to IBetv2 format
-    const newBets = betSlipBets.map(bet => convertBetSlipToBetv2(bet, quantity / betSlipBets.length));
+    // For parlay bets (multiple bets), we need to handle them differently
+    // than individual bets. For parlays, the total stake is divided among all bets,
+    // but the potential is calculated by multiplying all odds together.
     
-    // Get existing bets and add new ones
-    const existingBets = getPlacedBets();
-    const updatedBets = [...existingBets, ...newBets];
-    
-    // Save updated bets
-    savePlacedBets(updatedBets);
+    if (betSlipBets.length > 1) {
+      // This is a parlay bet - create individual bets with the stake divided
+      // Each bet gets an equal portion of the total stake
+      const stakePerBet = quantity / betSlipBets.length;
+      const newBets = betSlipBets.map(bet => convertBetSlipToBetv2(bet, stakePerBet));
+      
+      // Get existing bets and add new ones
+      const existingBets = getPlacedBets();
+      const updatedBets = [...existingBets, ...newBets];
+      
+      // Save updated bets
+      savePlacedBets(updatedBets);
+    } else if (betSlipBets.length === 1) {
+      // Single bet - use the full quantity
+      const newBet = convertBetSlipToBetv2(betSlipBets[0], quantity);
+      
+      // Get existing bets and add new one
+      const existingBets = getPlacedBets();
+      const updatedBets = [...existingBets, newBet];
+      
+      // Save updated bets
+      savePlacedBets(updatedBets);
+    }
   } catch (error) {
     console.error("Failed to save new bet to local storage:", error);
   }
