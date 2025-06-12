@@ -32,7 +32,7 @@ function Bet(bet: IBetSlipBet) {
 
 export default function Betslip() {
   const [expand, setExpand] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(10);
+  const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const {
     bets: [bets, setBets],
