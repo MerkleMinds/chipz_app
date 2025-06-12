@@ -2,6 +2,7 @@
 
 import { FaChevronDown, FaChevronUp, FaSpinner } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import { saveNewBet } from "@/utils/localStorage";
 
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
@@ -59,6 +60,9 @@ export default function Betslip() {
     }
 
     if (!error) {
+      // Save bets to local storage before clearing them
+      saveNewBet(bets, quantity);
+      
       setBets([]);
       setShow(false);
       setExpand(false);
@@ -70,7 +74,7 @@ export default function Betslip() {
     }
     setPlacedBet(false);
     setIsPlacingBet(false);
-  }, [error, setBets, setShow, success, getBalance, address, placedBet]);
+  }, [error, setBets, setShow, success, getBalance, address, placedBet, bets, quantity]);
 
   const handleClose = () => {
     setExpand(false);

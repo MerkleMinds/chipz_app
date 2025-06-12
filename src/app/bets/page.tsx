@@ -3,8 +3,9 @@
 import Betv2, { type IBetv2, hashBet } from "@/components/bets/Betv2";
 import Menu, { MenuState } from "@/components/bets/Menu";
 import { getPastEvents } from "@/utils/data/dataService";
+import { getPlacedBets, getSettledBets } from "@/utils/localStorage";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 const bets: IBetv2[] = [
   {
@@ -120,11 +121,33 @@ const bets: IBetv2[] = [
 
 export default function Page() {
   const [state, setState] = useState(MenuState.OPEN);
+  const [openBets, setOpenBets] = useState<IBetv2[]>([]);
+  const [localSettledBets, setLocalSettledBets] = useState<IBetv2[]>([]);
+  
+  // Load bets from local storage on client-side
+  useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
+    
+    // Load open bets
+    const loadedOpenBets = getPlacedBets();
+    setOpenBets(loadedOpenBets);
+    
+    // Load settled bets
+    const loadedSettledBets = getSettledBets();
+    setLocalSettledBets(loadedSettledBets);
+  }, []);
   
   // Convert past events to bet format when showing settled tab
   const settledBets = useMemo(() => {
     if (state !== MenuState.SETTLED) return [];
     
+    // Use local settled bets instead of generating from past events
+    if (localSettledBets.length > 0) {
+      return localSettledBets;
+    }
+    
+    // Fallback to generating from past events if no local settled bets
     const pastEvents = getPastEvents();
     
     return pastEvents.map(event => {
@@ -155,7 +178,7 @@ export default function Page() {
       
       return bet;
     });
-  }, [state]);
+  }, [state, localSettledBets]);
 
   return (
     <div className="mb-16">
@@ -164,14 +187,24 @@ export default function Page() {
         <div className="max-w-md mx-auto">
           <div className="flex flex-col items-center gap-5 py-5">
             {state === MenuState.OPEN ? (
-              bets
-                .filter((bet) => bet.kind === state)
-                .map((bet) => (
+              // Show local storage bets first, then fallback to hardcoded bets
+              openBets.length > 0 ? (
+                openBets.map((bet) => (
                   <Betv2
                     key={bet.eventId || hashBet({ date: bet.date, title: bet.title })}
                     {...bet}
                   />
                 ))
+              ) : (
+                bets
+                  .filter((bet) => bet.kind === state)
+                  .map((bet) => (
+                    <Betv2
+                      key={bet.eventId || hashBet({ date: bet.date, title: bet.title })}
+                      {...bet}
+                    />
+                  ))
+              )
             ) : (
               settledBets.length > 0 ? (
                 settledBets.map((bet: IBetv2) => (
