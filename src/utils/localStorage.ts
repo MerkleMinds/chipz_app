@@ -129,7 +129,7 @@ export function saveNewBet(betSlipBets: IBetSlipBet[], quantity: number): void {
     if (betSlipBets.length > 1) {
       // This is a parlay bet - create individual bets with the stake divided
       // Each bet gets an equal portion of the total stake
-      const stakePerBet = quantity / betSlipBets.length;
+      const stakePerBet = Number(formatBetAmount(quantity / betSlipBets.length));
       const newBets = betSlipBets.map(bet => convertBetSlipToBetv2(bet, stakePerBet));
       
       // Get existing bets and add new ones
