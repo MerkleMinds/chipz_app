@@ -1,21 +1,25 @@
 import { IBetv2 } from "@/components/bets/Betv2";
 import { MenuState } from "@/components/bets/Menu";
 import { IBetSlipBet } from "@/components/BetSlip";
-import { TOTAL_BET_AMOUNT } from "@/config/betting";
+import { TOTAL_BET_AMOUNT, formatBetAmount } from "@/config/betting";
 
 // Keys for storing different types of bets
 const PLACED_BETS_KEY = "chipz-placed-bets";
 const SETTLED_BETS_KEY = "chipz-settled-bets";
 
 // Default settled bet for design purposes
+// Using configuration values instead of hardcoded numbers
+const DEFAULT_BET_QUANTITY = 0.5; // 50% of total bet amount
+const DEFAULT_BET_ODDS = 3.2;  // This could be moved to betting config if needed
+
 const DEFAULT_SETTLED_BET: IBetv2 = {
   title: "EuroCup Qualifiers",
   bet: "France vs. Germany - Draw",
   competition: "EuroCup",
   date: new Date("2023-09-10"),
-  stake: 50,
-  odds: 3.2,
-  potential: 160,
+  stake: Number(formatBetAmount(DEFAULT_BET_QUANTITY * TOTAL_BET_AMOUNT)),
+  odds: DEFAULT_BET_ODDS,
+  potential: Number(formatBetAmount(DEFAULT_BET_QUANTITY * TOTAL_BET_AMOUNT * DEFAULT_BET_ODDS)),
   kind: MenuState.SETTLED,
   result: "win",
   eventId: "ev-002"
@@ -25,20 +29,30 @@ const DEFAULT_SETTLED_BET: IBetv2 = {
  * Convert a BetSlip bet to the format used in the bets page
  */
 export function convertBetSlipToBetv2(bet: IBetSlipBet, quantity: number): IBetv2 {
-  // Calculate potential profit correctly using multiplication
+  // Calculate stake based on quantity and configured bet amount
   const stake = quantity * TOTAL_BET_AMOUNT;
-  const potential = Math.round(stake * bet.odds * 100) / 100;
+  
+  // Calculate potential profit correctly using multiplication
+  // Use the same formatting as defined in the betting config
+  const potential = Number(formatBetAmount(stake * bet.odds));
+  
+  // Ensure the event ID is properly formatted for navigation
+  let eventId = bet.id;
+  if (!eventId.startsWith('ev-')) {
+    // If the ID doesn't have the proper format, prefix it with 'ev-'
+    eventId = `ev-${eventId}`;
+  }
   
   return {
     title: bet.match,
     bet: `${bet.match} - ${bet.chosen}`,
     competition: bet.match.split(" ")[0], // Use first part of match as competition
     date: new Date(),
-    stake: stake,
+    stake: Number(formatBetAmount(stake)), // Use betting config formatting
     odds: bet.odds,
     potential: potential,
     kind: MenuState.OPEN,
-    eventId: bet.id
+    eventId: eventId
   };
 }
 
