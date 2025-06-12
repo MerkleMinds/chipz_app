@@ -7,14 +7,13 @@ import {
   http,
   parseUnits,
 } from "viem";
-import { celo, celoAlfajores } from "viem/chains";
 import hackathonABI from "@/contracts/abi.json";
 import { getNetworkConfig } from "@/utils/networkConfig";
 
 type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN" | "USDC";
 
 // Use token addresses based on network
-const getTokenChain = (token: AllowedTokens, isMiniPay: boolean) => {
+const getTokenChain = (_token: AllowedTokens, isMiniPay: boolean) => {
   // Always use the network config function to determine the correct chain
   return getNetworkConfig(isMiniPay);
 };

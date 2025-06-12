@@ -8,6 +8,8 @@ import MultiOptionBet from "@/components/components/MultiOptionBet";
 import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart";
 import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
 import { Event as EventType } from "@/utils/data/types";
+import { useAppContext } from "@/components/Context";
+import { hashBet } from "@/components/bets/Betv2";
 
 // Extended type to handle past event properties
 interface ResolvedEvent extends EventType {
@@ -40,6 +42,30 @@ interface BuyButtonsProps {
 }
 
 const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
+  // Get context for managing bets
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
+  
+  // Handle bet placement
+  const handleBet = (betType: "yes" | "no", optionTitle?: string) => {
+    const title = optionTitle || event.title;
+    
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: title,
+      }),
+      chosen: betType === "yes" ? "Yes" : "No",
+      bet: betType,
+      match: title,
+      odds: optionTitle ? 
+        event.options?.find(opt => opt.title === optionTitle)?.probability || event.probability :
+        event.probability,
+    };
+
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+  };
+  
   // For simple yes/no bets
   if (!event.options || event.options.length === 0) {
     const yesPrice = formatBetAmount(event.probability * BET_SCALE_FACTOR);
@@ -49,10 +75,16 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
       <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
         <div className="w-full max-w-sm mx-auto">
           <div className="flex gap-2">
-            <button className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10">
+            <button 
+              onClick={() => handleBet("yes")}
+              className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10"
+            >
               Buy Yes {yesPrice}$
             </button>
-            <button className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10">
+            <button 
+              onClick={() => handleBet("no")}
+              className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10"
+            >
               Buy No {noPrice}$
             </button>
           </div>
@@ -76,12 +108,14 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
       <div className="w-full max-w-sm mx-auto">
         <div className="flex gap-2">
           <button 
+            onClick={() => handleBet("yes", selectedOption.title)}
             className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10"
             title={`Buy ${selectedOption.title} ${optionPrice}$`}
           >
             Buy <span className="inline-block align-bottom max-w-[85px] overflow-hidden text-ellipsis whitespace-nowrap">{selectedOption.title}</span> {optionPrice}$
           </button>
           <button 
+            onClick={() => handleBet("no", selectedOption.title)}
             className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10"
             title={`Sell ${selectedOption.title} ${oppositePrice}$`}
           >
