@@ -1,6 +1,7 @@
 import { IBetv2 } from "@/components/bets/Betv2";
 import { MenuState } from "@/components/bets/Menu";
 import { IBetSlipBet } from "@/components/BetSlip";
+import { TOTAL_BET_AMOUNT } from "@/config/betting";
 
 // Keys for storing different types of bets
 const PLACED_BETS_KEY = "chipz-placed-bets";
@@ -29,9 +30,9 @@ export function convertBetSlipToBetv2(bet: IBetSlipBet, quantity: number): IBetv
     bet: `${bet.match} - ${bet.chosen}`,
     competition: bet.match.split(" ")[0], // Use first part of match as competition
     date: new Date(),
-    stake: quantity,
+    stake: quantity * TOTAL_BET_AMOUNT,
     odds: bet.odds,
-    potential: Math.round(quantity * bet.odds * 10) / 10,
+    potential: Math.round(quantity * TOTAL_BET_AMOUNT * bet.odds * 100) / 100,
     kind: MenuState.OPEN,
     eventId: bet.id
   };

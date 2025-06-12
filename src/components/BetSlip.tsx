@@ -3,6 +3,7 @@
 import { FaChevronDown, FaChevronUp, FaSpinner } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { saveNewBet } from "@/utils/localStorage";
+import { TOTAL_BET_AMOUNT, formatBetAmount } from "@/config/betting";
 
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
@@ -80,7 +81,7 @@ export default function Betslip() {
     setExpand(false);
     setBets([]);
     setShow(false);
-    setQuantity(10);
+    setQuantity(1);
   };
 
   useEffect(() => {
@@ -155,9 +156,9 @@ export default function Betslip() {
                   <div className="flex flex-row justify-between items-center">
                     <p className="text-white">Potential Profit</p>
                     <p className="text-bb-success font-bold">
-                      {(
-                        quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
-                      ).toFixed(1)} $
+                      {formatBetAmount(
+                        quantity * TOTAL_BET_AMOUNT * bets.reduce((acc, bet) => acc + bet.odds, 0)
+                      )} $
                     </p>
                   </div>
                   {errorMessage && (
