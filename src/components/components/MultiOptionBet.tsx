@@ -49,16 +49,15 @@ const MultiOptionBet: React.FC<MultiOptionBetProps> = ({ event, selectedOptionId
     <div className="flex flex-col gap-4">
       {/* Option Selector */}
       <div className="flex flex-col">
-        <h3 className="text-white text-sm mb-2">Select an option:</h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 gap-2 w-full">
           {event.options.map((option) => (
             <button
               key={option.id}
               onClick={() => handleOptionChange(option)}
-              className={`px-3 py-2 rounded-lg text-sm ${
+              className={`px-3 py-2 rounded-lg text-sm w-full ${
                 selectedOption?.id === option.id
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  ? "bg-bb-bg-card text-white border border-white"
+                  : "bg-bb-bg-app text-gray-300 hover:bg-bb-bg-card-hover"
               }`}
             >
               {option.title} ({option.probability}%)
