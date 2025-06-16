@@ -7,8 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
-  Tooltip,
-  TooltipProps,
   Legend,
 } from "recharts";
 import { 
@@ -30,8 +28,6 @@ interface MultiOptionLineChartProps {
     title: string;
     color: string;
   }[];
-  showTooltip?: boolean;
-  customTooltip?: React.FC<TooltipProps<any, any>>;
   className?: string;
   height?: string;
   minHeight?: string;
@@ -56,29 +52,11 @@ const getLineColor = (index: number): string => {
 const MultiOptionLineChart: React.FC<MultiOptionLineChartProps> = ({
   data,
   options,
-  showTooltip = false,
-  customTooltip,
   className = "",
   height = CHART_SIZES.height,
   minHeight,
 }) => {
   const containerClass = `w-full ${height} flex items-center justify-center m-0 ${minHeight ? minHeight : ""}`;
-
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<any, any>) => {
-    if (active && payload && payload.length > 0) {
-      return (
-        <div className="bg-gray-800 p-2 border border-gray-700 rounded shadow-lg">
-          <p className="text-gray-300 text-xs">{new Date(label).toLocaleDateString()}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={`tooltip-entry-${entry.name}-${index}`} style={{ color: entry.color }} className="text-sm">
-              {entry.name}: {entry.value}%
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className={`${containerClass} ${className}`}>
@@ -101,9 +79,6 @@ const MultiOptionLineChart: React.FC<MultiOptionLineChartProps> = ({
               stroke={CHART_COLORS.gridStroke}
               fill={CHART_COLORS.gridFill}
             />
-            {showTooltip && (
-              <Tooltip content={customTooltip || CustomTooltip} cursor={false} />
-            )}
             <Legend 
               verticalAlign="bottom" 
               height={36} 

@@ -8,8 +8,6 @@ import {
   XAxis,
   CartesianGrid,
   ResponsiveContainer,
-  Tooltip,
-  TooltipProps,
 } from "recharts";
 import { format, parseISO } from "date-fns";
 import { 
@@ -27,8 +25,6 @@ import { ChartDataPoint, debugDataPoints } from "./utils/chartUtils";
 interface ProbabilityLineChartProps {
   data: ChartDataPoint[];
   isPositive?: boolean;
-  showTooltip?: boolean;
-  customTooltip?: React.FC<TooltipProps<any, any>>;
   className?: string;
   height?: string;
   minHeight?: string;
@@ -46,8 +42,6 @@ interface ProbabilityLineChartProps {
 const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
   data,
   isPositive = true,
-  showTooltip = false,
-  customTooltip,
   className = "",
   height = CHART_SIZES.height,
   minHeight,
@@ -262,9 +256,7 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
               });
             }}
           />
-          {showTooltip && customTooltip && (
-            <Tooltip content={customTooltip} cursor={false} />
-          )}
+
           <Line
             type="monotone"
             dataKey="probability"

@@ -1,6 +1,5 @@
 "use client";
 
-import { TooltipProps } from "recharts";
 import { TIME_RANGES, TimeRangeOption, CHART_SIZES } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
@@ -17,21 +16,6 @@ export type MarketTrendEventPageProps = {
   market: MarketTrendData;
 };
 
-const CustomTooltip = ({ active, payload, coordinate }: TooltipProps<any, any>) => {
-  if (active && payload && payload.length && coordinate) {
-    const x = coordinate.x;
-    const y = coordinate.y ? coordinate.y - 10 : 0;
-
-    return (
-      <p className="absolute" style={{ left: x, top: y }}>
-        {`${payload[0].value}%`}
-      </p>
-    );
-  }
-
-  return null;
-};
-
 export default function MarketTrendEventPage({ market }: MarketTrendEventPageProps) {
   const memoizedMarket = useMemo(() => market, [market]);
   
@@ -42,7 +26,6 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
 
   // Handle time range change
   const handleTimeRangeChange = (newRange: TimeRangeOption) => {
-    console.log('MarketTrendEventPage - Changing time range to:', newRange);
     updateTimeRange(newRange);
   };
 
@@ -53,8 +36,6 @@ export default function MarketTrendEventPage({ market }: MarketTrendEventPagePro
       <ProbabilityLineChart 
         data={filteredData} 
         isPositive={isPositive}
-        showTooltip={true}
-        customTooltip={CustomTooltip}
         minHeight={CHART_SIZES.minHeight}
         timeRange={timeRange}
         loading={isLoading}

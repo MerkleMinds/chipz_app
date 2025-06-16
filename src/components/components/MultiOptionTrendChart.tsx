@@ -98,7 +98,6 @@ const MultiOptionTrendChart: React.FC<MultiOptionTrendChartProps> = ({ event }) 
       <MultiOptionLineChart 
         data={filteredData}
         options={optionsForChart}
-        showTooltip={true}
         minHeight={CHART_SIZES.minHeight}
       />
 

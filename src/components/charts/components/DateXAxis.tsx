@@ -30,8 +30,6 @@ const DateXAxis: React.FC<DateXAxisProps> = ({
   // Use a number for fixed interval, or 'preserveStartEnd' to show first and last points
   const interval = dataLength <= tickCount ? 0 : 'preserveStartEnd';
   
-  // Log for debugging
-  console.log('DateXAxis rendering with:', { timeRange, dataLength, tickCount, interval });
 
   return (
     <XAxis
@@ -45,7 +43,6 @@ const DateXAxis: React.FC<DateXAxisProps> = ({
       interval={interval}
       tickFormatter={(value) => {
         const formatted = formatDateByTimeRange(value, timeRange);
-        console.log('Formatting date:', value, 'to:', formatted);
         return formatted;
       }}
       height={30} // Ensure there's enough height for the axis

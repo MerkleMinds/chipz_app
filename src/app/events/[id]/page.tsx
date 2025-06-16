@@ -5,7 +5,7 @@ import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
 import MultiOptionBet from "@/components/components/MultiOptionBet";
 import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart";
-import { getEventById, getPastEventById, getOrderBookForEvent } from "@/utils/data/dataService";
+import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
 import { Event as EventType } from "@/utils/data/types";
 
 // Extended type to handle past event properties
@@ -93,12 +93,7 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
 };
 
 const SimpleYesNoBet = ({ event }: { event: EventType }) => {
-    const marketData = {
-      id: event.id,
-      probabilityChange: (event as ResolvedEvent).probabilityChange || "+0.0%",
-      history: (event as ResolvedEvent).history || []
-    };
-
+  const marketData = getMarketTrend(event.id);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col">

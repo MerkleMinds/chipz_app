@@ -24,8 +24,6 @@ export const StakeControl = ({
     }
   };
 
-  console.log(amount);
-
   return (
     <div className="mt-4 text-gray-400">
       <div className="flex flex-1 flex-col gap-y-4">
