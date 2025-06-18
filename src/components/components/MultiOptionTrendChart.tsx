@@ -17,10 +17,10 @@ const MultiOptionTrendChart: React.FC<MultiOptionTrendChartProps> = ({ event }) 
   // Generate a color based on index
   const getLineColor = (index: number): string => {
     const colors = [
-      "#23C45E", // Green
-      "#3B82F6", // Blue
-      "#EF4444", // Red
-      "#F59E0B", // Amber
+      "#5BD387", // Green (lighter)
+      "#6DA0F8", // Blue (lighter)
+      "#F37272", // Red (lighter)
+      "#F9B649", // Orange (lighter)
       "#8B5CF6", // Purple
       "#EC4899", // Pink
       "#10B981", // Emerald
@@ -98,7 +98,6 @@ const MultiOptionTrendChart: React.FC<MultiOptionTrendChartProps> = ({ event }) 
       <MultiOptionLineChart 
         data={filteredData}
         options={optionsForChart}
-        showTooltip={true}
         minHeight={CHART_SIZES.minHeight}
       />
 

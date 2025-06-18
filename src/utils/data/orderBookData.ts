@@ -1,5 +1,6 @@
 // OrderBook data types and dummy data for the application
 import { OrderBook } from "@/components/components/OrderBook";
+import { getOrderBookForEvent } from "./dataService";
 
 // Centralized dummy OrderBook data that can be used across the application
 export const dummyOrderBookData: OrderBook = {
@@ -33,13 +34,10 @@ export const dummyOrderBookData: OrderBook = {
   }
 };
 
-// Function to get OrderBook data for a specific event/market
 export function getOrderBookData(eventId?: string): OrderBook {
-  // In a real application, this would fetch data from an API based on the eventId
-  // For now, we'll just return the dummy data, but log the eventId for future implementation
+
   if (eventId) {
-    console.log(`Getting OrderBook data for event: ${eventId}`);
-    // Future implementation would fetch specific data based on eventId
+    return getOrderBookForEvent(eventId);
   }
   return dummyOrderBookData;
 }

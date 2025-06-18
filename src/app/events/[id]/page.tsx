@@ -93,6 +93,7 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
 };
 
 const SimpleYesNoBet = ({ event }: { event: EventType }) => {
+  const marketData = getMarketTrend(event.id);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col">
@@ -103,7 +104,7 @@ const SimpleYesNoBet = ({ event }: { event: EventType }) => {
       </div>
       <div className="w-full min-h-[250px]">
         <MarketTrendEventPage 
-          market={getMarketTrend(event.id)}
+          market={marketData}
         />
       </div>
       <OrderBookPart orderBookData={getOrderBookForEvent(event.id)} />
@@ -112,8 +113,7 @@ const SimpleYesNoBet = ({ event }: { event: EventType }) => {
 };
 
 const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => {
-  const isMultiOptionBet = data.options && data.options.length > 0;
-  
+  const hasMultipleOptions = Array.isArray(data.options) && data.options.length > 0;
   return (
     <div className="flex flex-col mx-3 mt-2 gap-3 text-white">
       <div className="flex flex-col items-start gap-2">
@@ -128,7 +128,7 @@ const MainPage = ({ data, selectedOptionId, onOptionChange }: MainPageProps) => 
       </div>
       
       <div className="flex flex-col w-full gap-6">
-        {isMultiOptionBet ? (
+        {hasMultipleOptions ? (
           <>
             <MultiOptionTrendChart event={data} />
             
@@ -178,25 +178,9 @@ export default function Page({ params }: PageProps) {
     setSelectedOptionId(optionId);
   };
 
-  // Convert event to the format expected by MarketTrendEventPage
-  const marketData = {
-    id: event.id,
-    probabilityChange: (event as ResolvedEvent).probabilityChange || "+0.0%",
-    history: (event as ResolvedEvent).history || []
-  };
-
   return (
     <main className="flex flex-col gap-5 pb-20">
-      {/* Main content */}
       <MainPage data={event} selectedOptionId={selectedOptionId} onOptionChange={handleOptionChange} />
-      
-      {/* Show the market trend data if available and the event has options */}
-      {event?.options && event.options.length > 0 && event.historyData && event.historyData.length > 0 && (
-        <div className="px-4">
-          <MarketTrendEventPage market={marketData} />
-        </div>
-      )}
-      
       <Partners />
       <Footer />
       <BuyButtons event={event} selectedOptionId={selectedOptionId} />
