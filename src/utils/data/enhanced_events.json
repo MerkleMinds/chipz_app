@@ -1542,6 +1542,316 @@
     ]
   },
   {
+    "id": "f1",
+    "title": "S&P 500 Year-End 2025",
+    "slug": "sp500-year-end-2025",
+    "conditional": "no",
+    "description": "This market resolves based on the closing value of the S&P 500 index on December 31, 2025.",
+    "category": "finance",
+    "subcategory": "stock-market",
+    "tags": ["stocks", "index", "S&P 500", "market"],
+    "section": "finance",
+    "probability": 1,
+    "totalVolume": "$22.5M",
+    "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-06-10T09:30:00Z",
+    "updatedAt": "2025-06-01T14:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["e3", "e4"],
+    "historyData": [
+      { "date": "2024-06-10T09:30:00Z", "probability": 1 },
+      { "date": "2024-07-10T10:45:00Z", "probability": 1 },
+      { "date": "2024-08-10T11:00:00Z", "probability": 1 },
+      { "date": "2024-09-10T12:15:00Z", "probability": 1 },
+      { "date": "2024-10-10T13:30:00Z", "probability": 1 },
+      { "date": "2024-11-10T14:45:00Z", "probability": 1 },
+      { "date": "2024-12-10T16:00:00Z", "probability": 1 },
+      { "date": "2025-01-10T10:15:00Z", "probability": 1 },
+      { "date": "2025-02-10T11:30:00Z", "probability": 1 },
+      { "date": "2025-03-10T12:45:00Z", "probability": 1 },
+      { "date": "2025-04-10T14:00:00Z", "probability": 1 },
+      { "date": "2025-05-10T15:15:00Z", "probability": 1 },
+      { "date": "2025-06-01T14:45:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "f1-opt1",
+        "title": "Below 5,000",
+        "probability": 15,
+        "description": "S&P 500 will close below 5,000 on December 31, 2025"
+      },
+      {
+        "id": "f1-opt2",
+        "title": "5,000 to 5,500",
+        "probability": 25,
+        "description": "S&P 500 will close between 5,000 and 5,500 on December 31, 2025"
+      },
+      {
+        "id": "f1-opt3",
+        "title": "5,500 to 6,000",
+        "probability": 35,
+        "description": "S&P 500 will close between 5,500 and 6,000 on December 31, 2025"
+      },
+      {
+        "id": "f1-opt4",
+        "title": "Above 6,000",
+        "probability": 25,
+        "description": "S&P 500 will close above 6,000 on December 31, 2025"
+      }
+    ]
+  },
+  {
+    "id": "f2",
+    "title": "NASDAQ Year-End 2025",
+    "slug": "nasdaq-year-end-2025",
+    "conditional": "no",
+    "description": "This market resolves based on the closing value of the NASDAQ Composite index on December 31, 2025.",
+    "category": "finance",
+    "subcategory": "stock-market",
+    "tags": ["stocks", "index", "NASDAQ", "tech stocks"],
+    "section": "finance",
+    "probability": 1,
+    "totalVolume": "$18.7M",
+    "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-06-15T10:30:00Z",
+    "updatedAt": "2025-06-05T15:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["f1", "e3"],
+    "historyData": [
+      { "date": "2024-06-15T10:30:00Z", "probability": 1 },
+      { "date": "2024-07-15T11:45:00Z", "probability": 1 },
+      { "date": "2024-08-15T12:00:00Z", "probability": 1 },
+      { "date": "2024-09-15T13:15:00Z", "probability": 1 },
+      { "date": "2024-10-15T14:30:00Z", "probability": 1 },
+      { "date": "2024-11-15T15:45:00Z", "probability": 1 },
+      { "date": "2024-12-15T17:00:00Z", "probability": 1 },
+      { "date": "2025-01-15T11:15:00Z", "probability": 1 },
+      { "date": "2025-02-15T12:30:00Z", "probability": 1 },
+      { "date": "2025-03-15T13:45:00Z", "probability": 1 },
+      { "date": "2025-04-15T15:00:00Z", "probability": 1 },
+      { "date": "2025-05-15T16:15:00Z", "probability": 1 },
+      { "date": "2025-06-05T15:45:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "f2-opt1",
+        "title": "Below 15,000",
+        "probability": 20,
+        "description": "NASDAQ Composite will close below 15,000 on December 31, 2025"
+      },
+      {
+        "id": "f2-opt2",
+        "title": "15,000 to 17,500",
+        "probability": 30,
+        "description": "NASDAQ Composite will close between 15,000 and 17,500 on December 31, 2025"
+      },
+      {
+        "id": "f2-opt3",
+        "title": "17,500 to 20,000",
+        "probability": 35,
+        "description": "NASDAQ Composite will close between 17,500 and 20,000 on December 31, 2025"
+      },
+      {
+        "id": "f2-opt4",
+        "title": "Above 20,000",
+        "probability": 15,
+        "description": "NASDAQ Composite will close above 20,000 on December 31, 2025"
+      }
+    ]
+  },
+  {
+    "id": "f3",
+    "title": "Tesla Stock Price End of 2025",
+    "slug": "tesla-stock-price-end-2025",
+    "conditional": "no",
+    "description": "This market resolves based on the closing price of Tesla (TSLA) stock on December 31, 2025.",
+    "category": "finance",
+    "subcategory": "stocks",
+    "tags": ["stocks", "Tesla", "TSLA", "tech stocks", "EV"],
+    "section": "finance",
+    "probability": 1,
+    "totalVolume": "$14.3M",
+    "imageUrl": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-06-20T11:30:00Z",
+    "updatedAt": "2025-06-10T16:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["f1", "f2"],
+    "historyData": [
+      { "date": "2024-06-20T11:30:00Z", "probability": 1 },
+      { "date": "2024-07-20T12:45:00Z", "probability": 1 },
+      { "date": "2024-08-20T13:00:00Z", "probability": 1 },
+      { "date": "2024-09-20T14:15:00Z", "probability": 1 },
+      { "date": "2024-10-20T15:30:00Z", "probability": 1 },
+      { "date": "2024-11-20T16:45:00Z", "probability": 1 },
+      { "date": "2024-12-20T18:00:00Z", "probability": 1 },
+      { "date": "2025-01-20T12:15:00Z", "probability": 1 },
+      { "date": "2025-02-20T13:30:00Z", "probability": 1 },
+      { "date": "2025-03-20T14:45:00Z", "probability": 1 },
+      { "date": "2025-04-20T16:00:00Z", "probability": 1 },
+      { "date": "2025-05-20T17:15:00Z", "probability": 1 },
+      { "date": "2025-06-10T16:45:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "f3-opt1",
+        "title": "Below $200",
+        "probability": 25,
+        "description": "Tesla stock will close below $200 on December 31, 2025"
+      },
+      {
+        "id": "f3-opt2",
+        "title": "$200 to $300",
+        "probability": 35,
+        "description": "Tesla stock will close between $200 and $300 on December 31, 2025"
+      },
+      {
+        "id": "f3-opt3",
+        "title": "$300 to $400",
+        "probability": 25,
+        "description": "Tesla stock will close between $300 and $400 on December 31, 2025"
+      },
+      {
+        "id": "f3-opt4",
+        "title": "Above $400",
+        "probability": 15,
+        "description": "Tesla stock will close above $400 on December 31, 2025"
+      }
+    ]
+  },
+  {
+    "id": "f4",
+    "title": "Apple Stock Price End of 2025",
+    "slug": "apple-stock-price-end-2025",
+    "conditional": "no",
+    "description": "This market resolves based on the closing price of Apple (AAPL) stock on December 31, 2025.",
+    "category": "finance",
+    "subcategory": "stocks",
+    "tags": ["stocks", "Apple", "AAPL", "tech stocks"],
+    "section": "finance",
+    "probability": 1,
+    "totalVolume": "$16.8M",
+    "imageUrl": "https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-06-25T12:30:00Z",
+    "updatedAt": "2025-06-15T17:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["f1", "f2", "f3"],
+    "historyData": [
+      { "date": "2024-06-25T12:30:00Z", "probability": 1 },
+      { "date": "2024-07-25T13:45:00Z", "probability": 1 },
+      { "date": "2024-08-25T14:00:00Z", "probability": 1 },
+      { "date": "2024-09-25T15:15:00Z", "probability": 1 },
+      { "date": "2024-10-25T16:30:00Z", "probability": 1 },
+      { "date": "2024-11-25T17:45:00Z", "probability": 1 },
+      { "date": "2024-12-25T19:00:00Z", "probability": 1 },
+      { "date": "2025-01-25T13:15:00Z", "probability": 1 },
+      { "date": "2025-02-25T14:30:00Z", "probability": 1 },
+      { "date": "2025-03-25T15:45:00Z", "probability": 1 },
+      { "date": "2025-04-25T17:00:00Z", "probability": 1 },
+      { "date": "2025-05-25T18:15:00Z", "probability": 1 },
+      { "date": "2025-06-15T17:45:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "f4-opt1",
+        "title": "Below $180",
+        "probability": 20,
+        "description": "Apple stock will close below $180 on December 31, 2025"
+      },
+      {
+        "id": "f4-opt2",
+        "title": "$180 to $220",
+        "probability": 30,
+        "description": "Apple stock will close between $180 and $220 on December 31, 2025"
+      },
+      {
+        "id": "f4-opt3",
+        "title": "$220 to $260",
+        "probability": 35,
+        "description": "Apple stock will close between $220 and $260 on December 31, 2025"
+      },
+      {
+        "id": "f4-opt4",
+        "title": "Above $260",
+        "probability": 15,
+        "description": "Apple stock will close above $260 on December 31, 2025"
+      }
+    ]
+  },
+  {
+    "id": "f5",
+    "title": "Gold Price End of 2025",
+    "slug": "gold-price-end-2025",
+    "conditional": "no",
+    "description": "This market resolves based on the price of gold per ounce in USD on December 31, 2025.",
+    "category": "finance",
+    "subcategory": "commodities",
+    "tags": ["gold", "commodities", "precious metals", "inflation hedge"],
+    "section": "finance",
+    "probability": 1,
+    "totalVolume": "$12.5M",
+    "imageUrl": "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": false,
+    "isTrending": true,
+    "createdAt": "2024-06-30T13:30:00Z",
+    "updatedAt": "2025-06-20T18:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["f1", "e4"],
+    "historyData": [
+      { "date": "2024-06-30T13:30:00Z", "probability": 1 },
+      { "date": "2024-07-30T14:45:00Z", "probability": 1 },
+      { "date": "2024-08-30T15:00:00Z", "probability": 1 },
+      { "date": "2024-09-30T16:15:00Z", "probability": 1 },
+      { "date": "2024-10-30T17:30:00Z", "probability": 1 },
+      { "date": "2024-11-30T18:45:00Z", "probability": 1 },
+      { "date": "2024-12-30T20:00:00Z", "probability": 1 },
+      { "date": "2025-01-30T14:15:00Z", "probability": 1 },
+      { "date": "2025-02-28T15:30:00Z", "probability": 1 },
+      { "date": "2025-03-30T16:45:00Z", "probability": 1 },
+      { "date": "2025-04-30T18:00:00Z", "probability": 1 },
+      { "date": "2025-05-30T19:15:00Z", "probability": 1 },
+      { "date": "2025-06-20T18:45:00Z", "probability": 1 }
+    ],
+    "options": [
+      {
+        "id": "f5-opt1",
+        "title": "Below $2,000",
+        "probability": 15,
+        "description": "Gold will be priced below $2,000 per ounce on December 31, 2025"
+      },
+      {
+        "id": "f5-opt2",
+        "title": "$2,000 to $2,500",
+        "probability": 30,
+        "description": "Gold will be priced between $2,000 and $2,500 per ounce on December 31, 2025"
+      },
+      {
+        "id": "f5-opt3",
+        "title": "$2,500 to $3,000",
+        "probability": 40,
+        "description": "Gold will be priced between $2,500 and $3,000 per ounce on December 31, 2025"
+      },
+      {
+        "id": "f5-opt4",
+        "title": "Above $3,000",
+        "probability": 15,
+        "description": "Gold will be priced above $3,000 per ounce on December 31, 2025"
+      }
+    ]
+  },
+  {
     "id": "c1",
     "title": "Bitcoin price above $100k in 2024?",
     "slug": "bitcoin-price-above-100k-2024",
@@ -1801,6 +2111,64 @@
         "probability": 15,
         "description": "Liverpool wins the 2023-2024 UEFA Champions League"
       }
+    ]
+  },
+  {
+    "id": "f6",
+    "title": "Will the Fed raise interest rates in Q3 2025?",
+    "slug": "fed-raise-interest-rates-q3-2025",
+    "conditional": "Will the Federal Reserve raise interest rates at any meeting during Q3 2025?",
+    "description": "This market resolves to YES if the Federal Reserve announces an interest rate hike at any of its meetings in July, August, or September 2025.",
+    "category": "finance",
+    "subcategory": "monetary-policy",
+    "tags": ["fed", "interest rates", "monetary policy", "inflation"],
+    "section": "finance",
+    "probability": 65,
+    "totalVolume": "$17.2M",
+    "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": true,
+    "isTrending": true,
+    "createdAt": "2025-05-15T10:30:00Z",
+    "updatedAt": "2025-06-12T16:45:00Z",
+    "closingDate": "2025-09-30T23:59:59Z",
+    "relatedEventIds": ["e4", "f1"],
+    "historyData": [
+      { "date": "2025-05-15T10:30:00Z", "probability": 60 },
+      { "date": "2025-05-20T12:45:00Z", "probability": 61 },
+      { "date": "2025-05-25T15:00:00Z", "probability": 62 },
+      { "date": "2025-05-30T17:15:00Z", "probability": 63 },
+      { "date": "2025-06-05T14:30:00Z", "probability": 64 },
+      { "date": "2025-06-12T16:45:00Z", "probability": 65 }
+    ]
+  },
+  {
+    "id": "f7",
+    "title": "Will Warren Buffett acquire a major tech company in 2025?",
+    "slug": "warren-buffett-acquire-tech-company-2025",
+    "conditional": "Will Warren Buffett's Berkshire Hathaway acquire a major tech company in 2025?",
+    "description": "This market resolves to YES if Berkshire Hathaway announces the acquisition of a technology company valued at over $10 billion at any point during 2025.",
+    "category": "finance",
+    "subcategory": "mergers-acquisitions",
+    "tags": ["warren buffett", "berkshire hathaway", "acquisitions", "tech stocks"],
+    "section": "finance",
+    "probability": 35,
+    "totalVolume": "$8.4M",
+    "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0",
+    "status": "active",
+    "isNew": true,
+    "isTrending": true,
+    "createdAt": "2025-05-20T11:30:00Z",
+    "updatedAt": "2025-06-14T15:45:00Z",
+    "closingDate": "2025-12-31T23:59:59Z",
+    "relatedEventIds": ["f3", "f4"],
+    "historyData": [
+      { "date": "2025-05-20T11:30:00Z", "probability": 30 },
+      { "date": "2025-05-25T13:45:00Z", "probability": 31 },
+      { "date": "2025-05-30T16:00:00Z", "probability": 32 },
+      { "date": "2025-06-05T18:15:00Z", "probability": 33 },
+      { "date": "2025-06-10T14:30:00Z", "probability": 34 },
+      { "date": "2025-06-14T15:45:00Z", "probability": 35 }
     ]
   },
   {
