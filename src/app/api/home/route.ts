@@ -34,6 +34,7 @@ export function GET(_request: NextRequest) {
             const sectionEvents = eventsBySection[section.id] || [];
             return {
                 title: section.name,
+                // icon is optional, so we can omit it in server components
                 items: {
                     // For events with options (multi-choice markets)
                     multiChoice: sectionEvents

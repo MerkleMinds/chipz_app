@@ -15,7 +15,7 @@ const HandleWhichComponent = ({ items }: { items: CategoryData['items'] }) => {
 };
 
 interface CompItemProps {
-    icon: JSX.Element;
+    icon?: JSX.Element;
     title: string;
     items: CategoryData['items'];
 }
@@ -25,7 +25,7 @@ const CompItem = ({ icon, title, items }: CompItemProps) => {
         <div className="flex flex-col mx-3 mt-2 gap-3 text-xs">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row gap-1 items-center">
-                    {icon}
+                    {icon && icon}
                     <h1 className="text-white font-bold font-just text-sm capitalize">
                         {title}
                     </h1>
