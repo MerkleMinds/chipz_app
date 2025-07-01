@@ -1,11 +1,9 @@
 "use client";
 
-// No need for direct icon imports as we're using the centralized getCategoryIcon
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
 import { ItemsRenderer } from "@/components/ItemsRenderer";
 import { CategoryData } from "@/utils/data/types";
-import { getCategoryIcon } from "@/utils/data/sections";
 
 export interface SectionData {
     categories: CategoryData[];
@@ -57,7 +55,7 @@ export default function SectionContent({ data }: { data: SectionData }) {
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}
-                    icon={getCategoryIcon(category.title, 'inline-block text-bb-accent', 20)}
+                    icon={category.icon}
                     title={category.title}
                     items={category.items}
                 />

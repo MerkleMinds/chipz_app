@@ -52,7 +52,7 @@ export default async function Page() {
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}
-                    icon={getCategoryIcon(category.title, 'inline-block text-bb-accent', 12)}
+                    icon={getCategoryIcon(category.title, 'inline-block text-bb-accent', 16)}
                     title={category.title}
                     items={category.items}
                 />

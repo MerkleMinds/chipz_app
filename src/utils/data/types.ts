@@ -136,6 +136,7 @@ export interface HomeData {
 export interface CategoryData {
   id?: string;
   title: string;
+  icon: JSX.Element;             // Category icon
   description?: string;          // Category description
   items: {
     trends?: MarketTrendData[];
