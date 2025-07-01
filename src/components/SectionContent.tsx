@@ -1,10 +1,11 @@
 "use client";
 
-import { FaLandmark, FaFootball, FaPiggyBank } from "react-icons/fa6";
+// No need for direct icon imports as we're using the centralized getCategoryIcon
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
 import { ItemsRenderer } from "@/components/ItemsRenderer";
 import { CategoryData } from "@/utils/data/types";
+import { getCategoryIcon } from "@/utils/data/sections";
 
 export interface SectionData {
     categories: CategoryData[];
@@ -38,18 +39,7 @@ const CompItem = ({ icon, title, items }: CompItemProps) => {
     );
 };
 
-export const getCategoryIcon = (title: string) => {
-    switch (title.toLowerCase()) {
-        case 'sports':
-            return <FaFootball className="text-bb-accent inline-block" />;
-        case 'economy':
-            return <FaPiggyBank className="text-bb-accent inline-block" />;
-        case 'politics':
-            return <FaLandmark className="text-bb-accent inline-block" />;
-        default:
-            return <FaLandmark className="text-bb-accent inline-block" />;
-    }
-};
+// Using centralized getCategoryIcon from sections.tsx
 
 export default function SectionContent({ data }: { data: SectionData }) {
     return (
@@ -67,7 +57,7 @@ export default function SectionContent({ data }: { data: SectionData }) {
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}
-                    icon={getCategoryIcon(category.title)}
+                    icon={getCategoryIcon(category.title, 'inline-block text-bb-accent', 20)}
                     title={category.title}
                     items={category.items}
                 />

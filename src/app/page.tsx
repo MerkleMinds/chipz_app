@@ -1,11 +1,11 @@
 import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
-import { FaLandmark, FaFootball, FaPiggyBank, FaAnglesRight } from "react-icons/fa6";
+import { FaAnglesRight } from "react-icons/fa6";
 // Import data service and types
 import { getHomeData } from "@/utils/data/dataService";
 import { CategoryData } from "@/utils/data/types";
 import Link from "next/link";
-import sections from "@/utils/data/sections";
+import sections, { getCategoryIcon } from "@/utils/data/sections";
 import { ItemsRenderer } from "@/components/ItemsRenderer";
 
 
@@ -44,24 +44,7 @@ const CompItem = ({ icon, title, items }: PageProps) => {
     );
 };
 
-const getCategoryIcon = (title: string) => {
-    switch (title.toLowerCase()) {
-        case 'sports':
-            return <FaFootball className="text-bb-accent inline-block" />;
-        case 'economy':
-            return <FaPiggyBank className="text-bb-accent inline-block" />;
-        case 'politics':
-            return <FaLandmark className="text-bb-accent inline-block" />;
-        default:
-            return <FaLandmark className="text-bb-accent inline-block" />;
-    }
-};
-
-
-
-// Page is now an async component
 export default async function Page() {
-    // Get data from the data service
     const data = getHomeData();
     
     return (
@@ -69,7 +52,7 @@ export default async function Page() {
             {data.categories.map((category, index) => (
                 <CompItem
                     key={index}
-                    icon={getCategoryIcon(category.title)}
+                    icon={getCategoryIcon(category.title, 'inline-block text-bb-accent', 12)}
                     title={category.title}
                     items={category.items}
                 />
