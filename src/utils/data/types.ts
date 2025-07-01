@@ -136,6 +136,7 @@ export interface HomeData {
 export interface CategoryData {
   id?: string;
   title: string;
+  icon?: JSX.Element;            // Category icon (optional for API routes)
   description?: string;          // Category description
   items: {
     trends?: MarketTrendData[];
@@ -152,6 +153,14 @@ export interface CategoryData {
   };
 }
 
+// Subcategory type
+export interface SubcategoryInfo {
+  id: string;                    // Unique identifier for the subcategory
+  name: string;                  // Display name
+  icon?: ReactElement;           // Optional icon reference
+  description?: string;          // Optional description
+}
+
 // Section types
 export interface SectionInfo {
   id: string;                    // Unique identifier (live, politics, sports, etc.)
@@ -159,6 +168,7 @@ export interface SectionInfo {
   icon: ReactElement;            // Icon reference
   path: string;                  // URL path
   description?: string;          // Optional description
+  subcategories?: SubcategoryInfo[]; // Subcategories within this section
   featuredEventIds?: string[];   // IDs of events to feature in this section
   filters?: SectionFilter[];     // Available filters for this section
   metadata?: {

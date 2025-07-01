@@ -8,17 +8,15 @@ import { useAppContext } from "@/components/Context";
 import { useEffect } from "react";
 import useGetAddress from "@/hooks/useGetAddress";
 import useGetBalance from "@/hooks/useGetBalance";
-import sections from "@/utils/data/sections";
+import sections, { getCategoryIcon } from "@/utils/data/sections";
 
 const Icon = ({
   name,
-  icon,
 }: {
   name: string;
-  icon: React.ReactElement;
 }) => (
   <div className="flex items-center justify-center gap-1 flex-col min-w-10 max-w-10 text-neutral-400 hover:text-white transition-colors duration-300">
-    {React.cloneElement(icon, { size: 24 })}
+    {getCategoryIcon(name, '', 24)}
     <span className="text-xs">{name}</span>
   </div>
 );
@@ -84,7 +82,7 @@ export default function Header() {
             href={section.path}
             className="mr-5"
           >
-            <Icon name={section.name} icon={section.icon} />
+            <Icon name={section.name} />
           </Link>
         ))}
       </div>
