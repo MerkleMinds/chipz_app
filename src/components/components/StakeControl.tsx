@@ -1,5 +1,6 @@
 import { Range, getTrackBackground } from "react-range";
 import { useState, useEffect } from "react";
+import { useAppContext } from "@/components/Context";
 
 interface StakeControlProps {
   onChange: (value: number) => void;
@@ -10,17 +11,50 @@ export const StakeControl = ({
   onChange,
   defaultValue = 10,
 }: StakeControlProps) => {
-  const MAX_ACCOUNT_AMOUNT = 150;
+  const MAX_ACCOUNT_AMOUNT = 200;
+  const { amount: [walletBalance] } = useAppContext();
+  const maxAmount = walletBalance > 0 ? walletBalance : MAX_ACCOUNT_AMOUNT;
+  
   const [amount, setAmount] = useState([defaultValue]);
+  const [inputValue, setInputValue] = useState(defaultValue.toString());
+  const [_error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setAmount([defaultValue]);
+    setInputValue(defaultValue.toString());
   }, [defaultValue]);
 
   const handleAmountChange = (values: number[]) => {
     if (values[0] >= 0.2) {
-      setAmount(values);
-      onChange(values[0]);
+      if (values[0] > maxAmount) {
+        setError(`Your account max is ${maxAmount}`);
+        setAmount([maxAmount]);
+        setInputValue(maxAmount.toString());
+        onChange(maxAmount);
+      } else {
+        setError(null);
+        setAmount(values);
+        setInputValue(values[0].toString());
+        onChange(values[0]);
+      }
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    
+    const numValue = Number(value);
+    if (!isNaN(numValue)) {
+      if (numValue > maxAmount) {
+        setError(`Your account max is ${maxAmount}`);
+      } else if (numValue < 0.2) {
+        setError("Minimum amount is 0.2$");
+      } else {
+        setError(null);
+        setAmount([numValue]);
+        onChange(numValue);
+      }
     }
   };
 
@@ -31,12 +65,12 @@ export const StakeControl = ({
           <div className="flex flex-row items-center max-w-1/2 justify-start">
               <input
                 type="number"
-                value={amount[0].toFixed(1)}
+                value={inputValue}
                 min="0.2"
                 step="0.2"
-                onChange={(e) => handleAmountChange([Number(e.target.value)])}
+                onChange={(e) => handleInputChange(e)}
                 className="bg-transparent text-center focus:outline-none w-auto [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[15px]"
-                style={{ width: `${amount[0].toFixed(1).length}ch` }}
+                style={{ width: `${inputValue.length + 1}ch` }}
               />
             <span className="text-white p-0 m-0"> $
             </span>
@@ -62,12 +96,17 @@ export const StakeControl = ({
             </button>
           </div>
         </div>
+        {_error && (
+          <div className="text-red-500 text-xs mt-1">
+            {_error}
+          </div>
+        )}
         <div className="flex flex-1 items-center">
           <Range
             values={amount}
             step={0.2}
             min={0.0}
-            max={150}
+            max={maxAmount}
             onChange={handleAmountChange}
             renderTrack={({ props, children }) => (
               <div
@@ -82,7 +121,7 @@ export const StakeControl = ({
                     values: amount,
                     colors: ["#ff5f1f", "transparent"],
                     min: 0.0,
-                    max: 150,
+                    max: maxAmount,
                   }),
                 }}
               >
