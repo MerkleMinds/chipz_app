@@ -12,12 +12,18 @@ import {
 import { format, parseISO } from "date-fns";
 import { 
   CHART_COLORS, 
-  CHART_MARGINS, 
   CHART_SIZES, 
   formatPercentage,
   TimeRangeOption 
 } from "./ChartConfig";
 import { ChartDataPoint, debugDataPoints } from "./utils/chartUtils";
+
+/**
+ * Extended ChartDataPoint with timestamp for X-axis
+ */
+interface ProcessedDataPoint extends ChartDataPoint {
+  timestamp: number; // Unix timestamp in milliseconds
+}
 
 /**
  * ProbabilityLineChart props interface
@@ -148,25 +154,35 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
     };
   }, [data, forceZeroBaseline, yAxisPadding]);
   
-  // Format date based on time range
-  const formatXAxis = (dateStr: string) => {
+  // Process data to convert ISO dates to Unix timestamps
+  const processedData = useMemo((): ProcessedDataPoint[] => {
+    if (!data || data.length === 0) return [];
+    
+    return data.map(point => ({
+      ...point,
+      timestamp: parseISO(point.date).getTime() // Convert ISO string to Unix timestamp in milliseconds
+    }));
+  }, [data]);
+  
+  // Format timestamp for X-axis ticks
+  const formatXAxis = (timestamp: number) => {
     try {
-      if (!dateStr) return '';
+      if (!timestamp) return '';
       
-      const date = parseISO(dateStr);
-      let formatPattern = 'dd/MM';
+      const date = new Date(timestamp);
+      let formatPattern = 'MMM d'; // Default format (e.g., "Feb 15")
       
       switch (timeRange) {
         case '1D': formatPattern = 'HH:mm'; break;
-        case '1W': formatPattern = 'dd/MM'; break;
-        case '1M': formatPattern = 'dd MMM'; break; // Show day and abbreviated month name
-        case '1Y': formatPattern = 'MMM yy'; break;
+        case '1W': formatPattern = 'MMM d'; break; // "Feb 15"
+        case '1M': formatPattern = 'MMM d'; break; // "Feb 15"
+        case '1Y': formatPattern = 'MMM yy'; break; // "Feb 24"
       }
       
       return format(date, formatPattern);
     } catch (error) {
-      console.error('Error formatting date:', dateStr, error);
-      return dateStr;
+      console.error('Error formatting timestamp:', timestamp, error);
+      return '';
     }
   };
   
@@ -219,11 +235,19 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
     <div className={`${styles.containerClass} ${className}`}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          data={data}
-          margin={CHART_MARGINS.default}
+          data={processedData}
+          margin={{
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: 10
+          }}
         >
           <XAxis
-            dataKey="date"
+            dataKey="timestamp"
+            type="number"
+            scale="time"
+            domain={['dataMin', 'dataMax']}
             stroke="transparent"
             tick={{ fontSize: CHART_SIZES.tickFontSize, fill: CHART_COLORS.tickColor }}
             tickLine={false}
@@ -231,7 +255,6 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             minTickGap={5}
             height={30}
             tickCount={getTickCount()}
-            interval={data.length <= getTickCount() ? 0 : 'preserveStartEnd'}
             tickFormatter={formatXAxis}
           />
           <YAxis
@@ -263,7 +286,7 @@ const ProbabilityLineChart: React.FC<ProbabilityLineChartProps> = ({
             stroke={styles.lineColor}
             strokeWidth={CHART_SIZES.strokeWidth}
             dot={(props) => {
-              const isLastPoint = props.index === data.length - 1;
+              const isLastPoint = props.index === processedData.length - 1;
               return isLastPoint ? (
                 <circle
                   key={`dot-${props.index}`}
