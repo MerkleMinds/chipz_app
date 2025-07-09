@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import CircularImage from "../ui/CircularImage";
-import { useAppContext } from "@/components/Context";
-import { hashBet } from "@/components/bets/Betv2";
+import { useBetHandler } from "@/hooks/useBetHandler";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
@@ -26,7 +25,7 @@ export type MarketTrendsProps = {
 
 export default function MarketTrend({ markets, className = '', fullWidth = false }: MarketTrendsProps) {
   const router = useRouter();
-  const { bets: [, setBets], show: [, setShow] } = useAppContext();
+  const { placeBet } = useBetHandler();
 
   // Validate markets before using them
   const isValidMarkets = Array.isArray(markets);
@@ -42,21 +41,8 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
   if (!isValidMarkets || !selectedMarket) return null;
 
   const handleBet = (betType: "yes" | "no") => {
-    if (!selectedMarket?.id || !selectedMarket?.title) return;
-
-    const bet = {
-      id: hashBet({
-        date: new Date(),
-        title: selectedMarket.title,
-      }),
-      chosen: betType === "yes" ? "Yes" : "No",
-      bet: betType,
-      match: selectedMarket.title,
-      odds: selectedMarket.probability,
-    };
-
-    setBets((bets) => [bet, ...bets]);
-    setShow(true);
+    if (!selectedMarket) return;
+    placeBet(selectedMarket, betType);
   };
 
   const handleLinkClick = () => {

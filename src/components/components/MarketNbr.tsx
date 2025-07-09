@@ -1,9 +1,8 @@
 "use client";
 
-import { useAppContext } from "@/components/Context";
-import { hashBet } from "@/components/bets/Betv2";
 import { useRouter } from "next/navigation";
 import CircularImage from "../ui/CircularImage";
+import { useBetHandler } from "@/hooks/useBetHandler";
 
 
 export type MarketNbrItem = {
@@ -49,7 +48,7 @@ function MarketPrices({ marketData, onSelect }: { marketData: MarketNbrItem["opt
 
 export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 	const router = useRouter();
-	const { bets: [, setBets], show: [, setShow] } = useAppContext();
+	const { addOptionBet } = useBetHandler();
 	
 	if (!Array.isArray(markets)) return null;
 
@@ -59,19 +58,14 @@ export default function MarketNbrBox({ markets }: MarketNbrBoxProps) {
 		const selectedOption = market.options.find(opt => opt.probability === probability);
 		if (!selectedOption) return;
 
-		const bet = {
-			id: hashBet({
-				date: new Date(),
-				title: market.title,
-			}),
-			chosen: selectedOption.name,
-			bet: betType,
-			match: market.title,
-			odds: probability,
+		const event = { title: market.title };
+		const option = {
+			id: selectedOption.name, // Using name as ID
+			title: selectedOption.name,
+			probability: selectedOption.probability
 		};
 
-		setBets((bets) => [bet, ...bets]);
-		setShow(true);
+		addOptionBet(event, option, betType === "yes" ? "option" : "opposite");
 	};
 
 	const handleLinkClick = (id: string) => {
