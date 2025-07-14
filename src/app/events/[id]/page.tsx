@@ -9,8 +9,6 @@ import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart
 import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
 import { Event as EventType } from "@/utils/data/types";
 import { useBetHandler } from "@/hooks/useBetHandler";
-import { useAppContext } from "@/components/Context";
-import { hashBet } from "@/components/bets/Betv2";
 
 // Extended type to handle past event properties
 interface ResolvedEvent extends EventType {
@@ -44,31 +42,19 @@ interface BuyButtonsProps {
 
 const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
   const { placeBet } = useBetHandler();
-  // Get context for managing bets
-  const { bets: [, setBets], show: [, setShow] } = useAppContext();
   
-  // Handle bet placement with minipay integration
+  // Handle bet placement using the centralized bet handler
   const handleBet = (betType: "yes" | "no", optionTitle?: string) => {
-    const title = optionTitle || event.title;
-    
-    const bet = {
-      id: hashBet({
-        date: new Date(),
-        title: title,
-      }),
-      chosen: betType === "yes" ? "Yes" : "No",
-      bet: betType,
-      match: title,
-      odds: optionTitle ? 
-        event.options?.find(opt => opt.title === optionTitle)?.probability || event.probability :
-        event.probability,
-    };
-
-    setBets((bets) => [bet, ...bets]);
-    setShow(true);
-    
-    // Also use the placeBet function from useBetHandler
-    placeBet(event, betType, optionTitle ? event.options?.find(opt => opt.title === optionTitle)?.id : undefined);
+    if (optionTitle && event.options) {
+      // For multi-option bets
+      const selectedOption = event.options.find(opt => opt.title === optionTitle);
+      if (selectedOption) {
+        placeBet(event, betType === "yes" ? "option" : "opposite", selectedOption.id);
+      }
+    } else {
+      // For simple yes/no bets
+      placeBet(event, betType);
+    }
   };
   
   // For simple yes/no bets
