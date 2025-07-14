@@ -5,16 +5,17 @@ import { useAppContext } from "@/components/Context";
 interface StakeControlProps {
   onChange: (value: number) => void;
   defaultValue?: number;
+  maxAmount?: number;
 }
 
 export const StakeControl = ({
   onChange,
-  defaultValue = 10,
+  defaultValue = 1,
+  maxAmount,
 }: StakeControlProps) => {
-  const MAX_ACCOUNT_AMOUNT = 200;
+  const DEFAULT_MAX_AMOUNT = 150;
   const { amount: [walletBalance] } = useAppContext();
-  const maxAmount = walletBalance > 0 ? walletBalance : MAX_ACCOUNT_AMOUNT;
-  
+  const MAX_ACCOUNT_AMOUNT = maxAmount || (walletBalance > 0 ? walletBalance : DEFAULT_MAX_AMOUNT);
   const [amount, setAmount] = useState([defaultValue]);
   const [inputValue, setInputValue] = useState(defaultValue.toString());
   const [_error, setError] = useState<string | null>(null);
@@ -26,11 +27,11 @@ export const StakeControl = ({
 
   const handleAmountChange = (values: number[]) => {
     if (values[0] >= 0.2) {
-      if (values[0] > maxAmount) {
-        setError(`Your account max is ${maxAmount}`);
-        setAmount([maxAmount]);
-        setInputValue(maxAmount.toString());
-        onChange(maxAmount);
+      if (values[0] > MAX_ACCOUNT_AMOUNT) {
+        setError(`Your account max is ${MAX_ACCOUNT_AMOUNT}`);
+        setAmount([MAX_ACCOUNT_AMOUNT]);
+        setInputValue(MAX_ACCOUNT_AMOUNT.toString());
+        onChange(MAX_ACCOUNT_AMOUNT);
       } else {
         setError(null);
         setAmount(values);
@@ -46,8 +47,8 @@ export const StakeControl = ({
     
     const numValue = Number(value);
     if (!isNaN(numValue)) {
-      if (numValue > maxAmount) {
-        setError(`Your account max is ${maxAmount}`);
+      if (numValue > MAX_ACCOUNT_AMOUNT) {
+        setError(`Your account max is ${MAX_ACCOUNT_AMOUNT}`);
       } else if (numValue < 0.2) {
         setError("Minimum amount is 0.2$");
       } else {
@@ -106,7 +107,7 @@ export const StakeControl = ({
             values={amount}
             step={0.2}
             min={0.0}
-            max={maxAmount}
+            max={MAX_ACCOUNT_AMOUNT}
             onChange={handleAmountChange}
             renderTrack={({ props, children }) => (
               <div
@@ -121,7 +122,7 @@ export const StakeControl = ({
                     values: amount,
                     colors: ["#ff5f1f", "transparent"],
                     min: 0.0,
-                    max: maxAmount,
+                    max: MAX_ACCOUNT_AMOUNT,
                   }),
                 }}
               >

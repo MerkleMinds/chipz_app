@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { MenuState } from "@/components/bets/Menu";
 import crypto from "crypto";
 import { useState } from "react";
+import { formatBetAmount } from "@/config/betting";
 
 type BetBasev2 = {
   title: string;
@@ -43,7 +44,13 @@ export default function Betv2(props: IBetv2) {
   // Navigate to event details page
   const navigateToEvent = () => {
     if (props.eventId) {
-      router.push(`/events/${props.eventId}`);
+      // Check if eventId is valid before navigating
+      if (props.eventId.startsWith('ev-')) {
+        router.push(`/events/${props.eventId}`);
+      } else {
+        // For bets created from local storage that might have invalid event IDs
+        console.log('Invalid event ID format:', props.eventId);
+      }
     }
   };
 
@@ -85,7 +92,7 @@ export default function Betv2(props: IBetv2) {
       <div className="flex flex-row justify-between my-2">
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Stake</p>
-          <p className="text-white text-sm">{props.stake + " $"}</p>
+          <p className="text-white text-sm">{formatBetAmount(props.stake) + " $"}</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="text-neutral-400 text-xs">Odds</p>
@@ -103,8 +110,8 @@ export default function Betv2(props: IBetv2) {
             }`}
           >
             {props.kind === MenuState.SETTLED
-              ? props.result === "lose" ? "-" : props.potential + " $"
-              : props.potential + " $"}
+              ? props.result === "lose" ? "-" : formatBetAmount(props.potential) + " $"
+              : formatBetAmount(props.potential) + " $"}
           </p>
         </div>
       </div>

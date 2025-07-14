@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 import CircularImage from "../ui/CircularImage";
 import { useBetHandler } from "@/hooks/useBetHandler";
+import { useAppContext } from "@/components/Context";
+import { BET_SCALE_FACTOR, formatBetAmount } from "@/config/betting";
+import { hashBet } from "@/components/bets/Betv2";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
@@ -26,6 +29,7 @@ export type MarketTrendsProps = {
 export default function MarketTrend({ markets, className = '', fullWidth = false }: MarketTrendsProps) {
   const router = useRouter();
   const { placeBet } = useBetHandler();
+  const { bets: [, setBets], show: [, setShow] } = useAppContext();
 
   // Validate markets before using them
   const isValidMarkets = Array.isArray(markets);
@@ -42,6 +46,24 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
 
   const handleBet = (betType: "yes" | "no") => {
     if (!selectedMarket) return;
+    
+    // Create bet for minipay integration
+    const bet = {
+      id: hashBet({
+        date: new Date(),
+        title: selectedMarket.title,
+      }),
+      chosen: betType === "yes" ? "Yes" : "No",
+      bet: betType,
+      match: selectedMarket.title,
+      odds: selectedMarket.probability,
+    };
+
+    // Update bets in context
+    setBets((bets) => [bet, ...bets]);
+    setShow(true);
+    
+    // Also use the placeBet function from useBetHandler
     placeBet(selectedMarket, betType);
   };
 
@@ -104,7 +126,7 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
               handleBet("yes");}}
             className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-500 w-[142px] h-[28px]"
           >
-            Buy Yes {selectedMarket.probability}$
+            Buy Yes {formatBetAmount(selectedMarket.probability * BET_SCALE_FACTOR)}$
           </button>
           <button 
             onClick={(e) => {
@@ -113,7 +135,7 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
             }}
             className="bg-[#111827] text-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
           >
-            Buy No {selectedMarket.probability}$
+            Buy No {formatBetAmount((100 - selectedMarket.probability) * BET_SCALE_FACTOR)}$
           </button>
         </div>
       </div>
