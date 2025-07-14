@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import MarketTrendEventPage from "@/components/components/MarketTrendEventPage";
 import OrderBookPart from "@/components/components/OrderBook";
+import { BET_SCALE_FACTOR, formatBetAmount } from "@/config/betting";
 import MultiOptionBet from "@/components/components/MultiOptionBet";
 import MultiOptionTrendChart from "@/components/components/MultiOptionTrendChart";
 import { getEventById, getPastEventById, getOrderBookForEvent, getMarketTrend } from "@/utils/data/dataService";
@@ -42,23 +43,37 @@ interface BuyButtonsProps {
 const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
   const { placeBet } = useBetHandler();
   
+  // Handle bet placement using the centralized bet handler
+  const handleBet = (betType: "yes" | "no", optionTitle?: string) => {
+    if (optionTitle && event.options) {
+      // For multi-option bets
+      const selectedOption = event.options.find(opt => opt.title === optionTitle);
+      if (selectedOption) {
+        placeBet(event, betType === "yes" ? "option" : "opposite", selectedOption.id);
+      }
+    } else {
+      // For simple yes/no bets
+      placeBet(event, betType);
+    }
+  };
+  
   // For simple yes/no bets
   if (!event.options || event.options.length === 0) {
-    const yesPrice = event.probability;
-    const noPrice = 100 - event.probability;
+    const yesPrice = formatBetAmount(event.probability * BET_SCALE_FACTOR);
+    const noPrice = formatBetAmount((100 - event.probability) * BET_SCALE_FACTOR);
     
     return (
       <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
         <div className="w-full max-w-sm mx-auto">
           <div className="flex gap-2">
             <button 
-              onClick={() => placeBet(event, "yes")}
+              onClick={() => handleBet("yes")}
               className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10"
             >
               Buy Yes {yesPrice}$
             </button>
             <button 
-              onClick={() => placeBet(event, "no")}
+              onClick={() => handleBet("no")}
               className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10"
             >
               Buy No {noPrice}$
@@ -76,22 +91,22 @@ const BuyButtons = ({ event, selectedOptionId }: BuyButtonsProps) => {
     
   if (!selectedOption) return null;
   
-  const optionPrice = selectedOption.probability;
-  const oppositePrice = 100 - optionPrice;
+  const optionPrice = formatBetAmount(selectedOption.probability * BET_SCALE_FACTOR);
+  const oppositePrice = formatBetAmount((100 - selectedOption.probability) * BET_SCALE_FACTOR);
   
   return (
     <div className="fixed bottom-[64px] border border-opacity-50 border-chipz-gray-light left-0 right-0 z-10 bg-gray-900 p-4">
       <div className="w-full max-w-sm mx-auto">
         <div className="flex gap-2">
           <button 
-            onClick={() => placeBet(event, "option", selectedOptionId)}
+            onClick={() => handleBet("yes", selectedOption.title)}
             className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-green-500 text-green-500 hover:bg-green-500/10"
             title={`Buy ${selectedOption.title} ${optionPrice}$`}
           >
             Buy <span className="inline-block align-bottom max-w-[85px] overflow-hidden text-ellipsis whitespace-nowrap">{selectedOption.title}</span> {optionPrice}$
           </button>
           <button 
-            onClick={() => placeBet(event, "opposite", selectedOptionId)}
+            onClick={() => handleBet("no", selectedOption.title)}
             className="flex-1 py-2 px-2 rounded-lg bg-transparent border border-red-500 text-red-500 hover:bg-red-500/10"
             title={`Sell ${selectedOption.title} ${oppositePrice}$`}
           >

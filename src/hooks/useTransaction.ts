@@ -7,17 +7,15 @@ import {
   http,
   parseUnits,
 } from "viem";
-import { celo, celoAlfajores } from "viem/chains";
 import hackathonABI from "@/contracts/abi.json";
+import { getNetworkConfig } from "@/utils/networkConfig";
 
-type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN";
+type AllowedTokens = "cUSD" | "cUSDt" | "lHKTHN" | "USDC";
 
-const chainMap: {
-  [k in AllowedTokens]: typeof celo | typeof celoAlfajores;
-} = {
-  "cUSD": celo,
-  "cUSDt": celoAlfajores,
-  "lHKTHN": celoAlfajores,
+// Use token addresses based on network
+const getTokenChain = (_token: AllowedTokens, isMiniPay: boolean) => {
+  // Always use the network config function to determine the correct chain
+  return getNetworkConfig(isMiniPay);
 };
 
 export const tokenMap: {
@@ -68,6 +66,36 @@ export const tokenMap: {
     decimals: 0,
     abi: hackathonABI as Abi,
   },
+  "USDC": {
+    address: "0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B", // Alfajores testnet USDC address
+    decimals: 6, // USDC uses 6 decimals
+    abi: [{
+      type: "function",
+      stateMutability: "nonpayable",
+      payable: false,
+      outputs: [
+        { "type": "bool", "name": "", "internalType": "bool" },
+      ],
+      name: "transfer",
+      inputs: [
+        { type: "address", name: "to", internalType: "address" },
+        { type: "uint256", name: "value", internalType: "uint256" },
+      ],
+      constant: false,
+    }, {
+      type: "function",
+      stateMutability: "view",
+      payable: false,
+      outputs: [
+        { "type": "uint256", "name": "", "internalType": "uint256" },
+      ],
+      name: "balanceOf",
+      inputs: [
+        { type: "address", name: "account", internalType: "address" },
+      ],
+      constant: true,
+    }],
+  },
 };
 
 export type Nullable<T> = T | null;
@@ -80,25 +108,30 @@ export default function useTransaction(token: AllowedTokens): [
   const [error, setError] = useState<Nullable<string>>(null);
 
   const dispatch = async (to: `0x${string}`, amount: number) => {
-    const client = window.ethereum
-      ? createWalletClient({
-        chain: chainMap[token],
-        transport: custom(window.ethereum),
-      })
-      : null;
-
-    const publicClient = createPublicClient({
-      chain: chainMap[token],
-      transport: http(),
-    });
-
-    if (!client) {
-      setError(
-        `Could not find provider, are you using Opera MiniPay?`,
-      );
+    // Always verify the existence of window.ethereum before initializing
+    if (!window || !window.ethereum) {
+      setError("Could not find provider, are you using Opera MiniPay?");
       setSuccess(false);
       return;
     }
+    
+    // Detect if we're using MiniPay
+    const isMiniPay = window.ethereum.isMiniPay === true;
+    
+    // Get the appropriate chain based on environment and wallet type
+    const chain = getTokenChain(token, isMiniPay);
+    
+    const client = createWalletClient({
+      chain,
+      transport: custom(window.ethereum),
+    });
+
+    const publicClient = createPublicClient({
+      chain,
+      transport: http(),
+    });
+
+    // Client is now guaranteed to exist since we check for window.ethereum above
 
     const writeArgs: {
       [k in AllowedTokens]: { functionName: string; args: unknown[] };
@@ -124,6 +157,13 @@ export default function useTransaction(token: AllowedTokens): [
           parseUnits(amount.toString(), 0),
         ],
       },
+      "USDC": {
+        functionName: "transfer",
+        args: [
+          to,
+          parseUnits(amount.toString(), 6),
+        ],
+      },
     };
 
     setError(null);
@@ -133,12 +173,27 @@ export default function useTransaction(token: AllowedTokens): [
     const { functionName, args } = writeArgs[token];
 
     try {
+      // Get the user's address
+      const addresses = await client.getAddresses();
+      if (!addresses || addresses.length === 0) {
+        setError("No connected accounts found");
+        setSuccess(false);
+        return;
+      }
+      
+      // MiniPay only accepts legacy transactions and supports setting feeCurrency to cUSD
       const hash = await client.writeContract({
         address,
         abi,
         functionName,
-        account: (await client.getAddresses())[0],
+        account: addresses[0],
         args,
+        // Use legacy transactions for MiniPay compatibility
+        // Add feeCurrency if needed for cUSD gas payments
+        ...(window.ethereum.isMiniPay ? {
+          // @ts-ignore - MiniPay specific property
+          feeCurrency: "0x765DE816845861e75A25fCA122bb6898B8B1282a" // cUSD address
+        } : {})
       });
 
       const transaction = await publicClient.waitForTransactionReceipt({
