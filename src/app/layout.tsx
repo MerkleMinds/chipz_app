@@ -4,11 +4,11 @@ import { AppContextProvider } from "@/components/Context";
 import Betslip from "@/components/BetSlip";
 import Bottom from "@/components/Bottom";
 import Header from "@/components/Header";
-// Using local fonts instead of Google Fonts to avoid network issues
+import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import PrelineScript from "@/components/PrelineScript";
 
-// No longer using Inter font from Google
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Chipz",
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-bb-bg-app font-sans">
+      <body className={`${inter.className} bg-bb-bg-app`}>
         <AppContextProvider>
           <div className="max-w-sm mx-auto">
             <Header />
