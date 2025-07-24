@@ -2,6 +2,8 @@
 
 import { FaChevronDown, FaChevronUp, FaSpinner } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import { saveNewBet } from "@/utils/localStorage";
+import { TOTAL_BET_AMOUNT, formatBetAmount } from "@/config/betting";
 
 import Popup from "@/components/events/Popup";
 import { useAppContext } from "@/components/Context";
@@ -30,7 +32,7 @@ function Bet(bet: IBetSlipBet) {
 
 export default function Betslip() {
   const [expand, setExpand] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(10);
+  const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const {
     bets: [bets, setBets],
@@ -39,7 +41,7 @@ export default function Betslip() {
   } = useAppContext();
   const [{ error, success }, dispatch] = useTransaction("cUSD");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const address = useGetAddress();
+  const { address, connectWallet: _connectWallet, isConnecting: _isConnecting } = useGetAddress();
   const [balance, getBalance] = useGetBalance();
   const [placedBet, setPlacedBet] = useState<boolean>(false);
   const [isPlacingBet, setIsPlacingBet] = useState<boolean>(false);
@@ -51,7 +53,12 @@ export default function Betslip() {
 
   useEffect(() => {
     setAmount(balance);
-  }, [balance, setAmount]);
+    
+    // If quantity is greater than balance, adjust it
+    if (quantity > balance && balance > 0) {
+      setQuantity(Math.floor(balance));
+    }
+  }, [balance, setAmount, quantity]);
 
   useEffect(() => {
     if (!address || !placedBet) {
@@ -59,6 +66,9 @@ export default function Betslip() {
     }
 
     if (!error) {
+      // Save bets to local storage before clearing them
+      saveNewBet(bets, quantity);
+      
       setBets([]);
       setShow(false);
       setExpand(false);
@@ -70,13 +80,13 @@ export default function Betslip() {
     }
     setPlacedBet(false);
     setIsPlacingBet(false);
-  }, [error, setBets, setShow, success, getBalance, address, placedBet]);
+  }, [error, setBets, setShow, success, getBalance, address, placedBet, bets, quantity]);
 
   const handleClose = () => {
     setExpand(false);
     setBets([]);
     setShow(false);
-    setQuantity(10);
+    setQuantity(1);
   };
 
   useEffect(() => {
@@ -146,14 +156,15 @@ export default function Betslip() {
                 <div className="flex flex-col gap-3">
                   <StakeControl 
                     onChange={setQuantity} 
-                    defaultValue={quantity} 
+                    defaultValue={quantity}
+                    maxAmount={balance}
                   />
                   <div className="flex flex-row justify-between items-center">
                     <p className="text-white">Potential Profit</p>
                     <p className="text-bb-success font-bold">
-                      {(
-                        quantity * bets.reduce((acc, bet) => acc + bet.odds, 0)
-                      ).toFixed(1)} $
+                      {formatBetAmount(
+                        quantity * TOTAL_BET_AMOUNT * bets.reduce((acc, bet) => acc * bet.odds, 1)
+                      )} $
                     </p>
                   </div>
                   {errorMessage && (

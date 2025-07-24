@@ -20,14 +20,14 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<keyof typeof sections>("history");
   const ActiveSection = sections[activeTab];
   const { points: [points] } = useAppContext();
-  const address = useGetAddress();
+  const { address, connectWallet: _connectWallet, isConnecting: _isConnecting } = useGetAddress();
 
   return (
     <>
       {address && (
         <div className="mx-6 mt-2 mb-4">
           <Banner
-            name={`${address.slice(0, 6)}...${address.slice(0, 4)}`}
+            name={`${address.slice(0, 6)}...${address.slice(-4)}`}
             points={points}
           />
         </div>

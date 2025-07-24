@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import CircularImage from "../ui/CircularImage";
 import { useBetHandler } from "@/hooks/useBetHandler";
+import { BET_SCALE_FACTOR, formatBetAmount } from "@/config/betting";
 import { TIME_RANGES, TimeRangeOption } from "../charts/ChartConfig";
 import ProbabilityLineChart from "../charts/ProbabilityLineChart";
 import TimeRangeSelector from "../charts/TimeRangeSelector";
@@ -37,7 +38,6 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
     "1W"
   );
 
-  // Return null after hooks if conditions aren't met
   if (!isValidMarkets || !selectedMarket) return null;
 
   const handleBet = (betType: "yes" | "no") => {
@@ -102,18 +102,18 @@ export default function MarketTrend({ markets, className = '', fullWidth = false
             onClick={(e) => {
               e.stopPropagation();
               handleBet("yes");}}
-            className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-500 w-[142px] h-[28px]"
+            className="bg-[#111827] text-green-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-green-500 w-[142px] h-[28px] whitespace-nowrap overflow-hidden "
           >
-            Buy Yes {selectedMarket.probability}$
+            Buy Yes {formatBetAmount(selectedMarket.probability * BET_SCALE_FACTOR)}$
           </button>
           <button 
             onClick={(e) => {
               e.stopPropagation();
               handleBet("no")
             }}
-            className="bg-[#111827] text-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px]"
+            className="bg-[#111827] text-red-500 text-bb-black py-1 px-4 rounded-lg text-xs border border-red-600 w-[142px] h-[28px] whitespace-nowrap overflow-hidden"
           >
-            Buy No {selectedMarket.probability}$
+            Buy No {formatBetAmount((100 - selectedMarket.probability) * BET_SCALE_FACTOR)}$
           </button>
         </div>
       </div>
