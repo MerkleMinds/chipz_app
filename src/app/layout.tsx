@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import { AppContextProvider } from "@/components/Context";
+import { Providers } from "./providers";
 import Betslip from "@/components/BetSlip";
 import Bottom from "@/components/Bottom";
 import Header from "@/components/Header";
@@ -23,14 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-bb-bg-app`}>
-        <AppContextProvider>
-          <div className="max-w-sm mx-auto">
-            <Header />
-            {children}
-            <Bottom />
-            <Betslip />
-          </div>
-        </AppContextProvider>
+        <Providers>
+          <AppContextProvider>
+            <div className="max-w-sm mx-auto">
+              <Header />
+              {children}
+              <Bottom />
+              <Betslip />
+            </div>
+          </AppContextProvider>
+        </Providers>
       </body>
       <PrelineScript />
     </html>
