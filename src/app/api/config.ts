@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:8001/api/v1',
+  BASE_URL: 'https://app.chipz.io/api/v1',
   TIMEOUT: 10000, // 10 seconds
 };
 

@@ -47,6 +47,19 @@ export type {
 } from './user/ordersService';
 
 export { OrderbookService } from './user/orderbookService';
+
+// API Hooks
+export {
+  useHomepage,
+  useCategories,
+  useSubcategories,
+  useEvents,
+  useEvent,
+  useOutcomes,
+  useUserOrders,
+  useOrderbook
+} from './hooks/useApi';
+
 export type { 
   OrderbookData 
 } from './user/orderbookService';
