@@ -22,6 +22,7 @@ interface ResolvedEvent extends EventType {
 }
 import Image from "next/image";
 import { useState } from "react";
+import { FaQuestionCircle } from "react-icons/fa";
 
 interface PageProps {
   params: {
@@ -126,7 +127,17 @@ const SimpleYesNoBet = ({ event }: { event: EventType }) => {
         <div className="flex text-xs">
           {event.conditional === "yes" ? <p>Yes</p> : <p>No</p>}
         </div>
-        <h2 className="text-white text-lg font-bold">{event.probability}% chance</h2>
+        <div className="flex items-center gap-1">
+          <h2 className="text-white text-lg font-bold">{event.probability}% est. chances</h2>
+          <div className="relative group">
+            <div className="cursor-help">
+              <FaQuestionCircle className="text-neutral-400 text-sm" />
+            </div>
+            <div className="absolute z-10 invisible group-hover:visible bg-bb-bg-card text-white text-sm rounded-lg p-3 w-64 bottom-full left-1/2 transform -translate-x-1/2 mb-2 shadow-lg border-white border">
+              <p>Probabilities are estimates. Actual odds may vary based on order size.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="w-full min-h-[250px]">
         <MarketTrendEventPage 
