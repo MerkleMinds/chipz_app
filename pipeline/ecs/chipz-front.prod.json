@@ -1,0 +1,38 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "chipz-front",
+            "portMappings": [
+                {
+                    "name": "chipz-front-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/chipz-prod-front-eun1",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "eu-north-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "chipz-prod-front-eun1",
+    "taskRoleArn": "arn:aws:iam::508972674012:role/chipz-prod-task-role",
+    "executionRoleArn": "arn:aws:iam::508972674012:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}

@@ -35,3 +35,18 @@ jobs:
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/chipz-front:${{ github.sha }}
             ${{ steps.login-ecr.outputs.registry }}/chipz-front:latest
+
+      - name: Render task definition file
+        id: render-task-definition
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: pipeline/ecs/chipz-front.prod.json
+          container-name: chipz-front
+          image: 508972674012.dkr.ecr.eu-north-1.amazonaws.com/chipz-api:${{ github.sha }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
+          service: chipz-prod-front-eun1
+          cluster: chipz-prod-eun1
