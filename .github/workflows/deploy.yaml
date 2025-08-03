@@ -3,8 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-#      - main
-      - feature/ci-cd
+      - main
 
 permissions:
   id-token: write
