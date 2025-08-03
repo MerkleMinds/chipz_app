@@ -42,7 +42,7 @@ jobs:
         with:
           task-definition: pipeline/ecs/chipz-front.prod.json
           container-name: chipz-front
-          image: 508972674012.dkr.ecr.eu-north-1.amazonaws.com/chipz-api:${{ github.sha }}
+          image: 508972674012.dkr.ecr.eu-north-1.amazonaws.com/chipz-front:${{ github.sha }}
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
